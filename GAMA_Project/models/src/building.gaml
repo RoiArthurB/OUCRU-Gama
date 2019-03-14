@@ -1,29 +1,33 @@
 /***
-* Name: main
+* Name: building
 * Author: roiarthurb
 * Description: 
 * Tags: Tag1, Tag2, TagN
 ***/
 
-model main
-
-import "src/building.gaml"
-import "src/road.gaml"
+model building
 
 global {
 	/** Insert the global definitions, variables and actions here */
-
-	geometry shape <- envelope(shape_file_roads);
+	file shape_file_buildings <- file("../../includes/building.shp");
+	init {
+		create building from: shape_file_buildings;
+	}
 }
 
+species building {
+	aspect geom {
+		draw shape color: #gray;
+	}
+}
 
 experiment main type: gui {
 	/** Insert here the definition of the input and output of the model */
-/*
+	parameter "Shapefile for the buildings:" var: shape_file_buildings category: "GIS" ;
+
 	output {
 		display map {
 			species building aspect:geom;
-			species road aspect:geom;
 		}
-	} */
+	} 
 }

@@ -15,15 +15,26 @@ global {
 	/*
 	 * PARAMETERS
 	 */
+	
+	int current_hour update: (time / #hour) mod 24;
 	int nb_people <- 100;
 	
+	//movement
 	float min_speed <- 1.0 #km / #h;
 	float max_speed <- 5.0 #km / #h;
 	int work_start <- 7;
 	int work_end <- 18;
 	
+	//transmission
+	float paramBreathAreaInfection <- 2#m;
 	
-	int current_hour update: (time / #hour) mod 24;
+	float paramProbabilityNaturalTransmission <- 25.0; //%
+	float paramTimeBeforeNaturalTransmission <- 10 #mn;
+	
+	float paramProbabilitySeekTransmission <- 50.0; //%
+	float paramTimeBeforeSeekTransmission <- 2#mn;
+	float paramProbabilitySneezing <- 50.0; //%
+	float paramSneezeAreaInfection <- 2#m;
 	
 	/*
 	 * INIT
@@ -49,6 +60,15 @@ global {
 			// Daily Routine
 			start_work <- work_start ;
 			end_work <- work_end ;
+			
+			// Transmission
+			breathAreaInfection <- paramBreathAreaInfection;
+			probabilityNaturalTransmission <- paramProbabilityNaturalTransmission;
+			timeBeforeNaturalTransmission <- paramTimeBeforeNaturalTransmission;
+			probabilitySeekTransmission <- paramProbabilitySeekTransmission;
+			timeBeforeSeekTransmission <- paramTimeBeforeSeekTransmission;
+			probabilitySneezing <- paramProbabilitySneezing;
+			sneezeAreaInfection <- paramSneezeAreaInfection;
 		}		
 	}
 }
@@ -76,30 +96,62 @@ species People skills:[moving] {
 	// Transmission
 	list<int> bacteria;	// type gonna change
 	float breathAreaInfection <- 2 #m;		// Scientific Article
+	
+	float probabilityNaturalTransmission <- 25.0; //%
+	float timeBeforeNaturalTransmission <- 10 #mn;
+	
+	float probabilitySeekTransmission <- 50.0; //%
+	float timeBeforeSeekTransmission <- 2 #mn;
+	float probabilitySneezing <- 50.0; //%
 	float sneezeAreaInfection <- 2 #m;		// Scientific Article
-	float probabilityTransmission <- 0.5; //%
-	float timeBeforeTransmission <- 10 #mn;
 		
 	/*
 	 * Reflexes
-	 */
-	// current_hour's define in main.gaml
-	reflex time_to_work when: current_hour = start_work and objective = "resting"{
-		objective <- "working" ;
-		the_target <- any_location_in (school);
-	}
-		
-	// current_hour's define in main.gaml
-	reflex time_to_go_home when: current_hour = end_work and objective = "working"{
-		objective <- "resting" ;
-		the_target <- any_location_in (living_place); 
-	} 
+	 */ 
 	
+	 /*	MOVEMENT */
 	reflex move when: the_target != nil {
 		do goto target: the_target on: the_graph ; 
 		if the_target = location {
 			the_target <- nil ;
 		}
+	}
+	
+	 /*	DAILY ROUTINE */
+	// current_hour's define in main.gaml
+	reflex time_to_work when: (current_hour = start_work and objective = "resting") {
+		objective <- "working" ;
+		the_target <- any_location_in (school);
+	}
+		
+	// current_hour's define in main.gaml
+	reflex time_to_go_home when: (current_hour = end_work and objective = "working") {
+		objective <- "resting" ;
+		the_target <- any_location_in (living_place); 
+	}
+	
+	 /*	TRANSMISSION */
+	reflex sneeze when: (self.isSeek and flip(self.probabilitySneezing)) {
+		loop ppl over: agents_at_distance(sneezeAreaInfection) {
+			// transmission
+			//ask ppl ...
+		}
+	}
+	
+	reflex naturalTransmission when: timeBeforeNaturalTransmission = 0 {
+		if flip(self.probabilityNaturalTransmission){
+			//give bacteria
+		}
+		
+		//Reset time before transmission
+	}
+	
+	reflex seekTransmission when: (timeBeforeSeekTransmission = 0 and self.isSeek) {
+		if flip(self.probabilitySeekTransmission){
+			//give bacteria
+		}
+		
+		//Reset time before transmission
 	}
 		
 	/*

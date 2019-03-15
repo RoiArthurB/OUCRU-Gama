@@ -44,6 +44,17 @@ experiment main type: gui {
 	parameter "minimal speed" var: min_speed category: "People" min: 0.1 #km/#h ;
 	parameter "maximal speed" var: max_speed category: "People" max: 10 #km/#h;parameter "Number of people agents" var: nb_people category: "People" ;
 
+	//transmission
+	parameter "Breath Infection Area (m)" var: paramBreathAreaInfection category: "People";
+	
+	parameter "Probability Natural Transmission (%)" var: paramProbabilityNaturalTransmission category: "People" min: 0.0 max: 100.0;
+	parameter "Time before Natural Transmission (mn)" var: paramTimeBeforeNaturalTransmission category: "People";
+	
+	parameter "Probability Seek Transmission (%)" var: paramProbabilitySeekTransmission category: "People" min: 0.0 max: 100.0;
+	parameter "Time before Seek Transmission (mn)" var: paramTimeBeforeSeekTransmission category: "People";
+	parameter "Probability to sneeze when seek (%)" var: paramProbabilitySneezing category: "People" min: 0.0 max: 100.0;
+	parameter "Sneeze Infection Area (m)" var: paramSneezeAreaInfection category: "People";
+	
 	/*
 	 * Display
 	 */

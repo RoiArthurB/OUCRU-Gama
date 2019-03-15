@@ -32,7 +32,7 @@ You can follow the evolution of the project on the [Kanban here](https://github.
 
 ## Built With
 
-* [GAMA Platform](https://gama-platform.github.io/) - GAMA is a modeling and simulation development environment for building spatially explicit agent-based simulations.
+* [GAMA Platform _1.8 Release Candidate 2_](https://gama-platform.github.io/) - GAMA is a modeling and simulation development environment for building spatially explicit agent-based simulations.
 
 ## Support
 
@@ -42,7 +42,9 @@ Please post issues about that project here:
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
 
 ## Authors
 

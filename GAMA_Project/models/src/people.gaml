@@ -58,12 +58,27 @@ species People skills:[moving] {
 	 * Variables
 	 */
 	rgb color <- #yellow ;
+	
+	// Movement
 	Building living_place <- nil ;
 	Building school <- nil ;
 	int start_work ;
 	int end_work  ;
 	string objective ; 
 	point the_target <- nil ;
+	
+	// Human
+	int age;
+	bool sex;
+	bool isSeek update: length(self.symptoms) != 0 ? true : false;
+	list<int> symptoms; // type gonna change
+	
+	// Transmission
+	list<int> bacteria;	// type gonna change
+	float breathAreaInfection <- 2 #m;		// Scientific Article
+	float sneezeAreaInfection <- 2 #m;		// Scientific Article
+	float probabilityTransmission <- 0.5; //%
+	float timeBeforeTransmission <- 10 #mn;
 		
 	/*
 	 * Reflexes

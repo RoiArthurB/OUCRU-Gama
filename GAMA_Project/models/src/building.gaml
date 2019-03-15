@@ -20,14 +20,3 @@ species building {
 		draw shape color: #gray;
 	}
 }
-
-experiment main type: gui {
-	/** Insert here the definition of the input and output of the model */
-	parameter "Shapefile for the buildings:" var: shape_file_buildings category: "GIS" ;
-
-	output {
-		display map {
-			species building aspect:geom;
-		}
-	} 
-}

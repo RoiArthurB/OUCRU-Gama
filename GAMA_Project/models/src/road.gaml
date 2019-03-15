@@ -20,14 +20,3 @@ species road {
 		draw shape color: #black;
 	}
 }
-
-experiment main type: gui {
-	/** Insert here the definition of the input and output of the model */
-	parameter "Shapefile for the roads:" var: shape_file_roads category: "GIS" ;
-
-	output {
-		display map {
-			species road aspect:geom;
-		}
-	}
-}

@@ -11,19 +11,24 @@ import "src/building.gaml"
 import "src/road.gaml"
 
 global {
-	/** Insert the global definitions, variables and actions here */
-
-	geometry shape <- envelope(shape_file_roads);
+	/** 
+	 * World parameters
+	 */
+	geometry shape <- envelope("../includes/bounds.shp");//shape_file_roads);
 }
 
 
 experiment main type: gui {
-	/** Insert here the definition of the input and output of the model */
-/*
+	/*
+	 * PARAMETERS
+	 */
+	parameter "Shapefile for the buildings:" var: shape_file_buildings category: "GIS" ;
+	parameter "Shapefile for the roads:" var: shape_file_roads category: "GIS" ;
+
 	output {
 		display map {
 			species building aspect:geom;
 			species road aspect:geom;
 		}
-	} */
+	}
 }

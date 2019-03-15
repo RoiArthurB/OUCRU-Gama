@@ -8,15 +8,29 @@
 model road
 
 global {
-	/** Insert the global definitions, variables and actions here */   
+	/*
+	 * PARAMETERS
+	 */
 	file shape_file_roads <- file("../../includes/road.shp");
-	init {
-		create road from: shape_file_roads;
+
+	/*
+	 * INIT
+	 */
+	action initRoad {
+		create Road from: shape_file_roads;
 	}
 }
 
-species road {
+species Road {
+	/*
+	 * Variables
+	 */
+	rgb color <- #black ;
+	
+	/*
+	 * Display
+	 */
 	aspect geom {
-		draw shape color: #black;
+		draw shape color: color;
 	}
 }

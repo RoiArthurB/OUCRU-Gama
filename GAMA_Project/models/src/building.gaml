@@ -8,15 +8,34 @@
 model building
 
 global {
-	/** Insert the global definitions, variables and actions here */
+	/*
+	 * PARAMETERS
+	 */
 	file shape_file_buildings <- file("../../includes/building.shp");
-	init {
-		create building from: shape_file_buildings;
+
+	/*
+	 * INIT
+	 */
+	action initBuilding {
+		create Building from: shape_file_buildings with: [type::string(read ("NATURE"))] {
+			if type="School" {
+				color <- #blue ;
+			}	
+		}
 	}
 }
 
-species building {
+species Building {
+	/*
+	 * Variables
+	 */
+	string type;
+	rgb color <- #gray  ;
+	
+	/*
+	 * Display
+	 */
 	aspect geom {
-		draw shape color: #gray;
+		draw shape color: color;
 	}
 }

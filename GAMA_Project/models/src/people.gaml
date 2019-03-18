@@ -7,15 +7,17 @@
 
 model people
 
+import "bacteria.gaml"
+
 import "building.gaml"
 import "road.gaml"
+
 //import "../main.gaml"
 
 global {
 	/*
 	 * PARAMETERS
 	 */
-	
 	int current_hour update: (time / #hour) mod 24;
 	int nb_people <- 100;
 	
@@ -35,6 +37,9 @@ global {
 	float paramTimeBeforeSeekTransmission <- 2#mn;
 	float paramProbabilitySneezing <- 50.0; //%
 	float paramSneezeAreaInfection <- 2#m;
+	
+	//bacterias
+	int nbrBacteriaPerPerson <- 100;
 	
 	/*
 	 * INIT
@@ -69,7 +74,12 @@ global {
 			timeBeforeSeekTransmission <- paramTimeBeforeSeekTransmission;
 			probabilitySneezing <- paramProbabilitySneezing;
 			sneezeAreaInfection <- paramSneezeAreaInfection;
-		}		
+		}	
+			
+		// Set Bacteria population
+		loop p over: People {
+			ask p.setBacteriaPop( initBacteriaPopulation(nbrBacteriaPerPerson) );	
+		}	
 	}
 }
 
@@ -94,7 +104,7 @@ species People skills:[moving] {
 	list<int> symptoms; // type gonna change
 	
 	// Transmission
-	list<int> bacteria;	// type gonna change
+	list<Bacteria> bacterias;	// type gonna change
 	float breathAreaInfection <- 2 #m;		// Scientific Article
 	
 	float probabilityNaturalTransmission <- 25.0; //%
@@ -105,6 +115,15 @@ species People skills:[moving] {
 	float probabilitySneezing <- 50.0; //%
 	float sneezeAreaInfection <- 2 #m;		// Scientific Article
 		
+	/*
+	 * Actions
+	 */ 
+		
+	/*	GET / SET	*/
+	action setBacteriaPop(list<Bacteria> pop){
+		bacterias <- pop;
+	}
+	 
 	/*
 	 * Reflexes
 	 */ 

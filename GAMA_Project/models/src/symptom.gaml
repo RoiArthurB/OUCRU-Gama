@@ -8,6 +8,11 @@
 model symptom
 
 /* Insert your model definition here */
+global{
+	init{
+		create Symptom number: 1;	
+	}
+}
 
 species Symptom{}
 

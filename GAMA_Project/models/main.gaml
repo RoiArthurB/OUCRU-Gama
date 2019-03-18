@@ -7,7 +7,6 @@
 
 model main
 
-import "src/bacteria.gaml"
 import "src/building.gaml"
 import "src/road.gaml"
 import "src/people.gaml"
@@ -56,10 +55,12 @@ experiment main type: gui {
 	parameter "Probability to sneeze when seek (%)" var: paramProbabilitySneezing category: "People" min: 0.0 max: 100.0;
 	parameter "Sneeze Infection Area (m)" var: paramSneezeAreaInfection category: "People";
 	
+	parameter "Number of Bacteria / Person" var: nbrBacteriaPerPerson category: "People";
+	
 	// Bacteria
 	parameter "[INIT] Probability Bacteria is resistant  (%)" var: probaResistant category: "Bacteria" min: 0.0 max: 100.0;
+	parameter "[INIT] Probability to have a symptom (%)" var: paramProbaSymptom category: "Bacteria" min: 0.0 max: 100.0;
 	parameter "Probability of duplication (%)" var: paramProbaDuplication category: "Bacteria" min: 0.0 max: 100.0;
-	parameter "Probability to give symptoms (%)" var: paramProbaSymptom category: "Bacteria" min: 0.0 max: 100.0;
 	parameter "Probability to self mutate (%)" var: paramProbaSelfMutation category: "Bacteria" min: 0.0 max: 100.0;
 	parameter "Probability to give a mutation (%)" var: paramProbaGiveMutation category: "Bacteria" min: 0.0 max: 100.0;
 

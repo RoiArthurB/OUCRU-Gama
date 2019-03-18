@@ -22,15 +22,20 @@ global {
 	/*
 	 * INIT
 	 */
-	action initBacteria {
-		create Bacteria number: 1 {
+	list<Bacteria> initBacteriaPopulation(int nbr) {
+		create Bacteria number: nbr returns: returnList {
 			isResistant <- flip(probaResistant);
 			probaDuplication <- paramProbaDuplication;
-			probaSymptom <- paramProbaSymptom;
 			
 			probaSelfMutation <- paramProbaSelfMutation;
 			probaGiveMutation<- paramProbaGiveMutation;
+			
+			if flip(paramProbaSymptom){
+				add one_of(Symptom) to: self.listSymptoms;
+			}
 		}
+		
+		return returnList;
 	}
 }
 
@@ -38,7 +43,6 @@ species Bacteria{
 	string name;
 	bool isResistant;
 	float probaDuplication;
-	float probaSymptom;
 	
 	float probaSelfMutation;
 	float probaGiveMutation;
@@ -51,7 +55,9 @@ species Bacteria{
 			create Bacteria {
 				isResistant <- self.isResistant;
 				probaDuplication <- self.probaDuplication;
-				probaSymptom <- self.probaSymptom;
+			
+				probaSelfMutation <- paramProbaSelfMutation;
+				probaGiveMutation<- paramProbaGiveMutation;
 			}
 		}
 	}

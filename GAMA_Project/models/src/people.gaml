@@ -30,12 +30,12 @@ global {
 	//transmission
 	float paramBreathAreaInfection <- 2#m;
 	
-	float paramProbabilityNaturalTransmission <- 25.0; //%
+	float paramProbabilityNaturalTransmission <- 0.25;
 	float paramTimeBeforeNaturalTransmission <- 10 #mn;
 	
-	float paramProbabilitySeekTransmission <- 50.0; //%
+	float paramProbabilitySeekTransmission <- 0.5;
 	float paramTimeBeforeSeekTransmission <- 2#mn;
-	float paramProbabilitySneezing <- 50.0; //%
+	float paramProbabilitySneezing <- 0.5;
 	float paramSneezeAreaInfection <- 2#m;
 	
 	//bacterias

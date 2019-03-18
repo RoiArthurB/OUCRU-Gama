@@ -13,11 +13,11 @@ global {
 	/*
 	 * PARAMETERS
 	 */
-	float probaResistant <- 50.0 min: 0.0 max: 100.0;
-	float paramProbaDuplication<- 50.0 min: 0.0 max: 100.0;
-	float paramProbaSymptom <- 50.0 min: 0.0 max: 100.0;
-	float paramProbaSelfMutation <- 50.0 min: 0.0 max: 100.0;
-	float paramProbaGiveMutation <- 50.0 min: 0.0 max: 100.0;
+	float probaResistant <- 0.5;
+	float paramProbaDuplication<- 0.5;
+	float paramProbaSymptom <- 0.5;
+	float paramProbaSelfMutation <- 0.5;
+	float paramProbaGiveMutation <- 0.5;
 	
 	/*
 	 * INIT

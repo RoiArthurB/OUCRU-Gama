@@ -123,6 +123,14 @@ species People skills:[moving] {
 	action setBacteriaPop(list<Bacteria> pop){
 		bacterias <- pop;
 	}
+	
+	action setBacteria(Bacteria b){
+		add b to: bacterias;
+	}
+	
+	Bacteria getRandomBacteria {
+		return one_of(bacterias);
+	}
 	 
 	/*
 	 * Reflexes
@@ -151,23 +159,28 @@ species People skills:[moving] {
 	
 	 /*	TRANSMISSION */
 	reflex sneeze when: (self.isSeek and flip(self.probabilitySneezing)) {
-		loop ppl over: agents_at_distance(sneezeAreaInfection) {
-			// transmission
-			//ask ppl ...
-		}
-	}
-	
-	reflex naturalTransmission when: timeBeforeNaturalTransmission = 0 {
-		if flip(self.probabilityNaturalTransmission){
-			//give bacteria
+		
+		loop ppl over: agents_at_distance( self.sneezeAreaInfection ) {
+			ask ppl.setBacteria( self.getRandomBacteria() ) target: People;
 		}
 		
-		//Reset time before transmission
 	}
 	
-	reflex seekTransmission when: (timeBeforeSeekTransmission = 0 and self.isSeek) {
-		if flip(self.probabilitySeekTransmission){
-			//give bacteria
+	// Breath transmission
+	reflex transmission /* when: timeBeforeNaturalTransmission = 0 */ {
+		
+		ask People at_distance self.breathAreaInfection {
+			if self.isSeek {	// Transmission if seek
+				if flip(self.probabilitySeekTransmission){
+					// Give bacteria
+					do setBacteria( self.getRandomBacteria() );
+				}
+			}else{				// Transmission if not seek
+				if flip(self.probabilityNaturalTransmission){
+					// Give bacteria
+					do setBacteria( self.getRandomBacteria() );
+				}
+			}
 		}
 		
 		//Reset time before transmission

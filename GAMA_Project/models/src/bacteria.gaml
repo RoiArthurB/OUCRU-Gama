@@ -40,7 +40,7 @@ global {
 }
 
 species Bacteria{
-	string name;
+
 	bool isResistant;
 	float probaDuplication;
 	

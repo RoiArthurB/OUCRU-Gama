@@ -17,7 +17,7 @@ global {
 	 */
 	geometry shape <- envelope("../includes/bounds.shp");//shape_file_roads);
 	//int current_hour update: (time / #hour) mod 24;
-	//float step <- 10 #mn;
+	float step <- 10 #mn;
 	
 	init{
 		/* Map */

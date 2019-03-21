@@ -51,9 +51,9 @@ experiment main type: gui {
 	parameter "Probability Natural Transmission (%)" var: paramProbabilityNaturalTransmission category: "People" min: 0.0 max: 1.0;
 	parameter "Time before Natural Transmission (mn)" var: paramTimeBeforeNaturalTransmission category: "People";
 	
-	parameter "Probability Seek Transmission (%)" var: paramProbabilitySeekTransmission category: "People" min: 0.0 max: 1.0;
-	parameter "Time before Seek Transmission (mn)" var: paramTimeBeforeSeekTransmission category: "People";
-	parameter "Probability to sneeze when seek (%)" var: paramProbabilitySneezing category: "People" min: 0.0 max: 1.0;
+	parameter "Probability Sick Transmission (%)" var: paramProbabilitySickTransmission category: "People" min: 0.0 max: 1.0;
+	parameter "Time before Sick Transmission (mn)" var: paramTimeBeforeSickTransmission category: "People";
+	parameter "Probability to sneeze when sick (%)" var: paramProbabilitySneezing category: "People" min: 0.0 max: 1.0;
 	parameter "Sneeze Infection Area (m)" var: paramSneezeAreaInfection category: "People";
 	
 	parameter "Number of Bacteria / Person" var: nbrBacteriaPerPerson category: "People";

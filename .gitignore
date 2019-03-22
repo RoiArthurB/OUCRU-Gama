@@ -1,3 +1,11 @@
+# GAMA
+GAMA_Project/models/snapshots/
+.built_in_models*
+.cache
+
+########
+###	ECLIPSE TEMPLATE
+################################
 .metadata
 bin/
 tmp/

@@ -33,8 +33,8 @@ global {
 	float paramProbabilityNaturalTransmission <- 0.25;
 	float paramTimeBeforeNaturalTransmission <- 10 #mn;
 	
-	float paramProbabilitySeekTransmission <- 0.5;
-	float paramTimeBeforeSeekTransmission <- 2#mn;
+	float paramProbabilitySickTransmission <- 0.5;
+	float paramTimeBeforeSickTransmission <- 2#mn;
 	float paramProbabilitySneezing <- 0.5;
 	float paramSneezeAreaInfection <- 2#m;
 	
@@ -70,8 +70,8 @@ global {
 			breathAreaInfection <- paramBreathAreaInfection;
 			probabilityNaturalTransmission <- paramProbabilityNaturalTransmission;
 			timeBeforeNaturalTransmission <- paramTimeBeforeNaturalTransmission;
-			probabilitySeekTransmission <- paramProbabilitySeekTransmission;
-			timeBeforeSeekTransmission <- paramTimeBeforeSeekTransmission;
+			probabilitySickTransmission <- paramProbabilitySickTransmission;
+			timeBeforeSickTransmission <- paramTimeBeforeSickTransmission;
 			probabilitySneezing <- paramProbabilitySneezing;
 			sneezeAreaInfection <- paramSneezeAreaInfection;
 		}	
@@ -100,7 +100,7 @@ species People skills:[moving] {
 	// Human
 	int age;
 	bool sex;
-	bool isSeek update: length(self.symptoms) != 0 ? true : false;
+	bool isSick update: length(self.symptoms) != 0 ? true : false;
 	list<int> symptoms; // type gonna change
 	
 	// Transmission
@@ -110,8 +110,8 @@ species People skills:[moving] {
 	float probabilityNaturalTransmission <- 25.0; //%
 	float timeBeforeNaturalTransmission <- 10 #mn;
 	
-	float probabilitySeekTransmission <- 50.0; //%
-	float timeBeforeSeekTransmission <- 2 #mn;
+	float probabilitySickTransmission <- 50.0; //%
+	float timeBeforeSickTransmission <- 2 #mn;
 	float probabilitySneezing <- 50.0; //%
 	float sneezeAreaInfection <- 2 #m;		// Scientific Article
 		
@@ -158,7 +158,7 @@ species People skills:[moving] {
 	}
 	
 	 /*	TRANSMISSION */
-	reflex sneeze when: (self.isSeek and flip(self.probabilitySneezing)) {
+	reflex sneeze when: (self.isSick and flip(self.probabilitySneezing)) {
 		
 		loop ppl over: agents_at_distance( self.sneezeAreaInfection ) {
 			ask ppl.setBacteria( self.getRandomBacteria() ) target: People;
@@ -170,12 +170,12 @@ species People skills:[moving] {
 	reflex transmission /* when: timeBeforeNaturalTransmission = 0 */ {
 		
 		ask People at_distance self.breathAreaInfection {
-			if self.isSeek {	// Transmission if seek
-				if flip(self.probabilitySeekTransmission){
+			if self.isSick {	// Transmission if sick
+				if flip(self.probabilitySickTransmission){
 					// Give bacteria
 					do setBacteria( self.getRandomBacteria() );
 				}
-			}else{				// Transmission if not seek
+			}else{				// Transmission if not sick
 				if flip(self.probabilityNaturalTransmission){
 					// Give bacteria
 					do setBacteria( self.getRandomBacteria() );

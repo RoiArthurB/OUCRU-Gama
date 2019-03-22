@@ -19,6 +19,13 @@ global {
 	//int current_hour update: (time / #hour) mod 24;
 	float step <- 10 #mn;
 	
+	/*
+	 * GRAPH
+	 */	
+	int nbrBact <- nbrBacteriaPerPerson * nb_people update: length(People accumulate each.bacterias);
+	int nbrBactRes update: (People accumulate each.bacterias) count each.isResistant;
+	
+	
 	init{
 		/* Map */
 		do initBuilding();
@@ -74,6 +81,12 @@ experiment main type: gui {
 			species Road aspect:geom;
 			
 			species People aspect:geom;
+		}
+		display chart refresh:every(10#cycle) {
+			chart "Disease spreading" type: series {
+				data "Total Bacteria" value: nbrBact color: #green;
+				data "Total Resistant Bacteria" value: nbrBactRes color: #red;
+			}
 		}
 	}
 }

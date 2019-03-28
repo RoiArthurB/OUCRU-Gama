@@ -7,6 +7,8 @@
 
 model people
 
+import "pill.gaml"
+
 import "bacteria.gaml"
 
 import "building.gaml"
@@ -100,7 +102,7 @@ species People skills:[moving] {
 	// Human
 	int age;
 	bool sex;
-	bool isSick update: length(self.symptoms) != 0 ? true : false;
+	bool isSick;// update: length(self.symptoms) != 0 ? true : false;
 	list<int> symptoms; // type gonna change
 	
 	// Transmission
@@ -121,15 +123,21 @@ species People skills:[moving] {
 		
 	/*	GET / SET	*/
 	action setBacteriaPop(list<Bacteria> pop){
-		bacterias <- pop;
+		self.bacterias <- pop;
 	}
 	
 	action setBacteria(Bacteria b){
-		add b to: bacterias;
+		add b to: self.bacterias;
 	}
 	
 	Bacteria getRandomBacteria {
-		return one_of(bacterias);
+		return one_of(self.bacterias);
+	}
+	
+	// HEAL
+	action takePill /* when:  */ {
+		Pill p <- one_of(Pill);		
+		do setBacteriaPop( p.use(self.bacterias) );
 	}
 	 
 	/*

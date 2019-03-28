@@ -7,6 +7,8 @@
 
 model main
 
+import "src/pill.gaml"
+
 import "src/building.gaml"
 import "src/road.gaml"
 import "src/people.gaml"

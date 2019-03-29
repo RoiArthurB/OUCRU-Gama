@@ -85,11 +85,7 @@ global {
 			
 			// Set Bacteria population
 			loop times: nbrBacteriaPerPerson{
-				if flip(probaResistant){
-					bacteriaPopulation[1] <- bacteriaPopulation[1] +1;
-				}else{
-					bacteriaPopulation[0] <- bacteriaPopulation[0] +1;
-				}
+				do setBacteria( int(flip(probaResistant)) );
 			}
 		}
 	}
@@ -134,16 +130,20 @@ species People skills:[moving] {
 	 */ 
 		
 	/*	GET / SET	*/
+	// Input 0 for Non-Resistant
+	// Input 1 for Resistant
 	action setBacteria(int index){
-		self.bacteriaPopulation[index] <- self.bacteriaPopulation[index] + 1;
+		self.bacteriaPopulation[index] <- int(self.bacteriaPopulation[index] + 1);
 	}
 	
 	int getTotalBacteria{
 		return self.bacteriaPopulation[0]+self.bacteriaPopulation[1];
 	}
 	
+	// Return 0 for Non-Resistant
+	// Return 1 for Resistant
 	int getRandomBacteria {
-		return flip( self.bacteriaPopulation[1]/self.getTotalBacteria() ) ? 1 : 0;
+		return int( flip( self.bacteriaPopulation[1]/self.getTotalBacteria() ) );
 	}
 	 
 	/*
@@ -181,19 +181,13 @@ species People skills:[moving] {
 	}
 	
 	// Breath transmission
-	action transmission /* when: timeBeforeNaturalTransmission = 0 */ {
+	reflex transmission /* when: timeBeforeNaturalTransmission = 0 */ {
 		
-		ask People at_distance self.breathAreaInfection {
-			if self.isSick {	// Transmission if sick
-				if flip(self.probabilitySickTransmission){
-					// Give bacteria
-					ask setBacteria( self.getRandomBacteria() );
-				}
-			}else{				// Transmission if not sick
-				if flip(self.probabilityNaturalTransmission){
-					// Give bacteria
-					ask setBacteria( self.getRandomBacteria() );
-				}
+		loop p over: People at_distance self.breathAreaInfection {
+			// Get probability depending if sick
+			// Flip to see if resistant or not
+			if( flip( self.isSick ? self.probabilitySickTransmission : self.probabilityNaturalTransmission ) ){
+				ask p.setBacteria( self.getRandomBacteria() );
 			}
 		}
 		

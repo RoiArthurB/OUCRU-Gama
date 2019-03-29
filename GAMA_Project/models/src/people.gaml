@@ -200,6 +200,10 @@ species People skills:[moving] {
 		ask p.use( self );
 	}
 		
+	reflex duplication when: flip(paramProbaDuplication){
+		ask self.setBacteria( self.getRandomBacteria() );
+	}
+		
 	/*
 	 * Display
 	 */

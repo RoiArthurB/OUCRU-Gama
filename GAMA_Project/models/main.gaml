@@ -24,8 +24,8 @@ global {
 	/*
 	 * GRAPH
 	 */	
-	int nbrBact <- nbrBacteriaPerPerson * nb_people update: length(People accumulate each.bacterias);
-	int nbrBactRes update: (People accumulate each.bacterias) count each.isResistant;
+	int nbrBact <- nbrBacteriaPerPerson * nb_people update: People sum_of each.getTotalBacteria();
+	int nbrBactRes update: People sum_of each.bacteriasPopulation[1];
 	
 	float avgBactPop update: nbrBact / nb_people;
 	float avgResBactPop update: nbrBactRes / nb_people; 

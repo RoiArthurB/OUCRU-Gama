@@ -7,8 +7,6 @@
 
 model pill
 
-import "bacteria.gaml"
-
 global {
 	/** Insert the global definitions, variables and actions here */
 	action initPills{
@@ -34,7 +32,7 @@ species Pill{
 	
 	/*
 	 * ACTION
-	 */
+	 * /
 	list<Bacteria> use(list<Bacteria> pop){
 		
 		int nbrToKill <- int( length(pop) * self.effectivness );
@@ -44,7 +42,7 @@ species Pill{
 		}
 		
 		return pop;
-	}
+	}*/
 }
 
 

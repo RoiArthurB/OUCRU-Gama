@@ -7,9 +7,8 @@
 
 model people
 
+import "symptom.gaml"
 import "pill.gaml"
-
-import "bacteria.gaml"
 
 import "building.gaml"
 import "road.gaml"
@@ -41,7 +40,14 @@ global {
 	float paramSneezeAreaInfection <- 2#m;
 	
 	//bacterias
+	//=================
 	int nbrBacteriaPerPerson <- 100;
+	// PARAMETERS
+	float probaResistant <- 0.5;
+	float paramProbaDuplication<- 0.5;
+	float paramProbaSymptom <- 0.5;
+	float paramProbaSelfMutation <- 0.5;
+	float paramProbaGiveMutation <- 0.5;
 	
 	/*
 	 * INIT
@@ -76,12 +82,16 @@ global {
 			timeBeforeSickTransmission <- paramTimeBeforeSickTransmission;
 			probabilitySneezing <- paramProbabilitySneezing;
 			sneezeAreaInfection <- paramSneezeAreaInfection;
-		}	
 			
-		// Set Bacteria population
-		loop p over: People {
-			ask p.setBacteriaPop( initBacteriaPopulation(nbrBacteriaPerPerson) );	
-		}	
+			// Set Bacteria population
+			loop times: nbrBacteriaPerPerson{
+				if flip(probaResistant){
+					bacteriasPopulation[1] <- bacteriasPopulation[1] +1;
+				}else{
+					bacteriasPopulation[0] <- bacteriasPopulation[0] +1;
+				}
+			}
+		}
 	}
 }
 
@@ -103,11 +113,10 @@ species People skills:[moving] {
 	int age;
 	bool sex;
 	bool isSick;// update: length(self.symptoms) != 0 ? true : false;
-	list<int> symptoms; // type gonna change
+	list<Symptom> symptoms;
 	
 	// Transmission
-	list<Bacteria> bacterias;	// type gonna change
-	float breathAreaInfection <- 2 #m;		// Scientific Article
+	float breathAreaInfection <- 2 #m;		// Scientific Article ?
 	
 	float probabilityNaturalTransmission <- 25.0; //%
 	float timeBeforeNaturalTransmission <- 10 #mn;
@@ -115,29 +124,32 @@ species People skills:[moving] {
 	float probabilitySickTransmission <- 50.0; //%
 	float timeBeforeSickTransmission <- 2 #mn;
 	float probabilitySneezing <- 50.0; //%
-	float sneezeAreaInfection <- 2 #m;		// Scientific Article
+	float sneezeAreaInfection <- 2 #m;		// Scientific Article ?
+	
+	// Bacterias
+	list<int> bacteriasPopulation <- [0, 0];	// [non-resitant, resistant]
 		
 	/*
 	 * Actions
 	 */ 
 		
 	/*	GET / SET	*/
-	action setBacteriaPop(list<Bacteria> pop){
-		self.bacterias <- pop;
+	action setBacteria(int index){
+		self.bacteriasPopulation[index] <- self.bacteriasPopulation[index] + 1;
 	}
 	
-	action setBacteria(Bacteria b){
-		add b to: self.bacterias;
+	int getTotalBacteria{
+		return self.bacteriasPopulation[0]+self.bacteriasPopulation[1];
 	}
 	
-	Bacteria getRandomBacteria {
-		return one_of(self.bacterias);
+	int getRandomBacteria {
+		return flip( self.bacteriasPopulation[1]/self.getTotalBacteria() ) ? 1 : 0;
 	}
 	
 	// HEAL
 	action takePill /* when:  */ {
 		Pill p <- one_of(Pill);		
-		do setBacteriaPop( p.use(self.bacterias) );
+		//do setBacteriaPop( p.use(self.bacterias) );
 	}
 	 
 	/*
@@ -175,18 +187,18 @@ species People skills:[moving] {
 	}
 	
 	// Breath transmission
-	reflex transmission /* when: timeBeforeNaturalTransmission = 0 */ {
+	action transmission /* when: timeBeforeNaturalTransmission = 0 */ {
 		
 		ask People at_distance self.breathAreaInfection {
 			if self.isSick {	// Transmission if sick
 				if flip(self.probabilitySickTransmission){
 					// Give bacteria
-					do setBacteria( self.getRandomBacteria() );
+					ask setBacteria( self.getRandomBacteria() );
 				}
 			}else{				// Transmission if not sick
 				if flip(self.probabilityNaturalTransmission){
 					// Give bacteria
-					do setBacteria( self.getRandomBacteria() );
+					ask setBacteria( self.getRandomBacteria() );
 				}
 			}
 		}

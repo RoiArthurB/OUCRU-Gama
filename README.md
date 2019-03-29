@@ -1,6 +1,6 @@
 # OUCRU / GAMA Project
 
-[![Language](http://img.shields.io/badge/language-java-brightgreen.svg)](https://www.java.com/)
+[![Language](http://img.shields.io/badge/language-GAML-brightgreen.svg)](https://gama-platform.github.io/wiki/StartWithGAML)
 ![GitHub](https://img.shields.io/github/license/RoiArthurB/OUCRU-Gama.svg)
 
 [![GitHub issues](https://img.shields.io/github/issues/RoiArthurB/OUCRU-Gama.svg)](https://github.com/RoiArthurB/OUCRU-Gama/issues)
@@ -33,6 +33,7 @@ You can follow the evolution of the project on the [Kanban here](https://github.
 ## Built With
 
 * [GAMA Platform _1.8 Release Candidate 2_](https://gama-platform.github.io/) - GAMA is a modeling and simulation development environment for building spatially explicit agent-based simulations.
+* [_GAMA Language_ (_GAML_)](https://gama-platform.github.io/wiki/StartWithGAML)
 
 ## Support
 

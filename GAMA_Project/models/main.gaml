@@ -39,6 +39,13 @@ global {
 		/* Primary Agents */
 		do initPeople();
 	}
+	reflex graphUpdate {
+		nbrBact <- People sum_of each.getTotalBacteria();
+		nbrBactRes <- People sum_of each.bacteriaPopulation[1];
+		
+		avgBactPop <- nbrBact / nb_people;
+		avgResBactPop <- nbrBactRes / nb_people;
+	}
 }
 
 
@@ -95,11 +102,13 @@ experiment main type: gui {
 				data "Total Resistant Bacteria" value: nbrBactRes color: #red;
 			}
 		}
-		display average refresh:every(10#cycle) {
+		/*display average refresh:every(10#cycle) {
 			chart "Average evolution" type: histogram background: rgb("white") {
 				data "Average Bacteria / Person" value: avgBactPop color: #green;
 				data "Average Resistant Bacteria / Person" value: avgResBactPop color: #red;
-			}	
-		}
+			}
+		}*/
+		monitor "% Bacteria R / People" value: (100*nbrBactRes)/nbrBact;
+		monitor "% Bacteria NR / People" value: 100-(100*nbrBactRes)/nbrBact;
 	}
 }

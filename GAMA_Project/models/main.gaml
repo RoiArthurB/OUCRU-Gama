@@ -81,8 +81,7 @@ experiment main type: gui {
 	parameter "[INIT] Probability Bacteria is resistant  (%)" var: probaResistant category: "Bacteria" min: 0.0 max: 1.0;
 	parameter "[INIT] Probability to have a symptom (%)" var: paramProbaSymptom category: "Bacteria" min: 0.0 max: 1.0;
 	parameter "Probability of duplication (%)" var: paramProbaDuplication category: "Bacteria" min: 0.0 max: 1.0;
-	parameter "Probability to self mutate (%)" var: paramProbaSelfMutation category: "Bacteria" min: 0.0 max: 1.0;
-	parameter "Probability to give a mutation (%)" var: paramProbaGiveMutation category: "Bacteria" min: 0.0 max: 1.0;
+	parameter "Probability to self mutate (%)" var: paramProbaMutation category: "Bacteria" min: 0.0 max: 0.1;
 
 	/*
 	 * Display

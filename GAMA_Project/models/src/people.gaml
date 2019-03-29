@@ -42,12 +42,11 @@ global {
 	//bacterias
 	//=================
 	int nbrBacteriaPerPerson <- 100;
-	// PARAMETERS
+
 	float probaResistant <- 0.5;
 	float paramProbaDuplication<- 0.5;
 	float paramProbaSymptom <- 0.5;
-	float paramProbaSelfMutation <- 0.5;
-	float paramProbaGiveMutation <- 0.5;
+	float paramProbaMutation <- 0.5;
 	
 	/*
 	 * INIT
@@ -199,9 +198,19 @@ species People skills:[moving] {
 		Pill p <- one_of(Pill);
 		ask p.use( self );
 	}
-		
+	
+	/*
+	 * Bacteria
+	 */ 	
 	reflex duplication when: flip(paramProbaDuplication){
 		ask self.setBacteria( self.getRandomBacteria() );
+	} 	
+	// Pass NR Bact to R Bact
+	reflex mutation when: flip(paramProbaMutation){
+		if ( self.bacteriaPopulation[0] != 0 ){
+			self.bacteriaPopulation[0] <- self.bacteriaPopulation[0] - 1;
+			self.bacteriaPopulation[1] <- self.bacteriaPopulation[1] + 1;	
+		}
 	}
 		
 	/*

@@ -25,7 +25,7 @@ global {
 	 * GRAPH
 	 */	
 	int nbrBact <- nbrBacteriaPerPerson * nb_people update: People sum_of each.getTotalBacteria();
-	int nbrBactRes update: People sum_of each.bacteriasPopulation[1];
+	int nbrBactRes update: People sum_of each.bacteriaPopulation[1];
 	
 	float avgBactPop update: nbrBact / nb_people;
 	float avgResBactPop update: nbrBactRes / nb_people; 

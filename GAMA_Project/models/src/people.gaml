@@ -99,7 +99,7 @@ species People skills:[moving] {
 	/*
 	 * Variables
 	 */
-	rgb color <- #yellow ;
+	rgb color update: isSick ? #red : #yellow ;
 	
 	// Movement
 	Building living_place <- nil ;
@@ -112,7 +112,7 @@ species People skills:[moving] {
 	// Human
 	int age;
 	bool sex;
-	bool isSick;// update: length(self.symptoms) != 0 ? true : false;
+	bool isSick <- false;// update: length(self.symptoms) != 0 ? true : false;
 	list<Symptom> symptoms;
 	
 	// Transmission
@@ -144,12 +144,6 @@ species People skills:[moving] {
 	
 	int getRandomBacteria {
 		return flip( self.bacteriaPopulation[1]/self.getTotalBacteria() ) ? 1 : 0;
-	}
-	
-	// HEAL
-	action takePill /* when:  */ {
-		Pill p <- one_of(Pill);
-		ask p.use( self );
 	}
 	 
 	/*
@@ -204,6 +198,12 @@ species People skills:[moving] {
 		}
 		
 		//Reset time before transmission
+	}
+	
+	/* HEAL */
+	reflex takePill when: isSick {
+		Pill p <- one_of(Pill);
+		ask p.use( self );
 	}
 		
 	/*

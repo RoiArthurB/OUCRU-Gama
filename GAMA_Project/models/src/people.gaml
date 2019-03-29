@@ -86,9 +86,9 @@ global {
 			// Set Bacteria population
 			loop times: nbrBacteriaPerPerson{
 				if flip(probaResistant){
-					bacteriasPopulation[1] <- bacteriasPopulation[1] +1;
+					bacteriaPopulation[1] <- bacteriaPopulation[1] +1;
 				}else{
-					bacteriasPopulation[0] <- bacteriasPopulation[0] +1;
+					bacteriaPopulation[0] <- bacteriaPopulation[0] +1;
 				}
 			}
 		}
@@ -127,7 +127,7 @@ species People skills:[moving] {
 	float sneezeAreaInfection <- 2 #m;		// Scientific Article ?
 	
 	// Bacterias
-	list<int> bacteriasPopulation <- [0, 0];	// [non-resitant, resistant]
+	list<int> bacteriaPopulation <- [0, 0];	// [non-resitant, resistant]
 		
 	/*
 	 * Actions
@@ -135,21 +135,21 @@ species People skills:[moving] {
 		
 	/*	GET / SET	*/
 	action setBacteria(int index){
-		self.bacteriasPopulation[index] <- self.bacteriasPopulation[index] + 1;
+		self.bacteriaPopulation[index] <- self.bacteriaPopulation[index] + 1;
 	}
 	
 	int getTotalBacteria{
-		return self.bacteriasPopulation[0]+self.bacteriasPopulation[1];
+		return self.bacteriaPopulation[0]+self.bacteriaPopulation[1];
 	}
 	
 	int getRandomBacteria {
-		return flip( self.bacteriasPopulation[1]/self.getTotalBacteria() ) ? 1 : 0;
+		return flip( self.bacteriaPopulation[1]/self.getTotalBacteria() ) ? 1 : 0;
 	}
 	
 	// HEAL
 	action takePill /* when:  */ {
-		Pill p <- one_of(Pill);		
-		//do setBacteriaPop( p.use(self.bacterias) );
+		Pill p <- one_of(Pill);
+		ask p.use( self );
 	}
 	 
 	/*

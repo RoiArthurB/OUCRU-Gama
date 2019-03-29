@@ -7,11 +7,14 @@
 
 model pill
 
+import "people.gaml"
+
 global {
 	/** Insert the global definitions, variables and actions here */
 	action initPills{
 		create Pill number: 1 {
-			effectivness <- rnd(1.0);//rnd(0.0, 1.0, 0.01);
+			effectivnessNR <- rnd(1.0);//rnd(0.0, 1.0, 0.01);
+			effectivnessR <- rnd(1.0);
 		}
 	}
 	init{
@@ -27,22 +30,24 @@ species Pill{
 	 */
 	bool isAntibio <- true;
 	
-	float effectivness; // %
+	// Non-Resistant
+	float effectivnessNR; // %
+	// Resistant
+	float effectivnessR; // %
 	
 	
 	/*
 	 * ACTION
-	 * /
-	list<Bacteria> use(list<Bacteria> pop){
+	 */
+	action use(People p){
 		
-		int nbrToKill <- int( length(pop) * self.effectivness );
+		int nonRes <- p.bacteriaPopulation[0];
+		int res <- p.bacteriaPopulation[1];
 		
-		loop times: nbrToKill {
-			remove index:rnd(length(pop)-1) from: pop;
-		}
-		
-		return pop;
-	}*/
+		p.bacteriaPopulation[0] <- nonRes - int( nonRes * self.effectivnessNR );
+		p.bacteriaPopulation[1] <- res - int( res * self.effectivnessR );
+
+	}/**/
 }
 
 

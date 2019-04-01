@@ -19,7 +19,7 @@ global {
 	 */
 	geometry shape <- envelope("../includes/bounds.shp");//shape_file_roads);
 	//int current_hour update: (time / #hour) mod 24;
-	float step <- 60 #mn;
+	float step <- 10 #mn;
 	
 	/*
 	 * GRAPH
@@ -30,6 +30,7 @@ global {
 	float avgBactPop <- float(nbrBacteriaPerPerson) update: nbrBact / nb_people;
 	float avgResBactPop update: nbrBactRes / nb_people; 
 	
+	int sickPop update: People count each.isSick;
 	
 	init{
 		/* Map */
@@ -45,6 +46,8 @@ global {
 		
 		avgBactPop <- nbrBact / nb_people;
 		avgResBactPop <- nbrBactRes / nb_people;
+		
+		sickPop <- People count each.isSick;
 	}
 }
 
@@ -63,19 +66,22 @@ experiment main type: gui {
 	parameter "minimal speed" var: min_speed category: "People" min: 0.1 #km/#h ;
 	parameter "maximal speed" var: max_speed category: "People" max: 10 #km/#h;
 	parameter "Number of people agents" var: nb_people category: "People" ;
+	
+	parameter "[INIT %] People sick" var: initSickness category: "People" min: 0.0 max: 1.0;
+	
+	parameter "Number of Bacteria / Person" var: nbrBacteriaPerPerson category: "People";
 
-	//transmission
+	// transmission
 	parameter "Breath Infection Area (m)" var: paramBreathAreaInfection category: "Transmission";
 	
 	parameter "Probability Natural Transmission (%)" var: paramProbabilityNaturalTransmission category: "Transmission" min: 0.0 max: 1.0;
 	parameter "Time before Natural Transmission (mn)" var: paramTimeBeforeNaturalTransmission category: "Transmission";
 	
+	// Sick
 	parameter "Probability Sick Transmission (%)" var: paramProbabilitySickTransmission category: "Sick" min: 0.0 max: 1.0;
 	parameter "Time before Sick Transmission (mn)" var: paramTimeBeforeSickTransmission category: "Sick";
 	parameter "Probability to sneeze when sick (%)" var: paramProbabilitySneezing category: "Sick" min: 0.0 max: 1.0;
 	parameter "Sneeze Infection Area (m)" var: paramSneezeAreaInfection category: "Sick";
-	
-	parameter "Number of Bacteria / Person" var: nbrBacteriaPerPerson category: "People";
 	
 	// Bacteria
 	parameter "[INIT] Probability Bacteria is resistant  (%)" var: probaResistant category: "Bacteria" min: 0.0 max: 1.0;
@@ -102,17 +108,18 @@ experiment main type: gui {
 				data "Total Non-Resistant Bacteria" value: nbrBact - nbrBactRes color: #green;
 			}
 		}
-		/*display average refresh:every(10#cycle) {
-			chart "Average evolution" type: histogram background: rgb("white") {
-				data "Average Bacteria / Person" value: avgBactPop color: #green;
-				data "Average Resistant Bacteria / Person" value: avgResBactPop color: #red;
+		display population refresh:every(10#cycle) {
+			chart "Dynamic population" type: histogram background: rgb("white") {
+				data "Total of Person" value: nb_people color: #blue;
+				data "Number of Person sick" value: sickPop color: #red;
+				data "Number of Person non-sick" value: nb_people - sickPop color: #green;
 			}
-		}*/
+		}
 		monitor "% Bacteria R / People" value: (100*nbrBactRes)/nbrBact;
 		monitor "Nbr Bacteria R" value: nbrBactRes;
 		monitor "% Bacteria NR / People" value: 100-(100*nbrBactRes)/nbrBact;
 		monitor "Nbr Bacteria NR" value: nbrBact-nbrBactRes;
 		
-		monitor "Average Proba Transmission" value: 0.5 * ((avgBactPop-avgResBactPop)/avgBactPop);
+		monitor "Average Proba Mutation" value: 0.5 * ((avgBactPop-avgResBactPop)/avgBactPop);
 	}
 }

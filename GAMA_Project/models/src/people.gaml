@@ -23,6 +23,7 @@ global {
 	 */
 	int current_hour update: (time / #hour) mod 24;
 	int nb_people <- 100;
+	float initSickness <- 0.1;
 	
 	//movement
 	float min_speed <- 1.0 #km / #h;
@@ -83,6 +84,10 @@ global {
 			timeBeforeSickTransmission <- paramTimeBeforeSickTransmission;
 			probabilitySneezing <- paramProbabilitySneezing;
 			sneezeAreaInfection <- paramSneezeAreaInfection;
+			
+			if flip( initSickness ){
+				isSick <- true;
+			}
 			
 			// Set Bacteria population
 			loop times: nbrBacteriaPerPerson{
@@ -198,12 +203,12 @@ species People skills:[moving] {
 	}
 	
 	/* HEAL */
-	reflex takePill when: isSick {
+	reflex takePill when: isSick and current_hour = 20 {
 		Pill p <- one_of(Pill);
 		ask p.use( self );
 		
 		// Chance to be cured
-		if flip( 0.5 ){
+		if flip( 0.25 ){
 			self.isSick <- false;
 		}
 	}

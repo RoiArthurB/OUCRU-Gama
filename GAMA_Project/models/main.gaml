@@ -45,11 +45,6 @@ global {
 		
 		avgBactPop <- nbrBact / nb_people;
 		avgResBactPop <- nbrBactRes / nb_people;
-		
-		write(avgBactPop);
-		write(People[0].getTotalBacteria());
-		write(min(0.0, (float(People[0].getTotalBacteria())/avgBactPop)-1.0));
-		write( float(People[0].getTotalBacteria())/avgBactPop );
 	}
 }
 

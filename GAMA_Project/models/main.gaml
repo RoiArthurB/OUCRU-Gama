@@ -65,15 +65,15 @@ experiment main type: gui {
 	parameter "Number of people agents" var: nb_people category: "People" ;
 
 	//transmission
-	parameter "Breath Infection Area (m)" var: paramBreathAreaInfection category: "People";
+	parameter "Breath Infection Area (m)" var: paramBreathAreaInfection category: "Transmission";
 	
-	parameter "Probability Natural Transmission (%)" var: paramProbabilityNaturalTransmission category: "People" min: 0.0 max: 1.0;
-	parameter "Time before Natural Transmission (mn)" var: paramTimeBeforeNaturalTransmission category: "People";
+	parameter "Probability Natural Transmission (%)" var: paramProbabilityNaturalTransmission category: "Transmission" min: 0.0 max: 1.0;
+	parameter "Time before Natural Transmission (mn)" var: paramTimeBeforeNaturalTransmission category: "Transmission";
 	
-	parameter "Probability Sick Transmission (%)" var: paramProbabilitySickTransmission category: "People" min: 0.0 max: 1.0;
-	parameter "Time before Sick Transmission (mn)" var: paramTimeBeforeSickTransmission category: "People";
-	parameter "Probability to sneeze when sick (%)" var: paramProbabilitySneezing category: "People" min: 0.0 max: 1.0;
-	parameter "Sneeze Infection Area (m)" var: paramSneezeAreaInfection category: "People";
+	parameter "Probability Sick Transmission (%)" var: paramProbabilitySickTransmission category: "Sick" min: 0.0 max: 1.0;
+	parameter "Time before Sick Transmission (mn)" var: paramTimeBeforeSickTransmission category: "Sick";
+	parameter "Probability to sneeze when sick (%)" var: paramProbabilitySneezing category: "Sick" min: 0.0 max: 1.0;
+	parameter "Sneeze Infection Area (m)" var: paramSneezeAreaInfection category: "Sick";
 	
 	parameter "Number of Bacteria / Person" var: nbrBacteriaPerPerson category: "People";
 	
@@ -97,8 +97,9 @@ experiment main type: gui {
 		}
 		display total refresh:every(10#cycle) {
 			chart "Bacterias evolution" type: series {
-				data "Total Bacteria" value: nbrBact color: #green;
+				data "Total Bacteria" value: nbrBact color: #blue;
 				data "Total Resistant Bacteria" value: nbrBactRes color: #red;
+				data "Total Non-Resistant Bacteria" value: nbrBact - nbrBactRes color: #green;
 			}
 		}
 		/*display average refresh:every(10#cycle) {
@@ -108,6 +109,10 @@ experiment main type: gui {
 			}
 		}*/
 		monitor "% Bacteria R / People" value: (100*nbrBactRes)/nbrBact;
+		monitor "Nbr Bacteria R" value: nbrBactRes;
 		monitor "% Bacteria NR / People" value: 100-(100*nbrBactRes)/nbrBact;
+		monitor "Nbr Bacteria NR" value: nbrBact-nbrBactRes;
+		
+		monitor "Average Proba Transmission" value: 0.5 * ((avgBactPop-avgResBactPop)/avgBactPop);
 	}
 }

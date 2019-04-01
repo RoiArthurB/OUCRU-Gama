@@ -36,7 +36,7 @@ global {
 	
 	float paramProbabilitySickTransmission <- 0.5;
 	float paramTimeBeforeSickTransmission <- 2#mn;
-	float paramProbabilitySneezing <- 0.5;
+	float paramProbabilitySneezing <- 0.01;
 	float paramSneezeAreaInfection <- 2#m;
 	
 	//bacterias
@@ -118,7 +118,7 @@ species People skills:[moving] {
 	
 	float probabilitySickTransmission <- 50.0; //%
 	float timeBeforeSickTransmission <- 2 #mn;
-	float probabilitySneezing <- 50.0; //%
+	float probabilitySneezing <- 0.01; //%
 	float sneezeAreaInfection <- 2 #m;		// Scientific Article ?
 	
 	// Bacterias
@@ -206,7 +206,7 @@ species People skills:[moving] {
 		ask self.setBacteria( self.getRandomBacteria() );
 	} 	
 	// Pass NR Bact to R Bact
-	reflex mutation when: flip(paramProbaMutation){
+	reflex mutation when: flip(paramProbaMutation * (self.bacteriaPopulation[0]/self.getTotalBacteria()) ){
 		if ( self.bacteriaPopulation[0] != 0 ){
 			self.bacteriaPopulation[0] <- self.bacteriaPopulation[0] - 1;
 			self.bacteriaPopulation[1] <- self.bacteriaPopulation[1] + 1;	

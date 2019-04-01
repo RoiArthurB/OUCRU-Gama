@@ -27,7 +27,7 @@ global {
 	int nbrBact <- nbrBacteriaPerPerson * nb_people update: People sum_of each.getTotalBacteria();
 	int nbrBactRes update: People sum_of each.bacteriaPopulation[1];
 	
-	float avgBactPop update: nbrBact / nb_people;
+	float avgBactPop <- float(nbrBacteriaPerPerson) update: nbrBact / nb_people;
 	float avgResBactPop update: nbrBactRes / nb_people; 
 	
 	
@@ -45,6 +45,11 @@ global {
 		
 		avgBactPop <- nbrBact / nb_people;
 		avgResBactPop <- nbrBactRes / nb_people;
+		
+		write(avgBactPop);
+		write(People[0].getTotalBacteria());
+		write(min(0.0, (float(People[0].getTotalBacteria())/avgBactPop)-1.0));
+		write( float(People[0].getTotalBacteria())/avgBactPop );
 	}
 }
 

@@ -7,6 +7,8 @@
 
 model people
 
+import "../main.gaml"
+
 import "symptom.gaml"
 import "pill.gaml"
 
@@ -107,7 +109,9 @@ species People skills:[moving] {
 	// Human
 	int age;
 	bool sex;
-	bool isSick <- false;// update: length(self.symptoms) != 0 ? true : false;
+	bool isSick <- false update: !isSick ? // Update only if not sick
+						(flip( min(0, self.getTotalBacteria()/avgBactPop-1) ) ? true : false) // The more someone have more bacteria than the average, the more likely he can turn sick
+						: true; // If sick -> Stay sick until take medecine
 	list<Symptom> symptoms;
 	
 	// Transmission
@@ -197,6 +201,11 @@ species People skills:[moving] {
 	reflex takePill when: isSick {
 		Pill p <- one_of(Pill);
 		ask p.use( self );
+		
+		// Chance to be cured
+		if flip( 0.5 ){
+			self.isSick <- false;
+		}
 	}
 	
 	/*

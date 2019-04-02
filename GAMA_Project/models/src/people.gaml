@@ -115,7 +115,7 @@ species People skills:[moving] {
 	int age;
 	bool sex;
 	bool isSick <- false update: !isSick ? // Update only if not sick
-						(flip( min(0, self.getTotalBacteria()/avgBactPop-1) ) ? true : false) // The more someone have more bacteria than the average, the more likely he can turn sick
+						(flip( max(0, self.getTotalBacteria()/avgBactPop-1) ) ? true : false) // The more someone have more bacteria than the average, the more likely he can turn sick
 						: true; // If sick -> Stay sick until take medecine
 	list<Symptom> symptoms;
 	
@@ -204,11 +204,15 @@ species People skills:[moving] {
 	
 	/* HEAL */
 	reflex takePill when: isSick and current_hour = 20 {
+		
+		int initLengthPop <- self.getTotalBacteria();
+		
 		Pill p <- one_of(Pill);
 		ask p.use( self );
 		
 		// Chance to be cured
-		if flip( 0.25 ){
+		// Depending on nbr bacteria killed
+		if !flip( self.getTotalBacteria()/initLengthPop ){
 			self.isSick <- false;
 		}
 	}

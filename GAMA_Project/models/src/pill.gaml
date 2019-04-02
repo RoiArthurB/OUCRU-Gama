@@ -13,8 +13,7 @@ global {
 	/** Insert the global definitions, variables and actions here */
 	action initPills{
 		create Pill number: 1 {
-			effectivnessNR <- rnd(1.0);//rnd(0.0, 1.0, 0.01);
-			effectivnessR <- rnd(1.0);
+			effectivnessNR <- rnd(0.5);
 		}
 	}
 	init{
@@ -32,8 +31,6 @@ species Pill{
 	
 	// Non-Resistant
 	float effectivnessNR; // %
-	// Resistant
-	float effectivnessR; // %
 	
 	
 	/*
@@ -42,10 +39,8 @@ species Pill{
 	action use(People p){
 		
 		int nonRes <- p.bacteriaPopulation[0];
-		int res <- p.bacteriaPopulation[1];
 		
 		p.bacteriaPopulation[0] <- nonRes - int( nonRes * self.effectivnessNR );
-		p.bacteriaPopulation[1] <- res - int( res * self.effectivnessR );
 
 	}/**/
 }

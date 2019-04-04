@@ -34,10 +34,10 @@ global {
 	//transmission
 	float paramBreathAreaInfection <- 2#m;
 	
-	float paramProbabilityNaturalTransmission <- 0.25;
+	float paramProbabilityNaturalTransmission <- 0.15;
 	float paramTimeBeforeNaturalTransmission <- 10 #mn;
 	
-	float paramProbabilitySickTransmission <- 0.5;
+	float paramProbabilitySickTransmission <- 0.25;
 	float paramTimeBeforeSickTransmission <- 2#mn;
 	float paramProbabilitySneezing <- 0.01;
 	float paramSneezeAreaInfection <- 2#m;
@@ -46,10 +46,10 @@ global {
 	//=================
 	int nbrBacteriaPerPerson <- 100;
 
-	float probaResistant <- 0.5;
-	float paramProbaDuplication<- 0.5;
-	float paramProbaSymptom <- 0.5;
-	float paramProbaMutation <- 0.5;
+	float probaResistant <- 0.01;
+	float paramProbaDuplication<- 0.05;
+	float paramProbaSymptom <- 0.01;
+	float paramProbaMutation <- 0.01;
 	
 	/*
 	 * INIT

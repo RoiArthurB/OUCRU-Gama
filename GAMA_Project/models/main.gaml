@@ -49,6 +49,9 @@ global {
 		
 		sickPop <- People count each.isSick;
 	}
+	reflex stop_simulation when: (100-(100*nbrBactRes)/nbrBact) <= 10 {
+		do pause ;
+	} 
 }
 
 

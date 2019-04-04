@@ -104,7 +104,7 @@ experiment main type: gui {
 			
 			species People aspect:geom;
 		}
-		display total refresh:every(10#cycle) {
+		display bacteria refresh:every(10#cycle) {
 			chart "Bacterias evolution" type: series {
 				data "Total Bacteria" value: nbrBact color: #blue;
 				data "Total Resistant Bacteria" value: nbrBactRes color: #red;
@@ -112,8 +112,7 @@ experiment main type: gui {
 			}
 		}
 		display population refresh:every(10#cycle) {
-			chart "Dynamic population" type: histogram background: rgb("white") {
-				data "Total of Person" value: nb_people color: #blue;
+			chart "Dynamic population" type: series {
 				data "Number of Person sick" value: sickPop color: #red;
 				data "Number of Person non-sick" value: nb_people - sickPop color: #green;
 			}
@@ -123,6 +122,8 @@ experiment main type: gui {
 		monitor "% Bacteria NR / People" value: 100-(100*nbrBactRes)/nbrBact;
 		monitor "Nbr Bacteria NR" value: nbrBact-nbrBactRes;
 		
-		monitor "Average Proba Mutation" value: 0.5 * ((avgBactPop-avgResBactPop)/avgBactPop);
+		monitor "Average Proba Mutation" value: paramProbaMutation * ((avgBactPop-avgResBactPop)/avgBactPop);
+		
+		monitor "Average Proba isSick" value: max(0, People[0].getTotalBacteria()/avgBactPop-1);
 	}
 }

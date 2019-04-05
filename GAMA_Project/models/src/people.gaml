@@ -114,11 +114,7 @@ species People skills:[moving] {
 	// Human
 	int age;
 	bool sex;
-	bool isSick <- false update: !isSick ? // Update only if not sick
-							( current_hour mod 1 = 0 ? // Limit update
-								(flip( max(0, self.getTotalBacteria()/avgBactPop -1) ) ? true : false) // The more someone have more bacteria than the average, the more likely he can turn sick 
-								: false)
-						: true; // If sick -> Stay sick until take medecine
+	bool isSick <- false update: length(self.symptoms) != 0; // Sick if have symptoms
 	list<Symptom> symptoms;
 	
 	// Transmission
@@ -213,10 +209,7 @@ species People skills:[moving] {
 		ask p.use( self );
 		
 		// Chance to be cured
-		// Depending on nbr bacteria killed
-		if !flip( self.getTotalBacteria()/initLengthBacteriaPop ){
-			self.isSick <- false;
-		}
+		ask p.cure(self);
 	}
 	
 	/*
@@ -231,6 +224,10 @@ species People skills:[moving] {
 			self.bacteriaPopulation[0] <- self.bacteriaPopulation[0] - 1;
 			self.bacteriaPopulation[1] <- self.bacteriaPopulation[1] + 1;	
 		}
+	}
+	// Pass NR Bact to R Bact
+	reflex giveSymptom when: false {
+		add one_of(Symptom) to: self.symptoms;
 	}
 		
 	/*

@@ -7,9 +7,10 @@
 
 model people
 
-import "pill.gaml"
+import "../main.gaml"
 
-import "bacteria.gaml"
+import "symptom.gaml"
+import "pill.gaml"
 
 import "building.gaml"
 import "road.gaml"
@@ -22,6 +23,7 @@ global {
 	 */
 	int current_hour update: (time / #hour) mod 24;
 	int nb_people <- 100;
+	float initSickness <- 0.1;
 	
 	//movement
 	float min_speed <- 1.0 #km / #h;
@@ -32,16 +34,22 @@ global {
 	//transmission
 	float paramBreathAreaInfection <- 2#m;
 	
-	float paramProbabilityNaturalTransmission <- 0.25;
+	float paramProbabilityNaturalTransmission <- 0.15;
 	float paramTimeBeforeNaturalTransmission <- 10 #mn;
 	
-	float paramProbabilitySickTransmission <- 0.5;
+	float paramProbabilitySickTransmission <- 0.25;
 	float paramTimeBeforeSickTransmission <- 2#mn;
-	float paramProbabilitySneezing <- 0.5;
+	float paramProbabilitySneezing <- 0.01;
 	float paramSneezeAreaInfection <- 2#m;
 	
 	//bacterias
+	//=================
 	int nbrBacteriaPerPerson <- 100;
+
+	float probaResistant <- 0.01;
+	float paramProbaDuplication<- 0.05;
+	float paramProbaSymptom <- 0.01;
+	float paramProbaMutation <- 0.01;
 	
 	/*
 	 * INIT
@@ -76,12 +84,16 @@ global {
 			timeBeforeSickTransmission <- paramTimeBeforeSickTransmission;
 			probabilitySneezing <- paramProbabilitySneezing;
 			sneezeAreaInfection <- paramSneezeAreaInfection;
-		}	
 			
-		// Set Bacteria population
-		loop p over: People {
-			ask p.setBacteriaPop( initBacteriaPopulation(nbrBacteriaPerPerson) );	
-		}	
+			if flip( initSickness ){
+				isSick <- true;
+			}
+			
+			// Set Bacteria population
+			loop times: nbrBacteriaPerPerson{
+				do setBacteria( int(flip(probaResistant)) );
+			}
+		}
 	}
 }
 
@@ -89,7 +101,7 @@ species People skills:[moving] {
 	/*
 	 * Variables
 	 */
-	rgb color <- #yellow ;
+	rgb color update: isSick ? #red : #yellow ;
 	
 	// Movement
 	Building living_place <- nil ;
@@ -102,42 +114,42 @@ species People skills:[moving] {
 	// Human
 	int age;
 	bool sex;
-	bool isSick;// update: length(self.symptoms) != 0 ? true : false;
-	list<int> symptoms; // type gonna change
+	bool isSick <- false update: length(self.symptoms) != 0; // Sick if have symptoms
+	list<Symptom> symptoms;
 	
 	// Transmission
-	list<Bacteria> bacterias;	// type gonna change
-	float breathAreaInfection <- 2 #m;		// Scientific Article
+	float breathAreaInfection <- 2 #m;		// Scientific Article ?
 	
 	float probabilityNaturalTransmission <- 25.0; //%
 	float timeBeforeNaturalTransmission <- 10 #mn;
 	
 	float probabilitySickTransmission <- 50.0; //%
 	float timeBeforeSickTransmission <- 2 #mn;
-	float probabilitySneezing <- 50.0; //%
-	float sneezeAreaInfection <- 2 #m;		// Scientific Article
+	float probabilitySneezing <- 0.01; //%
+	float sneezeAreaInfection <- 2 #m;		// Scientific Article ?
+	
+	// Bacterias
+	list<int> bacteriaPopulation <- [0, 0];	// [non-resitant, resistant]
 		
 	/*
 	 * Actions
 	 */ 
 		
 	/*	GET / SET	*/
-	action setBacteriaPop(list<Bacteria> pop){
-		self.bacterias <- pop;
+	// Input 0 for Non-Resistant
+	// Input 1 for Resistant
+	action setBacteria(int index){
+		self.bacteriaPopulation[index] <- int(self.bacteriaPopulation[index] + 1);
 	}
 	
-	action setBacteria(Bacteria b){
-		add b to: self.bacterias;
+	int getTotalBacteria{
+		return self.bacteriaPopulation[0]+self.bacteriaPopulation[1];
 	}
 	
-	Bacteria getRandomBacteria {
-		return one_of(self.bacterias);
-	}
-	
-	// HEAL
-	action takePill /* when:  */ {
-		Pill p <- one_of(Pill);		
-		do setBacteriaPop( p.use(self.bacterias) );
+	// Return 0 for Non-Resistant
+	// Return 1 for Resistant
+	int getRandomBacteria {
+		return int( flip( self.bacteriaPopulation[1]/self.getTotalBacteria() ) );
 	}
 	 
 	/*
@@ -177,21 +189,45 @@ species People skills:[moving] {
 	// Breath transmission
 	reflex transmission /* when: timeBeforeNaturalTransmission = 0 */ {
 		
-		ask People at_distance self.breathAreaInfection {
-			if self.isSick {	// Transmission if sick
-				if flip(self.probabilitySickTransmission){
-					// Give bacteria
-					do setBacteria( self.getRandomBacteria() );
-				}
-			}else{				// Transmission if not sick
-				if flip(self.probabilityNaturalTransmission){
-					// Give bacteria
-					do setBacteria( self.getRandomBacteria() );
-				}
+		loop p over: People at_distance self.breathAreaInfection {
+			// Get probability depending if sick
+			// Flip to see if resistant or not
+			if( flip( self.isSick ? self.probabilitySickTransmission : self.probabilityNaturalTransmission ) ){
+				ask p.setBacteria( self.getRandomBacteria() );
 			}
 		}
 		
 		//Reset time before transmission
+	}
+	
+	/* HEAL */
+	reflex takePill when: isSick and current_hour = 20 {
+		
+		int initLengthBacteriaPop <- self.getTotalBacteria();
+		
+		Pill p <- one_of(Pill);
+		ask p.use( self );
+		
+		// Chance to be cured
+		ask p.cure(self);
+	}
+	
+	/*
+	 * Bacteria
+	 */ 	
+	reflex duplication when: flip(paramProbaDuplication){
+		ask self.setBacteria( self.getRandomBacteria() );
+	} 	
+	// Pass NR Bact to R Bact
+	reflex mutation when: flip(paramProbaMutation * (self.bacteriaPopulation[0]/self.getTotalBacteria()) ){
+		if ( self.bacteriaPopulation[0] != 0 ){
+			self.bacteriaPopulation[0] <- self.bacteriaPopulation[0] - 1;
+			self.bacteriaPopulation[1] <- self.bacteriaPopulation[1] + 1;	
+		}
+	}
+	// Pass NR Bact to R Bact
+	reflex giveSymptom when: false {
+		add one_of(Symptom) to: self.symptoms;
 	}
 		
 	/*

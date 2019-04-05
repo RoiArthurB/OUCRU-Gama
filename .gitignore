@@ -2,6 +2,7 @@
 GAMA_Project/models/snapshots/
 .built_in_models*
 .cache
+.gama.epf
 
 ########
 ###	ECLIPSE TEMPLATE

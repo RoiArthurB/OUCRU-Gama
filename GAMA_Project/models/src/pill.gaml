@@ -7,13 +7,13 @@
 
 model pill
 
-import "bacteria.gaml"
+import "people.gaml"
 
 global {
 	/** Insert the global definitions, variables and actions here */
 	action initPills{
 		create Pill number: 1 {
-			effectivness <- rnd(1.0);//rnd(0.0, 1.0, 0.01);
+			effectivnessNR <- rnd(0.5);
 		}
 	}
 	init{
@@ -29,21 +29,35 @@ species Pill{
 	 */
 	bool isAntibio <- true;
 	
-	float effectivness; // %
+	// Non-Resistant
+	float effectivnessNR; // %
 	
+	float probabilityCure <- 0.5;
+	list<Symptom> curedSymptoms;
 	
 	/*
 	 * ACTION
 	 */
-	list<Bacteria> use(list<Bacteria> pop){
+	action use(People p){
 		
-		int nbrToKill <- int( length(pop) * self.effectivness );
+		int nonRes <- p.bacteriaPopulation[0];
 		
-		loop times: nbrToKill {
-			remove index:rnd(length(pop)-1) from: pop;
+		p.bacteriaPopulation[0] <- nonRes - int( nonRes * self.effectivnessNR );
+
+	}
+	action cure(People p){
+		// Not automatic cured
+		if flip(self.probabilityCure){
+			
+			// Browse p.symptoms
+			loop symp over: p.symptoms{
+				// del match on p.symptoms
+				if self.curedSymptoms contains symp{
+					remove symp from: p.symptoms;	
+				}
+			}
+			
 		}
-		
-		return pop;
 	}
 }
 

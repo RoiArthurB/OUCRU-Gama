@@ -15,11 +15,19 @@ global{
 	init{
 		do initPills();
 		do initPeople();
-		ask one_of(People).takePill();
+		//ask one_of(People).takePill();
 	}	
 }
 
 experiment takePillGUI type:gui {	
+	
+	test "My First Test" {
+	/** Insert here any assertion you need to test */
+		//do one_of(People).takePill();
+		loop p over: People{
+			write( p.getTotalBacteria() );	
+		}
+	}
 	output {}
 }
 

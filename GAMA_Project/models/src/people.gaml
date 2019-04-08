@@ -212,14 +212,20 @@ species People skills:[moving] {
 	/*
 	 * Bacteria
 	 */ 	
-	reflex duplication when: flip(paramProbaDuplication){
-		ask self.setBacteria( self.getRandomBacteria() );
+	reflex duplication {//when: flip(paramProbaDuplication){
+		// Probability to remove a bacteria
+		int value <- 1;
+		if flip(0.5){
+			value <- -1;
+		}
+		
+		ask self.setBacteria( self.getRandomBacteria(), value );
 	} 	
 	// Pass NR Bact to R Bact
 	reflex mutation when: flip(paramProbaMutation * (self.bacteriaPopulation[0]/self.getTotalBacteria()) ){
 		if ( self.bacteriaPopulation[0] != 0 ){
-			self.bacteriaPopulation[0] <- self.bacteriaPopulation[0] - 1;
-			self.bacteriaPopulation[1] <- self.bacteriaPopulation[1] + 1;	
+			ask self.setBacteria(0, -1);
+			ask self.setBacteria(1, 1);	
 		}
 	}
 	// Pass NR Bact to R Bact

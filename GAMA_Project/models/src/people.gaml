@@ -142,17 +142,16 @@ species People skills:[moving] {
 		self.bacteriaPopulation[index] <- int(self.bacteriaPopulation[index] + value);
 	}
 	
-	int getTotalBacteria{
-		return self.bacteriaPopulation[0]+self.bacteriaPopulation[1];
+	// Param on true to avoid division by zero
+	int getTotalBacteria(bool fake <- false){
+		int result <- self.bacteriaPopulation[0]+self.bacteriaPopulation[1];
+		return (fake and result = 0) ? 1 : result;
 	}
 	
 	// Return 0 for Non-Resistant
 	// Return 1 for Resistant
-	int getRandomBacteria {
-		// Avoid division by zero
-		int denom <- self.getTotalBacteria() = 0 ? 1 : self.getTotalBacteria();
-		
-		return int( flip( self.bacteriaPopulation[1]/denom ) );
+	int getRandomBacteria {		
+		return int( flip( self.bacteriaPopulation[1]/self.getTotalBacteria(true) ) );
 	}
 	 
 	/*
@@ -222,7 +221,7 @@ species People skills:[moving] {
 		ask self.setBacteria( self.getRandomBacteria(), value );
 	} 	
 	// Pass NR Bact to R Bact
-	reflex mutation when: flip(paramProbaMutation * (self.bacteriaPopulation[0]/self.getTotalBacteria()) ){
+	reflex mutation when: flip(paramProbaMutation * (self.bacteriaPopulation[0]/self.getTotalBacteria(true)) ){
 		if ( self.bacteriaPopulation[0] != 0 ){
 			ask self.setBacteria(0, -1);
 			ask self.setBacteria(1, 1);	

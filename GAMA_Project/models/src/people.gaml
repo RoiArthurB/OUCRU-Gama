@@ -91,7 +91,7 @@ global {
 			
 			// Set Bacteria population
 			loop times: nbrBacteriaPerPerson{
-				do setBacteria( int(flip(probaResistant)) );
+				do setBacteria( int(flip(probaResistant)), 1 );
 			}
 		}
 	}
@@ -136,10 +136,10 @@ species People skills:[moving] {
 	 */ 
 		
 	/*	GET / SET	*/
-	// Input 0 for Non-Resistant
-	// Input 1 for Resistant
-	action setBacteria(int index){
-		self.bacteriaPopulation[index] <- int(self.bacteriaPopulation[index] + 1);
+	// Index 0 for Non-Resistant
+	// Index 1 for Resistant
+	action setBacteria(int index, int value){		
+		self.bacteriaPopulation[index] <- int(self.bacteriaPopulation[index] + value);
 	}
 	
 	int getTotalBacteria{
@@ -184,7 +184,7 @@ species People skills:[moving] {
 	reflex sneeze when: (self.isSick and flip(self.probabilitySneezing)) {
 		
 		loop ppl over: agents_at_distance( self.sneezeAreaInfection ) {
-			ask ppl.setBacteria( self.getRandomBacteria() ) target: People;
+			ask ppl.setBacteria( self.getRandomBacteria(), 1 ) target: People;
 		}
 		
 	}
@@ -196,7 +196,7 @@ species People skills:[moving] {
 			// Get probability depending if sick
 			// Flip to see if resistant or not
 			if( flip( self.isSick ? self.probabilitySickTransmission : self.probabilityNaturalTransmission ) ){
-				ask p.setBacteria( self.getRandomBacteria() );
+				ask p.setBacteria( self.getRandomBacteria(), 1 );
 			}
 		}
 		

@@ -138,7 +138,7 @@ species People skills:[moving] {
 	/*	GET / SET	*/
 	// Index 0 for Non-Resistant
 	// Index 1 for Resistant
-	action setBacteria(int index, int value){		
+	action setBacteria(int index, int value <- 1){		
 		self.bacteriaPopulation[index] <- int(self.bacteriaPopulation[index] + value);
 	}
 	
@@ -184,7 +184,7 @@ species People skills:[moving] {
 	reflex sneeze when: (self.isSick and flip(self.probabilitySneezing)) {
 		
 		loop ppl over: agents_at_distance( self.sneezeAreaInfection ) {
-			ask ppl.setBacteria( self.getRandomBacteria(), 1 ) target: People;
+			ask ppl.setBacteria( self.getRandomBacteria() ) target: People;
 		}
 		
 	}
@@ -196,7 +196,7 @@ species People skills:[moving] {
 			// Get probability depending if sick
 			// Flip to see if resistant or not
 			if( flip( self.isSick ? self.probabilitySickTransmission : self.probabilityNaturalTransmission ) ){
-				ask p.setBacteria( self.getRandomBacteria(), 1 );
+				ask p.setBacteria( self.getRandomBacteria() );
 			}
 		}
 		

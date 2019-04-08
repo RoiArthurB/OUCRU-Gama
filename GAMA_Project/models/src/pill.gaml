@@ -14,11 +14,11 @@ global {
 	action initPills{
 		create Pill number: 1 {
 			effectivnessNR <- rnd(0.5);
-		}
-	}
-	init{
-		if length(Pill) = 0 {
-			do initPills();	
+			
+			// Effective on all symptoms
+			loop s over: Symptom{
+				add s to:curedSymptoms;
+			}
 		}
 	}
 }
@@ -32,7 +32,6 @@ species Pill{
 	// Non-Resistant
 	float effectivnessNR; // %
 	
-	float probabilityCure <- 0.5;
 	list<Symptom> curedSymptoms;
 	
 	/*
@@ -41,23 +40,25 @@ species Pill{
 	action use(People p){
 		
 		int nonRes <- p.bacteriaPopulation[0];
+		int nbrDeleted <- int( nonRes * self.effectivnessNR );
 		
-		p.bacteriaPopulation[0] <- nonRes - int( nonRes * self.effectivnessNR );
-
-	}
-	action cure(People p){
+		p.bacteriaPopulation[0] <- nonRes - nbrDeleted;
+		
 		// Not automatic cured
-		if flip(self.probabilityCure){
-			
-			// Browse p.symptoms
-			loop symp over: p.symptoms{
-				// del match on p.symptoms
-				if self.curedSymptoms contains symp{
-					remove symp from: p.symptoms;	
-				}
-			}
-			
+		// Depending on effectiveness of the pill usage
+		if flip(nbrDeleted/p.getTotalBacteria()){
+			p.symptoms <- cure(p.symptoms);
 		}
+	}
+	list<Symptom> cure(list<Symptom> symptoms){
+		// Browse self.curedSymptoms
+		loop symp over: self.curedSymptoms{
+			// del match on p.symptoms
+			if (!empty(symptoms) and (symptoms contains symp)){
+				remove symp from: symptoms;	
+			}
+		}
+		return symptoms;
 	}
 }
 

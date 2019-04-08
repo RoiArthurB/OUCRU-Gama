@@ -202,14 +202,8 @@ species People skills:[moving] {
 	
 	/* HEAL */
 	reflex takePill when: isSick and current_hour = 20 {
-		
-		int initLengthBacteriaPop <- self.getTotalBacteria();
-		
 		Pill p <- one_of(Pill);
 		ask p.use( self );
-		
-		// Chance to be cured
-		ask p.cure(self);
 	}
 	
 	/*
@@ -226,7 +220,7 @@ species People skills:[moving] {
 		}
 	}
 	// Pass NR Bact to R Bact
-	reflex giveSymptom when: false {
+	reflex giveSymptom when: flip(0.001) and current_hour mod 1 = 0 {
 		add one_of(Symptom) to: self.symptoms;
 	}
 		

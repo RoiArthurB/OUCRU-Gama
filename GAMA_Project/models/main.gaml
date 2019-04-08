@@ -39,6 +39,10 @@ global {
 		
 		/* Primary Agents */
 		do initPeople();
+		
+		/* Secondary Agents */
+		do initSymptoms();
+		do initPills();
 	}
 	reflex graphUpdate {
 		nbrBact <- People sum_of each.getTotalBacteria();
@@ -49,7 +53,9 @@ global {
 		
 		sickPop <- People count each.isSick;
 	}
-	reflex stop_simulation when: (100-(100*nbrBactRes)/nbrBact) <= 10 {
+	
+	// Stop simulation when nbr Resistant Bacteria >= XX %
+	reflex stop_simulation when: (100*nbrBactRes)/nbrBact >= 95 {
 		do pause ;
 	} 
 }

@@ -9,7 +9,7 @@ model symptom
 
 /* Insert your model definition here */
 global{
-	init{
+	action initSymptoms{
 		/*
 		 * https://doi.org/10.1038/s41579-018-0001-8
 		 */

@@ -149,7 +149,10 @@ species People skills:[moving] {
 	// Return 0 for Non-Resistant
 	// Return 1 for Resistant
 	int getRandomBacteria {
-		return int( flip( self.bacteriaPopulation[1]/self.getTotalBacteria() ) );
+		// Avoid division by zero
+		int denom <- self.getTotalBacteria() = 0 ? 1 : self.getTotalBacteria();
+		
+		return int( flip( self.bacteriaPopulation[1]/denom ) );
 	}
 	 
 	/*

@@ -129,7 +129,5 @@ experiment main type: gui {
 		monitor "Nbr Bacteria NR" value: nbrBact-nbrBactRes;
 		
 		monitor "Average Proba Mutation" value: paramProbaMutation * ((avgBactPop-avgResBactPop)/avgBactPop);
-		
-		monitor "Average Proba isSick" value: max(0, People[0].getTotalBacteria()/avgBactPop-1);
 	}
 }

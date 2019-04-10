@@ -42,6 +42,8 @@ global {
 	float paramProbabilitySneezing <- 0.01;
 	float paramSneezeAreaInfection <- 2#m;
 	
+	float paramStayHome <- 0.5;
+	
 	//bacterias
 	//=================
 	int nbrBacteriaPerPerson <- 100;
@@ -169,8 +171,14 @@ species People skills:[moving] {
 	 /*	DAILY ROUTINE */
 	// current_hour's define in main.gaml
 	reflex time_to_work when: (current_hour = start_work and objective = "resting") {
-		objective <- "working" ;
-		the_target <- any_location_in (school);
+		
+		// If self.isSick
+		// -> Proba to no go to school
+		if !( isSick and flip( paramStayHome ) ){
+			objective <- "working" ;
+			the_target <- any_location_in (school);
+		}
+		
 	}
 		
 	// current_hour's define in main.gaml

@@ -86,6 +86,8 @@ experiment main type: gui {
 	parameter "Probability Natural Transmission (%)" var: paramProbabilityNaturalTransmission category: "Transmission" min: 0.0 max: 0.5;
 	parameter "Time before Natural Transmission (mn)" var: paramTimeBeforeNaturalTransmission category: "Transmission";
 	
+	parameter "Probability to stay at home when sick (%)" var: paramStayHome category: "Transmission" min: 0.0 max: 1.0;
+	
 	// Sick
 	parameter "Probability Sick Transmission (%)" var: paramProbabilitySickTransmission category: "Sick" min: 0.0 max: 0.5;
 	parameter "Time before Sick Transmission (mn)" var: paramTimeBeforeSickTransmission category: "Sick";

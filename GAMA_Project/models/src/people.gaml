@@ -250,7 +250,7 @@ species People skills:[moving] {
 		if self.setBacteria( self.getRandomBacteria(), value ){}
 	} 	
 	// Pass NR Bact to R Bact
-	reflex mutation when: flip(paramProbaMutation * (self.bacteriaPopulation[0]/self.getTotalBacteria(true)) ){
+	reflex mutation when: flip(paramProbaMutation){
 		
 		// Chance to mutation from NR to R, or reverse
 		// true = R -> NR // false = NR -> R

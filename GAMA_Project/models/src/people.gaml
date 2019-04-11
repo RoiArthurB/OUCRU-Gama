@@ -31,7 +31,9 @@ global {
 	int work_start <- 7;
 	int work_end <- 18;
 	
-	//transmission
+	
+	// Transmission
+// NEED SCIENTIFIC PARAMETERS
 	float paramBreathAreaInfection <- 2#m;
 	
 	float paramProbabilityNaturalTransmission <- 0.15;
@@ -78,15 +80,6 @@ global {
 			start_work <- work_start ;
 			end_work <- work_end ;
 			
-			// Transmission
-			breathAreaInfection <- paramBreathAreaInfection;
-			probabilityNaturalTransmission <- paramProbabilityNaturalTransmission;
-			timeBeforeNaturalTransmission <- paramTimeBeforeNaturalTransmission;
-			probabilitySickTransmission <- paramProbabilitySickTransmission;
-			timeBeforeSickTransmission <- paramTimeBeforeSickTransmission;
-			probabilitySneezing <- paramProbabilitySneezing;
-			sneezeAreaInfection <- paramSneezeAreaInfection;
-			
 			if flip( initSickness ){
 				isSick <- true;
 			}
@@ -118,17 +111,6 @@ species People skills:[moving] {
 	bool sex;
 	bool isSick <- false update: length(self.symptoms) != 0; // Sick if have symptoms
 	list<Symptom> symptoms;
-	
-	// Transmission
-	float breathAreaInfection <- 2 #m;		// Scientific Article ?
-	
-	float probabilityNaturalTransmission <- 25.0; //%
-	float timeBeforeNaturalTransmission <- 10 #mn;
-	
-	float probabilitySickTransmission <- 50.0; //%
-	float timeBeforeSickTransmission <- 2 #mn;
-	float probabilitySneezing <- 0.01; //%
-	float sneezeAreaInfection <- 2 #m;		// Scientific Article ?
 	
 	// Bacterias
 	list<int> bacteriaPopulation <- [0, 0];	// [non-resitant, resistant]
@@ -173,7 +155,7 @@ species People skills:[moving] {
 	reflex time_to_work when: (current_hour = start_work and objective = "resting") {
 		
 		// If self.isSick
-		// -> Proba to no go to school
+		// -> Proba to not go to school
 		if !( isSick and flip( paramStayHome ) ){
 			objective <- "working" ;
 			the_target <- any_location_in (school);
@@ -188,9 +170,9 @@ species People skills:[moving] {
 	}
 	
 	 /*	TRANSMISSION */
-	reflex sneeze when: (self.isSick and flip(self.probabilitySneezing)) {
+	reflex sneeze when: (self.isSick and flip(paramProbabilitySneezing)) {
 		
-		loop ppl over: agents_at_distance( self.sneezeAreaInfection ) {
+		loop ppl over: agents_at_distance( paramSneezeAreaInfection ) {
 			ask ppl.setBacteria( self.getRandomBacteria() ) target: People;
 		}
 		
@@ -199,7 +181,7 @@ species People skills:[moving] {
 	// Breath transmission
 	reflex transmission /* when: current_hour mod (5 #mn) = 0 */ {
 		
-		list<People> peopleInZone <- People at_distance self.breathAreaInfection;
+		list<People> peopleInZone <- People at_distance paramBreathAreaInfection;
 		
 		// Remove people if not in the same building
 		if self.the_target = nil { // check if is moving or not
@@ -221,7 +203,7 @@ species People skills:[moving] {
 		loop p over: peopleInZone {
 			// Get probability depending if sick
 			// Flip to see if resistant or not
-			if( flip( self.isSick ? self.probabilitySickTransmission : self.probabilityNaturalTransmission ) ){
+			if( flip( self.isSick ? paramProbabilitySickTransmission : paramProbabilityNaturalTransmission ) ){
 				ask p.setBacteria( self.getRandomBacteria() );
 			}
 		}

@@ -221,7 +221,10 @@ species People skills:[moving] {
 			// Get probability depending if sick
 			// Flip to see if resistant or not
 			if( flip( self.isSick ? paramProbabilitySickTransmission : paramProbabilityNaturalTransmission ) ){
-				if p.setBacteria( self.getRandomBacteria() ){}
+				int index <- self.getRandomBacteria();
+				if p.setBacteria( index ){
+					if self.setBacteria(index, -1){}
+				}
 			}
 		}
 		

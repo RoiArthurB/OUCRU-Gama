@@ -122,8 +122,25 @@ species People skills:[moving] {
 	/*	GET / SET	*/
 	// Index 0 for Non-Resistant
 	// Index 1 for Resistant
-	action setBacteria(int index, int value <- 1){		
-		self.bacteriaPopulation[index] <- int(self.bacteriaPopulation[index] + value);
+	// Return true if success, otherwise return false
+	bool setBacteria(int index, int value <- 1){
+		bool result <- false;
+		
+		if (value > 0){
+			// If add some bacteria
+			result <- true;
+		}else{
+			// Remove bacteria
+			// -> Only if bacteriaPop non-nul
+			result <- self.bacteriaPopulation[index] = 0 ? false : true; 
+		}
+		
+		if(result){
+			// Prevent overflow negative set
+			self.bacteriaPopulation[index] <- max(0, int(self.bacteriaPopulation[index] + value));
+		}
+		
+		return result;
 	}
 	
 	// Param on true to avoid division by zero
@@ -204,7 +221,7 @@ species People skills:[moving] {
 			// Get probability depending if sick
 			// Flip to see if resistant or not
 			if( flip( self.isSick ? paramProbabilitySickTransmission : paramProbabilityNaturalTransmission ) ){
-				ask p.setBacteria( self.getRandomBacteria() );
+				if p.setBacteria( self.getRandomBacteria() ){}
 			}
 		}
 		
@@ -221,13 +238,13 @@ species People skills:[moving] {
 	 * Bacteria
 	 */ 	
 	reflex duplication {//when: flip(paramProbaDuplication){
-		// Probability to remove a bacteria
 		int value <- 1;
+		// Probability for a bacteria to die
 		if flip(0.5){
 			value <- -1;
 		}
 		
-		ask self.setBacteria( self.getRandomBacteria(), value );
+		if self.setBacteria( self.getRandomBacteria(), value ){}
 	} 	
 	// Pass NR Bact to R Bact
 	reflex mutation when: flip(paramProbaMutation * (self.bacteriaPopulation[0]/self.getTotalBacteria(true)) ){

@@ -248,10 +248,15 @@ species People skills:[moving] {
 	} 	
 	// Pass NR Bact to R Bact
 	reflex mutation when: flip(paramProbaMutation * (self.bacteriaPopulation[0]/self.getTotalBacteria(true)) ){
-		if ( self.bacteriaPopulation[0] != 0 ){
-			ask self.setBacteria(0, -1);
-			ask self.setBacteria(1, 1);	
-		}
+		
+		// Chance to mutation from NR to R, or reverse
+		// true = R -> NR // false = NR -> R
+		list<int> mutation <- flip(self.bacteriaPopulation[1]/self.getTotalBacteria(true)) ? [1,0] : [0,1];
+		
+		// Add bacteria on the other side only if could remove first
+		if (self.setBacteria(mutation[0], -1)){
+			if self.setBacteria(mutation[1], 1){}
+		}	
 	}
 	// Pass NR Bact to R Bact
 	reflex giveSymptom when: flip(0.001) and current_hour mod 1 = 0 {

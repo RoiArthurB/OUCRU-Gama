@@ -32,6 +32,11 @@ global {
 	
 	int sickPop update: People count each.isSick;
 	
+	/**
+	 * Constant
+	 */
+	date initDate <- current_date;
+	
 	init{
 		/* Map */
 		do initBuilding();
@@ -56,6 +61,11 @@ global {
 	
 	// Stop simulation when nbr Resistant Bacteria >= XX %
 	reflex stop_simulation when: (100*nbrBactRes)/nbrBact >= 95 {
+		do pause ;
+	} 
+	
+	// Stop simulation after 7 month
+	reflex stop_simulation when: current_date >= initDate + 7#month {
 		do pause ;
 	} 
 }

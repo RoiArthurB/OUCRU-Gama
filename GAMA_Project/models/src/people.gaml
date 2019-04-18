@@ -232,9 +232,11 @@ species People skills:[moving] {
 	// Kill slowly bacterias
 	reflex pillEffect {
 		loop i from: 0 to: 1 {
-			if setBacteria(i, - int(self.bacteriaToKill[i] * paramSpeedToKill) ){
-				self.bacteriaToKill[i] <- self.bacteriaToKill[i] - (self.bacteriaToKill[i] * 0.1);
-			}	
+			int nbrKilled <- round(self.bacteriaToKill[i] * paramSpeedToKill);
+			
+			if setBacteria(i, - nbrKilled ) {
+				self.bacteriaToKill[i] <- self.bacteriaToKill[i] - nbrKilled;
+			}
 		}
 	}
 	

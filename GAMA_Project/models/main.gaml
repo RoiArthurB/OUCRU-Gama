@@ -111,7 +111,7 @@ experiment main type: gui {
 	parameter "Probability to self mutate (%)" var: paramProbaMutation category: "Bacteria" min: 0.0 max: 0.1;
 	
 	// Pills
-	parameter "Pourcent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" min: 0.0 max: 0.1;
+	parameter "Pourcent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" min: 0.0 max: 1.0;
 
 	/*
 	 * Display

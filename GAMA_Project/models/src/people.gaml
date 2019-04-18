@@ -45,6 +45,7 @@ global {
 	float paramSneezeAreaInfection <- 2#m;
 	
 	float paramStayHome <- 0.5;
+	float paramSpeedToKill <- 0.01; // %
 	
 	//bacterias
 	//=================
@@ -114,6 +115,8 @@ species People skills:[moving] {
 	
 	// Bacterias
 	list<int> bacteriaPopulation <- [0, 0];	// [non-resitant, resistant]
+	
+	list<int> bacteriaToKill <- [0, 0];	// [non-resitant, resistant]
 		
 	/*
 	 * Actions
@@ -124,23 +127,12 @@ species People skills:[moving] {
 	// Index 1 for Resistant
 	// Return true if success, otherwise return false
 	bool setBacteria(int index, int value <- 1){
-		bool result <- false;
+		int prevNumb <- self.bacteriaPopulation[index];
 		
-		if (value > 0){
-			// If add some bacteria
-			result <- true;
-		}else{
-			// Remove bacteria
-			// -> Only if bacteriaPop non-nul
-			result <- self.bacteriaPopulation[index] = 0 ? false : true; 
-		}
-		
-		if(result){
-			// Prevent overflow negative set
-			self.bacteriaPopulation[index] <- max(0, int(self.bacteriaPopulation[index] + value));
-		}
-		
-		return result;
+		// Prevent overflow negative set
+		self.bacteriaPopulation[index] <- max(0, int(prevNumb + value));
+
+		return (prevNumb != self.bacteriaPopulation[index]);
 	}
 	
 	// Param on true to avoid division by zero
@@ -235,6 +227,15 @@ species People skills:[moving] {
 	reflex takePill when: isSick and current_hour = 20 {
 		Pill p <- one_of(Pill);
 		ask p.use( self );
+	}
+	
+	// Kill slowly bacterias
+	reflex pillEffect {
+		loop i from: 0 to: 1 {
+			if setBacteria(i, - int(self.bacteriaToKill[i] * paramSpeedToKill) ){
+				self.bacteriaToKill[i] <- self.bacteriaToKill[i] - (self.bacteriaToKill[i] * 0.1);
+			}	
+		}
 	}
 	
 	/*

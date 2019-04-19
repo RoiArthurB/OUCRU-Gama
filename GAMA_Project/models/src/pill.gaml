@@ -48,12 +48,10 @@ species Pill{
 		p.bacteriaToKill[0] <- p.bacteriaToKill[0] + nbrDeleted[0];
 		p.bacteriaToKill[1] <- p.bacteriaToKill[1] + nbrDeleted[1];
 		
-		/*
-		int nonRes <- p.bacteriaPopulation[0];
-		int nbrDeleted <- int( nonRes * self.effectivnessNR );
-		
-		p.bacteriaPopulation[0] <- nonRes - nbrDeleted;
-		*/
+		if self.isAntibio {
+			p.antibioEffect <- 1.0;
+		}
+
 		// Not automatic cured
 		// Depending on effectiveness of the pill usage
 		if flip( (nbrDeleted[0] + nbrDeleted[1]) /p.getTotalBacteria()){

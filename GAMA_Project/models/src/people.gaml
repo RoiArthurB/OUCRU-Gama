@@ -116,7 +116,12 @@ species People skills:[moving] {
 	// Bacterias
 	list<int> bacteriaPopulation <- [0, 0];	// [non-resitant, resistant]
 	
+	// Pill related
 	list<int> bacteriaToKill <- [0, 0];	// [non-resitant, resistant]
+	
+	// Pourcentage
+	// Reach 0 in 2 days
+	float antibioEffect <- 0.0 update: max(0.0, self.antibioEffect - (10#mn/2#day)); // val <- [0, 1]
 		
 	/*
 	 * Actions
@@ -256,8 +261,8 @@ species People skills:[moving] {
 	reflex mutation when: flip(paramProbaMutation){
 		
 		// Chance to mutation from NR to R, or reverse
-		// true = R -> NR // false = NR -> R
-		list<int> mutation <- flip(self.bacteriaPopulation[1]/self.getTotalBacteria(true)) ? [1,0] : [0,1];
+		// true = NR -> R // false = R -> NR
+		list<int> mutation <- flip( self.antibioEffect ) ? [0,1] : [1,0];
 		
 		// Add bacteria on the other side only if could remove first
 		if (self.setBacteria(mutation[0], -1)){

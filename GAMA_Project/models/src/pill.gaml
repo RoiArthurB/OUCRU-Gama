@@ -10,7 +10,9 @@ model pill
 import "people.gaml"
 
 global {
-	/** Insert the global definitions, variables and actions here */
+
+	bool paramAntibio <- true;
+
 	action initPills{
 		create Pill number: 1 {
 			effectivnessNR <- rnd(0.5);
@@ -28,7 +30,7 @@ species Pill{
 	/*
 	 * VAR
 	 */
-	bool isAntibio <- true;
+	bool isAntibio <- paramAntibio;
 	
 	// Non-Resistant
 	float effectivnessNR; // %

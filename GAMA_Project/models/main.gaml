@@ -112,6 +112,7 @@ experiment main type: gui {
 	
 	// Pills
 	parameter "Pourcent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" min: 0.0 max: 1.0;
+	parameter "Solo pick is antibio" var: paramAntibio category: "Pill";
 
 	/*
 	 * Display

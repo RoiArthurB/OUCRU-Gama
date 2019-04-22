@@ -15,8 +15,8 @@ global {
 
 	action initPills{
 		create Pill number: 1 {
-			effectivnessNR <- rnd(0.5);
-			effectivnessR <- 0.0;
+			effectivenessNR <- 0.25;//rnd(0.5);
+			effectivenessR <- 0.0;
 			
 			// Effective on all symptoms
 			loop s over: Symptom{
@@ -33,9 +33,9 @@ species Pill{
 	bool isAntibio <- paramAntibio;
 	
 	// Non-Resistant
-	float effectivnessNR; // %
+	float effectivenessNR; // %
 	// Resistant
-	float effectivnessR; // %
+	float effectivenessR; // %
 	
 	list<Symptom> curedSymptoms;
 	
@@ -44,8 +44,8 @@ species Pill{
 	 */
 	action use(People p){
 		
-		list<int> nbrDeleted <- [int(p.bacteriaPopulation[0] * self.effectivnessNR), 
-									int(p.bacteriaPopulation[1] * self.effectivnessR)	];
+		list<int> nbrDeleted <- [int(p.bacteriaPopulation[0] * self.effectivenessNR), 
+									int(p.bacteriaPopulation[1] * self.effectivenessR)	];
 									
 		p.bacteriaToKill[0] <- p.bacteriaToKill[0] + nbrDeleted[0];
 		p.bacteriaToKill[1] <- p.bacteriaToKill[1] + nbrDeleted[1];

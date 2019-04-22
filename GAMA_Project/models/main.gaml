@@ -67,7 +67,7 @@ global {
 	} 
 	 
 	// Stop simulation after 7 month
-	reflex stop_simulation when: current_date >= initDate + 7#month and pauseSimulation {
+	reflex stop_simulation when: current_date >= initDate + 1#year and pauseSimulation {
 		do pause ;
 	}
 }

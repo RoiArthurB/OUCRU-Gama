@@ -57,15 +57,18 @@ species Pill{
 		// Not automatic cured
 		// Depending on effectiveness of the pill usage
 		if flip( (nbrDeleted[0] + nbrDeleted[1]) /p.getTotalBacteria()){
-			p.symptoms <- cure(p.symptoms);
+			p.symptoms <- cure(p);
 		}
 	}
-	list<Symptom> cure(list<Symptom> symptoms){
+	list<Symptom> cure(People p){
+		list<Symptom> symptoms <- p.symptoms;
+		
 		// Browse self.curedSymptoms
 		loop symp over: self.curedSymptoms{
 			// del match on p.symptoms
 			if (!empty(symptoms) and (symptoms contains symp)){
 				remove symp from: symptoms;	
+				p.antibodies[int(symp)] <- 1.0;
 			}
 		}
 		return symptoms;

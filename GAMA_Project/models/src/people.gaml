@@ -107,12 +107,13 @@ species People skills:[moving] {
 	
 	// Bacterias
 	list<int> bacteriaPopulation <- [0, 0];	// [non-resitant, resistant]
+	list<float> antibodies <- [0.0, 0.0, 0.0, 0.0] update: antibodies collect( max(0.0, each - (10#mn / 7#day)) ); // pourcent // Same index than symptoms
 	
 	// Pill related
 	list<int> bacteriaToKill <- [0, 0];	// [non-resitant, resistant]
 	
 	// Pourcentage
-	// Reach 0 in 2 days
+	// Reach 0 in 2 days -> Jonathan source
 	float antibioEffect <- 0.0 update: max(0.0, self.antibioEffect - (10#mn/2#day)); // val <- [0, 1]
 		
 	/*
@@ -246,6 +247,18 @@ species People skills:[moving] {
 		if flip(0.5){
 			value <- -1;
 		}
+		/*
+		 * 
+			
+			// If bacteria to kill
+			if self.bacteriaToKill[i] != 0 {
+				int nbrKilled <- 0 - round(self.bacteriaToKill[i] * paramSpeedToKill);
+
+				if setBacteria(i, nbrKilled ) {
+					self.bacteriaToKill[i] <- self.bacteriaToKill[i] + nbrKilled;
+				}else{
+					self.bacteriaToKill[i] <- 0; // No more bacteria of type _i_
+				} */
 		
 		if self.setBacteria( self.getRandomBacteria(), value ){}
 	} 	
@@ -253,6 +266,7 @@ species People skills:[moving] {
 	reflex mutation when: flip(paramProbaMutation){
 		
 		// Chance to mutation from NR to R, or reverse
+		// Based of if self took an antibio
 		// true = NR -> R // false = R -> NR
 		list<int> mutation <- flip( self.antibioEffect ) ? [0,1] : [1,0];
 		
@@ -261,8 +275,15 @@ species People skills:[moving] {
 			if self.setBacteria(mutation[1], 1){}
 		}	
 	}
+	
 	// Pass NR Bact to R Bact
 	reflex giveSymptom when: flip(0.001) and current_hour mod 1 = 0 {
+		/*
+		Symptom s <- one_of(Symptom);
+		// If don't have enought antibodies -> Turn sick again
+		if ! flip( self.antibodies[int(s)] ){
+			add s to: self.symptoms;	
+		}*/
 		add one_of(Symptom) to: self.symptoms;
 	}
 		

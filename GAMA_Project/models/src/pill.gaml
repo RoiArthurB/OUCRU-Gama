@@ -51,7 +51,9 @@ species Pill{
 		p.bacteriaToKill[1] <- p.bacteriaToKill[1] + nbrDeleted[1];
 		
 		if self.isAntibio {
-			p.antibioEffect <- 1.0;
+			// Add overflow if too much antibiotics
+			// Don't let RBact decrease too quickly
+			p.antibioEffect <- min(1.5, 1.0 + p.antibioEffect);
 		}
 
 		// Not automatic cured

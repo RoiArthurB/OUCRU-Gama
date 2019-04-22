@@ -86,8 +86,6 @@ experiment main type: gui {
 	parameter "maximal speed" var: max_speed category: "People" max: 10 #km/#h;
 	parameter "Number of people agents" var: nb_people category: "People" ;
 	
-	parameter "[INIT %] People sick" var: initSickness category: "People" min: 0.0 max: 1.0;
-	
 	parameter "Number of Bacteria / Person" var: nbrBacteriaPerPerson category: "People";
 
 	// transmission
@@ -105,7 +103,6 @@ experiment main type: gui {
 	parameter "Sneeze Infection Area (m)" var: paramSneezeAreaInfection category: "Sick";
 	
 	// Bacteria
-	parameter "[INIT] Probability Bacteria is resistant  (%)" var: probaResistant category: "Bacteria" min: 0.0 max: 1.0;
 	parameter "[INIT] Probability to have a symptom (%)" var: paramProbaSymptom category: "Bacteria" min: 0.0 max: 0.5;
 	parameter "Probability of duplication (%)" var: paramProbaDuplication category: "Bacteria" min: 0.0 max: 0.1;
 	parameter "Probability to self mutate (%)" var: paramProbaMutation category: "Bacteria" min: 0.0 max: 0.1;

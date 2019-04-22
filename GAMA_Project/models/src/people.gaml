@@ -23,7 +23,6 @@ global {
 	 */
 	int current_hour update: (time / #hour) mod 24;
 	int nb_people <- 100;
-	float initSickness <- 0.1;
 	
 	//movement
 	float min_speed <- 1.0 #km / #h;
@@ -49,9 +48,8 @@ global {
 	
 	//bacterias
 	//=================
-	int nbrBacteriaPerPerson <- 100;
+	int nbrBacteriaPerPerson <- 40;
 
-	float probaResistant <- 0.01;
 	float paramProbaDuplication<- 0.05;
 	float paramProbaSymptom <- 0.01;
 	float paramProbaMutation <- 0.01;
@@ -81,14 +79,8 @@ global {
 			start_work <- work_start ;
 			end_work <- work_end ;
 			
-			if flip( initSickness ){
-				isSick <- true;
-			}
-			
 			// Set Bacteria population
-			loop times: nbrBacteriaPerPerson{
-				do setBacteria( int(flip(probaResistant)), 1 );
-			}
+			do setBacteria( 0, nbrBacteriaPerPerson );
 		}
 	}
 }

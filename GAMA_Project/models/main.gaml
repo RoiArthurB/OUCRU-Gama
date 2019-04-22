@@ -32,6 +32,8 @@ global {
 	
 	int sickPop update: People count each.isSick;
 	
+	bool pauseSimulation <- true;
+	
 	/**
 	 * Constant
 	 */
@@ -60,23 +62,25 @@ global {
 	}
 	
 	// Stop simulation when nbr Resistant Bacteria >= XX %
-	reflex stop_simulation when: (100*nbrBactRes)/nbrBact >= 95 {
+	reflex stop_simulation when: ((100*nbrBactRes)/nbrBact >= 95) and pauseSimulation {
 		do pause ;
 	} 
-	
+	 
 	// Stop simulation after 7 month
-	reflex stop_simulation when: current_date >= initDate + 7#month {
+	reflex stop_simulation when: current_date >= initDate + 7#month and pauseSimulation {
 		do pause ;
-	} 
+	}
 }
 
 
-experiment main type: gui {
+experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui {
 	/*
 	 * PARAMETERS
 	 */
 	parameter "Shapefile for the buildings:" var: shape_file_buildings category: "GIS" ;
 	parameter "Shapefile for the roads:" var: shape_file_roads category: "GIS" ;
+	
+	parameter "Should pause the simulation " var: pauseSimulation category: "GIS" ;
 
 	// People
 	parameter "Number of people agents" var: nb_people category: "People" ;
@@ -117,12 +121,12 @@ experiment main type: gui {
 	layout #split;
 	 
 	output {
-		display map {
+/*		display map {
 			species Building aspect:geom;
 			species Road aspect:geom;
 			
 			species People aspect:geom;
-		}
+		} */
 		display bacteria refresh:every(10#cycle) {
 			chart "Bacterias evolution" type: series {
 				data "Total Bacteria" value: nbrBact color: #blue;
@@ -134,6 +138,12 @@ experiment main type: gui {
 			chart "Dynamic population" type: series {
 				data "Number of Person sick" value: sickPop color: #red;
 				data "Number of Person non-sick" value: nb_people - sickPop color: #green;
+			}
+		}
+		display antibio refresh:every(30#cycle) {
+			chart "Dynamic anti-bacteria" type: series {
+				//data "Number of Person sick" value: sickPop color: #red;
+				data "Antibio Effect" value: People sum_of each.antibioEffect color: #red;// max: nb_people;
 			}
 		}
 		monitor "% Bacteria R / People" value: (100*nbrBactRes)/nbrBact;

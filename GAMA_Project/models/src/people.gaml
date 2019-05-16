@@ -278,13 +278,13 @@ species People skills:[moving] {
 	
 	// Pass NR Bact to R Bact
 	reflex giveSymptom when: flip(0.001) and current_hour mod 1 = 0 {
-		/*
+		
 		Symptom s <- one_of(Symptom);
 		// If don't have enought antibodies -> Turn sick again
 		if ! flip( self.antibodies[int(s)] ){
 			add s to: self.symptoms;	
-		}*/
-		add one_of(Symptom) to: self.symptoms;
+		}
+		//add one_of(Symptom) to: self.symptoms;
 	}
 		
 	/*

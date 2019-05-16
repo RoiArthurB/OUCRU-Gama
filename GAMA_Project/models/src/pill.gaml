@@ -14,12 +14,12 @@ global {
 	bool paramAntibio <- true;
 
 	action initPills{
-		create Pill number: 1 {
-			effectivenessNR <- 0.25;//rnd(0.5);
-			effectivenessR <- 0.0;
-			
-			// Effective on all symptoms
-			loop s over: Symptom{
+		// Effective on all symptoms
+		loop s over: Symptom{
+			create Pill number: 1 {
+				effectivenessNR <- 0.25;//rnd(0.5);
+				effectivenessR <- 0.0;
+				
 				add s to:curedSymptoms;
 			}
 		}

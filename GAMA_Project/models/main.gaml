@@ -104,8 +104,8 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	// Sick
 	parameter "Probability Sick Transmission (%)" var: paramProbabilitySickTransmission category: "Sick" min: 0.0 max: 0.5;
 	parameter "Time before Sick Transmission (mn)" var: paramTimeBeforeSickTransmission category: "Sick";
+	parameter "Sick Infection Area (m)" var: paramSickAreaInfection category: "Sick";
 	parameter "Probability to sneeze when sick (%)" var: paramProbabilitySneezing category: "Sick" min: 0.0 max: 0.25;
-	parameter "Sneeze Infection Area (m)" var: paramSneezeAreaInfection category: "Sick";
 	
 	// Bacteria
 	parameter "[INIT] Probability to have a symptom (%)" var: paramProbaSymptom category: "Bacteria" min: 0.0 max: 0.5;

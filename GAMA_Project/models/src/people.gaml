@@ -41,7 +41,7 @@ global {
 	float paramProbabilitySickTransmission <- 0.25;
 	float paramTimeBeforeSickTransmission <- 2#mn;
 	float paramProbabilitySneezing <- 0.01;
-	float paramSneezeAreaInfection <- 2#m;
+	float paramSickAreaInfection <- 2#m;
 	
 	float paramStayHome <- 0.5;
 	float paramSpeedToKill <- 0.01; // %
@@ -212,7 +212,7 @@ species People skills:[moving] {
 	 /*	TRANSMISSION */
 	reflex sneeze when: (self.isSick and flip(paramProbabilitySneezing)) {
 		
-		loop ppl over: agents_at_distance( paramSneezeAreaInfection ) {
+		loop ppl over: agents_at_distance( paramSickAreaInfection ) {
 			ask ppl.setBacteria( self.getRandomBacteria() ) target: People;
 		}
 		
@@ -273,7 +273,7 @@ species People skills:[moving] {
 		
 		// Lim nbrBacteriaPerPerson
 		if flip( 
-			min(0.0, (self.getTotalBacteria() - nbrBacteriaPerPerson)/nbrBacteriaPerPerson + 0.5)
+			(self.getTotalBacteria() - nbrBacteriaPerPerson)/nbrBacteriaPerPerson + 0.5
 		){
 			// Kill a bacteria
 			value <- -1;
@@ -304,7 +304,25 @@ species People skills:[moving] {
 			add s to: self.symptoms;
 		}
 	}
+	// Naturally turn sick
+	reflex giveSymptom when: isSick and current_hour mod 1 = 0 {
 		
+		Symptom s <- one_of(self.symptoms);
+		
+		list<People> peopleInZone <- getPeopleAround(paramSickAreaInfection);
+		
+		loop p over: peopleInZone {
+			if (
+				flip( paramProbabilitySickTransmission )
+				and !flip( p.antibodies[int(s)] ) and !(p.symptoms contains s)
+			){
+				add s to: p.symptoms;
+			}
+		}
+		
+	}
+		
+
 	/*
 	 * Display
 	 */

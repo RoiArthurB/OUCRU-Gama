@@ -12,6 +12,7 @@ import "src/pill.gaml"
 import "src/building.gaml"
 import "src/road.gaml"
 import "src/people.gaml"
+import "src/pill.gaml"
 
 global {
 	/** 
@@ -113,7 +114,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	
 	// Pills
 	parameter "Pourcent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" min: 0.0 max: 1.0;
-	parameter "Solo pick is antibio" var: paramAntibio category: "Pill";
+	parameter "Solo pick is antibio" var: paramAntibio category: "Pill" init: true;
 
 	/*
 	 * Display

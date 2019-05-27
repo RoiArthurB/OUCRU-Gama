@@ -11,7 +11,7 @@ import "people.gaml"
 
 global {
 
-	bool paramAntibio <- true;
+	bool paramAntibio;
 
 	action initPills{
 		// Effective on all symptoms
@@ -19,7 +19,7 @@ global {
 			// No magick pill for general sickness
 			if s.name != "Sick" {
 				create Pill number: 1 {
-					effectivenessNR <- self.isAntibio ? 0.01 /* rnd(0.5) */: 0.0;
+					effectivenessNR <- paramAntibio ? 0.01 /* rnd(0.5) */: 0.0;
 					effectivenessR <- 0.0;
 					
 					add s to:curedSymptoms;
@@ -29,12 +29,7 @@ global {
 	}
 }
 
-species Pill{
-	/*
-	 * VAR
-	 */
-	bool isAntibio <- paramAntibio;
-	
+species Pill{	
 	// Non-Resistant
 	float effectivenessNR; // %
 	// Resistant
@@ -53,7 +48,7 @@ species Pill{
 		p.bacteriaToKill[0] <- p.bacteriaToKill[0] + nbrDeleted[0];
 		p.bacteriaToKill[1] <- p.bacteriaToKill[1] + nbrDeleted[1];
 		
-		if self.isAntibio {
+		if paramAntibio {
 			// Add overflow if too much antibiotics
 			// Don't let RBact decrease too quickly
 			p.antibioEffect <- min(1.5, 1.0 + p.antibioEffect);

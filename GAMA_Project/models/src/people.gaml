@@ -259,22 +259,12 @@ species People skills:[moving] {
 	 */ 	
 	reflex duplication /*when: flip(paramProbaDuplication)*/ {
 		int value <- 1;
-		// Probability for a bacteria to die
-		if flip(0.5){
+		
+		// Lim nbrBacteriaPerPerson
+		if flip( (self.getTotalBacteria() - nbrBacteriaPerPerson)/nbrBacteriaPerPerson + 0.5 ){
+			// Kill a bacteria
 			value <- -1;
 		}
-		/*
-		 * 
-			
-			// If bacteria to kill
-			if self.bacteriaToKill[i] != 0 {
-				int nbrKilled <- 0 - round(self.bacteriaToKill[i] * paramSpeedToKill);
-
-				if setBacteria(i, nbrKilled ) {
-					self.bacteriaToKill[i] <- self.bacteriaToKill[i] + nbrKilled;
-				}else{
-					self.bacteriaToKill[i] <- 0; // No more bacteria of type _i_
-				} */
 		
 		if self.setBacteria( self.getRandomBacteria(), value ){}
 	} 	

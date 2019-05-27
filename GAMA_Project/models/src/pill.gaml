@@ -16,11 +16,14 @@ global {
 	action initPills{
 		// Effective on all symptoms
 		loop s over: Symptom{
-			create Pill number: 1 {
-				effectivenessNR <- self.isAntibio ? 0.01 /* rnd(0.5) */: 0.0;
-				effectivenessR <- 0.0;
-				
-				add s to:curedSymptoms;
+			// No magick pill for general sickness
+			if s.name != "Sick" {
+				create Pill number: 1 {
+					effectivenessNR <- self.isAntibio ? 0.01 /* rnd(0.5) */: 0.0;
+					effectivenessR <- 0.0;
+					
+					add s to:curedSymptoms;
+				}	
 			}
 		}
 	}

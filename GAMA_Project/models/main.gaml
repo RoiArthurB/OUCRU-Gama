@@ -90,7 +90,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	parameter "maximal speed" var: max_speed category: "People" max: 10 #km/#h;
 	parameter "Number of people agents" var: nb_people category: "People" ;
 	
-	parameter "Number of Bacteria / Person" var: nbrBacteriaPerPerson category: "People";
+	parameter "Number of Bacteria / Person" var: nbrBacteriaPerPerson category: "People" init: 1000000;
 
 	// transmission
 	parameter "Breath Infection Area (m)" var: paramBreathAreaInfection category: "Transmission";

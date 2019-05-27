@@ -154,6 +154,29 @@ species People skills:[moving] {
 	int getRandomBacteria {		
 		return int( flip( self.bacteriaPopulation[1]/self.getTotalBacteria(true) ) );
 	}
+	
+	list<People> getPeopleAround(float distance){
+		list<People> peopleInZone <- People at_distance distance;
+		
+		// Remove people if not in the same building
+		if self.the_target = nil { // check if is moving or not
+			loop p over: peopleInZone{
+				
+				if self.objective = "resting" { // If at home
+					if p.living_place != self.living_place{
+						remove p from: peopleInZone;
+					}
+				}else{ // If at school
+					if p.school != self.school{
+						remove p from: peopleInZone;
+					}
+				}
+				
+			}
+		}	// End list definition
+		
+		return peopleInZone;
+	}
 	 
 	/*
 	 * Reflexes
@@ -196,27 +219,10 @@ species People skills:[moving] {
 	}
 	
 	// Breath transmission
-	reflex transmission
+	reflex breathBacteriaTransmission
 	when: current_hour mod (5 #mn) = 0  { // Every 5 minutes
 		
-		list<People> peopleInZone <- People at_distance paramBreathAreaInfection;
-		
-		// Remove people if not in the same building
-		if self.the_target = nil { // check if is moving or not
-			loop p over: peopleInZone{
-				
-				if self.objective = "resting" { // If at home
-					if p.living_place != self.living_place{
-						remove p from: peopleInZone;
-					}
-				}else{ // If at school
-					if p.school != self.school{
-						remove p from: peopleInZone;
-					}
-				}
-				
-			}
-		}	// End list definition
+		list<People> peopleInZone <- getPeopleAround(paramBreathAreaInfection);
 		
 		loop p over: peopleInZone {
 			// Get probability depending if sick

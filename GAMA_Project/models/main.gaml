@@ -45,12 +45,12 @@ global {
 		do initBuilding();
 		do initRoad();
 		
-		/* Primary Agents */
-		do initPeople();
-		
 		/* Secondary Agents */
 		do initSymptoms();
 		do initPills();
+		
+		/* Primary Agents */
+		do initPeople();
 	}
 	reflex graphUpdate {
 		nbrBact <- People sum_of each.getTotalBacteria();
@@ -91,7 +91,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	parameter "maximal speed" var: max_speed category: "People" max: 10 #km/#h;
 	parameter "Number of people agents" var: nb_people category: "People" ;
 	
-	parameter "Number of Bacteria / Person" var: nbrBacteriaPerPerson category: "People" init: 1000000;
+	parameter "Number of Bacteria / Person" var: nbrBacteriaPerPerson category: "People" init: 1000;
 
 	// transmission
 	parameter "Breath Infection Area (m)" var: paramBreathAreaInfection category: "Transmission";
@@ -132,8 +132,8 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 			chart "Bacterias evolution" type: series {
 				data "Total Bacteria" value: nbrBact color: #blue;
 				if paramAntibio {
-					data "Total Resistant Bacteria" value: nbrBactRes color: #red;
 					data "Total Non-Resistant Bacteria" value: nbrBact - nbrBactRes color: #green;	
+					data "Total Resistant Bacteria" value: nbrBactRes color: #red;
 				}
 			}
 		}

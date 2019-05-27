@@ -190,9 +190,8 @@ species People skills:[moving] {
 	}
 	
 	// Breath transmission
-	reflex transmission 
-	// Every 5 minutes
-	when: current_hour mod (5 #mn) = 0  {
+	reflex transmission
+	when: current_hour mod (5 #mn) = 0  { // Every 5 minutes
 		
 		list<People> peopleInZone <- People at_distance paramBreathAreaInfection;
 		
@@ -228,7 +227,7 @@ species People skills:[moving] {
 	}
 	
 	/* HEAL */
-	reflex takePill when: isSick and current_hour = 20 /*and flip(0.5)*/ {
+	reflex takePill when: isSick and current_hour = 12 /*and flip(0.5)*/ {
 		Pill p <- one_of(Pill);
 		ask p.use( self );
 	}
@@ -261,7 +260,9 @@ species People skills:[moving] {
 		int value <- 1;
 		
 		// Lim nbrBacteriaPerPerson
-		if flip( (self.getTotalBacteria() - nbrBacteriaPerPerson)/nbrBacteriaPerPerson + 0.5 ){
+		if flip( 
+			min(0.0, (self.getTotalBacteria() - nbrBacteriaPerPerson)/nbrBacteriaPerPerson + 0.5)
+		){
 			// Kill a bacteria
 			value <- -1;
 		}
@@ -282,13 +283,13 @@ species People skills:[moving] {
 		}	
 	}
 	
-	// Pass NR Bact to R Bact
-	reflex giveSymptom when: flip(0.00001) and current_hour mod 1 = 0 {
+	// Naturally turn sick
+	reflex getNaturalSymptom when: flip(0.00001) and current_hour mod 1 = 0 {
 		
 		Symptom s <- one_of(Symptom);
 		// If don't have enought antibodies -> Turn sick again
-		if ! flip( self.antibodies[int(s)] ){
-			add s to: self.symptoms;	
+		if ( !flip( self.antibodies[int(s)] ) and !(self.symptoms contains s) ){
+			add s to: self.symptoms;
 		}
 	}
 		

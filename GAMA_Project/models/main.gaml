@@ -130,14 +130,16 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 		display bacteria refresh:every(10#cycle) {
 			chart "Bacterias evolution" type: series {
 				data "Total Bacteria" value: nbrBact color: #blue;
-				data "Total Resistant Bacteria" value: nbrBactRes color: #red;
-				data "Total Non-Resistant Bacteria" value: nbrBact - nbrBactRes color: #green;
+				if paramAntibio {
+					data "Total Resistant Bacteria" value: nbrBactRes color: #red;
+					data "Total Non-Resistant Bacteria" value: nbrBact - nbrBactRes color: #green;	
+				}
 			}
 		}
 		display population refresh:every(10#cycle) {
 			chart "Dynamic population" type: series {
 				data "Number of Person sick" value: sickPop color: #red;
-				data "Number of Person non-sick" value: nb_people - sickPop color: #green;
+				//data "Number of Person non-sick" value: nb_people - sickPop color: #green;
 			}
 		}
 		display antibio refresh:every(30#cycle) {

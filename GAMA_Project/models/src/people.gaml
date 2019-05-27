@@ -186,7 +186,9 @@ species People skills:[moving] {
 	}
 	
 	// Breath transmission
-	reflex transmission /* when: current_hour mod (5 #mn) = 0 */ {
+	reflex transmission 
+	// Every 5 minutes
+	when: current_hour mod (5 #mn) = 0  {
 		
 		list<People> peopleInZone <- People at_distance paramBreathAreaInfection;
 		
@@ -222,7 +224,7 @@ species People skills:[moving] {
 	}
 	
 	/* HEAL */
-	reflex takePill when: isSick and current_hour = 20 {
+	reflex takePill when: isSick and current_hour = 20 /*and flip(0.5)*/ {
 		Pill p <- one_of(Pill);
 		ask p.use( self );
 	}
@@ -241,7 +243,7 @@ species People skills:[moving] {
 	/*
 	 * Bacteria
 	 */ 	
-	reflex duplication {//when: flip(paramProbaDuplication){
+	reflex duplication /*when: flip(paramProbaDuplication)*/ {
 		int value <- 1;
 		// Probability for a bacteria to die
 		if flip(0.5){

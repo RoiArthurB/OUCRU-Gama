@@ -107,7 +107,11 @@ species People skills:[moving] {
 	
 	// Bacterias
 	list<int> bacteriaPopulation <- [0, 0];	// [non-resitant, resistant]
-	list<float> antibodies <- [0.0, 0.0, 0.0, 0.0] update: antibodies collect( max(0.0, each - (10#mn / 7#day)) ); // pourcent // Same index than symptoms
+	list<float> antibodies <- [0.0, 0.0, 0.0, 0.0] 
+		update: antibodies collect( isSick ? 
+										min(1.0, each + (10#mn / 7#day))
+										: max(0.0, each - (10#mn / 7#day))
+								); // pourcent // Same index than symptoms
 	
 	// Pill related
 	list<int> bacteriaToKill <- [0, 0];	// [non-resitant, resistant]
@@ -228,10 +232,20 @@ species People skills:[moving] {
 		Pill p <- one_of(Pill);
 		ask p.use( self );
 	}
+
+	reflex antiBodiesHealing when: isSick and current_hour = 20 {
+		float delta <- 0.25; // Difficulty to heal
+		
+		loop i from: 0 to: length(antibodies)-1 {
+			if flip( antibodies[i]-delta ){
+				remove item: Symptom[i] from: self.symptoms;
+			}
+		}
+	} 	
 	
 	// Kill slowly bacterias
-	reflex pillEffect {
-		loop i from: 0 to: 1 {
+	reflex pillEffect when: antibioEffect != 0 {
+		loop i from: 0 to: length(bacteriaPopulation)-1 {
 			int nbrKilled <- round(self.bacteriaToKill[i] * paramSpeedToKill);
 			
 			if setBacteria(i, - nbrKilled ) {

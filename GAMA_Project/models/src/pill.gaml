@@ -17,7 +17,7 @@ global {
 		// Effective on all symptoms
 		loop s over: Symptom{
 			create Pill number: 1 {
-				effectivenessNR <- 0.25;//rnd(0.5);
+				effectivenessNR <- self.isAntibio ? 0.01 /* rnd(0.5) */: 0.0;
 				effectivenessR <- 0.0;
 				
 				add s to:curedSymptoms;

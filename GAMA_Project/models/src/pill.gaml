@@ -31,8 +31,6 @@ global {
 species Pill{	
 	// Non-Resistant
 	float effectivenessNR; // %
-	// Resistant
-	float effectivenessR; // %
 	
 	list<Symptom> curedSymptoms;
 	

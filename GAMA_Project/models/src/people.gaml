@@ -107,11 +107,17 @@ species People skills:[moving] {
 	
 	// Bacterias
 	list<int> bacteriaPopulation <- [0, 0];	// [non-resitant, resistant]
-	list<float> antibodies <- [0.0, 0.0, 0.0, 0.0] 
-		update: antibodies collect( isSick ? 
-										min(1.0, each + (10#mn / 7#day))
-										: max(0.0, each - (10#mn / 7#day))
-								); // pourcent // Same index than symptoms
+	list<float> antibodies <- [0.0, 0.0, 0.0, 0.0]; // Same index than symptoms
+	reflex antibodiesUpdate {
+		loop i from: 0 to: length(self.antibodies)-1 {
+			if self.symptoms contains Symptom[int(i)] {
+				self.antibodies[i] <- min(1.0, self.antibodies[i] + (10#mn / 7#day));
+			}
+			else {
+				self.antibodies[i] <- max(0.0, self.antibodies[i] - (10#mn / 7#day));
+			}
+		}
+	}
 	
 	// Pill related
 	list<int> bacteriaToKill <- [0, 0];	// [non-resitant, resistant]

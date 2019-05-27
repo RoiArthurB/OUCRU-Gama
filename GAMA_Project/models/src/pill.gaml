@@ -20,7 +20,6 @@ global {
 			if s.name != "Sick" {
 				create Pill number: 1 {
 					effectivenessNR <- paramAntibio ? 0.01 /* rnd(0.5) */: 0.0;
-					effectivenessR <- 0.0;
 					
 					add s to:curedSymptoms;
 				}	
@@ -42,11 +41,9 @@ species Pill{
 	 */
 	action use(People p){
 		
-		list<int> nbrDeleted <- [int(p.bacteriaPopulation[0] * self.effectivenessNR), 
-									int(p.bacteriaPopulation[1] * self.effectivenessR)	];
+		int nbrDeleted <- int(p.bacteriaPopulation[0] * self.effectivenessNR);
 									
-		p.bacteriaToKill[0] <- p.bacteriaToKill[0] + nbrDeleted[0];
-		p.bacteriaToKill[1] <- p.bacteriaToKill[1] + nbrDeleted[1];
+		p.bacteriaToKill[0] <- p.bacteriaToKill[0] + nbrDeleted;
 		
 		if paramAntibio {
 			// Add overflow if too much antibiotics
@@ -56,7 +53,7 @@ species Pill{
 
 		// Not automatic cured
 		// Depending on effectiveness of the pill usage
-		if flip( (nbrDeleted[0] + nbrDeleted[1]) /p.getTotalBacteria()){
+		if flip( nbrDeleted/p.getTotalBacteria()){
 			p.symptoms <- cure(p);
 		}
 	}

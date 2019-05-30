@@ -111,10 +111,10 @@ species People skills:[moving] {
 	reflex antibodiesUpdate {
 		loop i from: 0 to: length(self.antibodies)-1 {
 			if self.symptoms contains Symptom[int(i)] {
-				self.antibodies[i] <- min(1.0, self.antibodies[i] + (10#mn / 7#day));
+				self.antibodies[i] <- min(1.0, self.antibodies[i] + (step / 7#day));
 			}
 			else {
-				self.antibodies[i] <- max(0.0, self.antibodies[i] - (10#mn / 7#day));
+				self.antibodies[i] <- max(0.0, self.antibodies[i] - (step / 7#day));
 			}
 		}
 	}
@@ -124,7 +124,7 @@ species People skills:[moving] {
 	
 	// Pourcentage
 	// Reach 0 in 2 days -> Jonathan source
-	float antibioEffect <- 0.0 update: max(0.0, self.antibioEffect - (10#mn/2#day)); // val <- [0, 1]
+	float antibioEffect <- 0.0 update: max(0.0, self.antibioEffect - (step/2#day)); // val <- [0, 1]
 		
 	/*
 	 * Actions

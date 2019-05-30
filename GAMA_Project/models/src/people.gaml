@@ -33,26 +33,26 @@ global {
 	
 	// Transmission
 // NEED SCIENTIFIC PARAMETERS
-	float paramBreathAreaInfection <- 2#m;
+	float paramBreathAreaInfection;
 	
-	float paramProbabilityNaturalTransmission <- 0.15;
-	float paramTimeBeforeNaturalTransmission <- 10 #mn;
+	float paramProbabilityNaturalTransmission;
+	float paramTimeBeforeNaturalTransmission;
 	
-	float paramProbabilitySickTransmission <- 0.25;
-	float paramTimeBeforeSickTransmission <- 2#mn;
-	float paramProbabilitySneezing <- 0.01;
-	float paramSickAreaInfection <- 2#m;
+	float paramProbabilitySickTransmission;
+	float paramTimeBeforeSickTransmission;
+	float paramProbabilitySneezing;
+	float paramSickAreaInfection;
 	
-	float paramStayHome <- 0.5;
-	float paramSpeedToKill <- 0.01; // %
+	float paramStayHome;
+	float paramSpeedToKill; // %
 	
 	//bacterias
 	//=================
 	int nbrBacteriaPerPerson <- 40;
 
-	float paramProbaDuplication<- 0.05;
-	float paramProbaSymptom <- 0.01;
-	float paramProbaMutation <- 0.01;
+	float paramProbaSymptom;
+	float paramProbaDuplication;
+	float paramProbaMutation;
 	
 	/*
 	 * INIT

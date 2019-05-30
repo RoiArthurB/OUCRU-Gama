@@ -94,26 +94,26 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	parameter "Number of Bacteria / Person" var: nbrBacteriaPerPerson category: "People" init: 1000;
 
 	// transmission
-	parameter "Breath Infection Area (m)" var: paramBreathAreaInfection category: "Transmission";
+	parameter "Breath Infection Area (m)" var: paramBreathAreaInfection category: "Transmission" init: 2#m;
 	
-	parameter "Probability Natural Transmission (%)" var: paramProbabilityNaturalTransmission category: "Transmission" min: 0.0 max: 0.5;
-	parameter "Time before Natural Transmission (mn)" var: paramTimeBeforeNaturalTransmission category: "Transmission";
+	parameter "Probability Natural Transmission (%)" var: paramProbabilityNaturalTransmission category: "Transmission" init: 0.15 min: 0.0 max: 1.0;
+	parameter "Time before Natural Transmission (mn)" var: paramTimeBeforeNaturalTransmission category: "Transmission" init: 10#mn;
 	
-	parameter "Probability to stay at home when sick (%)" var: paramStayHome category: "Transmission" min: 0.0 max: 1.0;
+	parameter "Probability to stay at home when sick (%)" var: paramStayHome category: "Transmission" init: 0.5 min: 0.0 max: 1.0;
 	
 	// Sick
-	parameter "Probability Sick Transmission (%)" var: paramProbabilitySickTransmission category: "Sick" min: 0.0 max: 0.5;
-	parameter "Time before Sick Transmission (mn)" var: paramTimeBeforeSickTransmission category: "Sick";
-	parameter "Sick Infection Area (m)" var: paramSickAreaInfection category: "Sick";
-	parameter "Probability to sneeze when sick (%)" var: paramProbabilitySneezing category: "Sick" min: 0.0 max: 0.25;
+	parameter "Probability Sick Transmission (%)" var: paramProbabilitySickTransmission category: "Sick" init: 0.25 min: 0.0 max: 1.0;
+	parameter "Time before Sick Transmission (mn)" var: paramTimeBeforeSickTransmission category: "Sick" init: 2#mn;
+	parameter "Probability to sneeze when sick (%)" var: paramProbabilitySneezing category: "Sick" init: 0.01 min: 0.0 max: 1.0;
+	parameter "Sick Infection Area (m)" var: paramSickAreaInfection category: "Sick" init: 2#m;
 	
 	// Bacteria
-	parameter "[INIT] Probability to have a symptom (%)" var: paramProbaSymptom category: "Bacteria" min: 0.0 max: 0.5;
-	parameter "Probability of duplication (%)" var: paramProbaDuplication category: "Bacteria" min: 0.0 max: 0.1;
-	parameter "Probability to self mutate (%)" var: paramProbaMutation category: "Bacteria" min: 0.0 max: 0.1;
+	parameter "[INIT] Probability to have a symptom (%)" var: paramProbaSymptom category: "Bacteria" init: 0.01 min: 0.0 max: 1.0;
+	parameter "Probability of duplication (%)" var: paramProbaDuplication category: "Bacteria" init: 0.05 min: 0.0 max: 1.0;
+	parameter "Probability to self mutate (%)" var: paramProbaMutation category: "Bacteria" init: 0.01 min: 0.0 max: 1.0;
 	
 	// Pills
-	parameter "Pourcent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" min: 0.0 max: 1.0;
+	parameter "Pourcent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" init: 0.01 min: 0.0 max: 1.0;
 	parameter "Solo pick is antibio" var: paramAntibio category: "Pill" init: 1.0 min: 0.0 max: 1.0;
 
 	/*

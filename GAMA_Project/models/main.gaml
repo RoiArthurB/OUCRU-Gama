@@ -114,7 +114,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	
 	// Pills
 	parameter "Pourcent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" min: 0.0 max: 1.0;
-	parameter "Solo pick is antibio" var: paramAntibio category: "Pill" init: true;
+	parameter "Solo pick is antibio" var: paramAntibio category: "Pill" init: 1.0 min: 0.0 max: 1.0;
 
 	/*
 	 * Display
@@ -131,7 +131,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 		display bacteria refresh:every(10#cycle) {
 			chart "Bacterias evolution" type: series {
 				data "Total Bacteria" value: nbrBact color: #blue;
-				if paramAntibio {
+				if flip(paramAntibio) {
 					data "Total Non-Resistant Bacteria" value: nbrBact - nbrBactRes color: #green;	
 					data "Total Resistant Bacteria" value: nbrBactRes color: #red;
 				}

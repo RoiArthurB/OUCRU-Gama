@@ -307,19 +307,23 @@ species People skills:[moving] {
 	// Naturally turn sick
 	reflex giveSymptom when: isSick and current_hour mod 1 = 0 {
 		
-		Symptom s <- one_of(self.symptoms);
-		
-		list<People> peopleInZone <- getPeopleAround(paramSickAreaInfection);
-		
-		loop p over: peopleInZone {
-			if (
-				flip( paramProbabilitySickTransmission )
-				and !flip( p.antibodies[int(s)] ) and !(p.symptoms contains s)
-			){
-				add s to: p.symptoms;
+		if ( length(self.symptoms) != 0 ){
+
+			Symptom s <- one_of(self.symptoms);
+			
+			list<People> peopleInZone <- getPeopleAround(paramSickAreaInfection);
+			
+			loop p over: peopleInZone {
+				if (
+					flip( paramProbabilitySickTransmission )
+					and !flip( p.antibodies[int(s)] ) and !(p.symptoms contains s)
+				){
+					add s to: p.symptoms;
+				}
 			}
+			
 		}
-		
+
 	}
 		
 

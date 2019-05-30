@@ -271,7 +271,7 @@ species People skills:[moving] {
 	reflex duplication /*when: flip(paramProbaDuplication)*/ {
 		int value <- 1;
 		
-		// Lim nbrBacteriaPerPerson
+		// Lim -> nbrBacteriaPerPerson
 		if flip( 
 			(self.getTotalBacteria() - nbrBacteriaPerPerson)/nbrBacteriaPerPerson + 0.5
 		){
@@ -304,7 +304,7 @@ species People skills:[moving] {
 			add s to: self.symptoms;
 		}
 	}
-	// Naturally turn sick
+	// Turn someone else sick
 	reflex giveSymptom when: isSick and current_hour mod 1 = 0 {
 		
 		if ( length(self.symptoms) != 0 ){

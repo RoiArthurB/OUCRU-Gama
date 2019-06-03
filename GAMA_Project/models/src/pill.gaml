@@ -46,7 +46,7 @@ species Pill{
 		if flip(paramAntibio) {
 			// Add overflow if too much antibiotics
 			// Don't let RBact decrease too quickly
-			p.antibioEffect <- min(1.5, 1.0 + p.antibioEffect);
+			p.antibioEffect <- 1.0 + p.antibioEffect;//min(1.5, 1.0 + p.antibioEffect);
 		}
 
 		// Not automatic cured

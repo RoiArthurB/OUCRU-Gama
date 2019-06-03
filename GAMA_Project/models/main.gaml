@@ -131,7 +131,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 		display bacteria refresh:every(10#cycle) {
 			chart "Bacterias evolution" type: series {
 				data "Total Bacteria" value: nbrBact color: #blue;
-				if paramAntibio = 0 {
+				if paramAntibio != 0 {
 					data "Total Non-Resistant Bacteria" value: nbrBact - nbrBactRes color: #green;	
 					data "Total Resistant Bacteria" value: nbrBactRes color: #red;
 				}

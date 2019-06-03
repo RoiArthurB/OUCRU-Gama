@@ -109,7 +109,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	
 	// Bacteria
 	parameter "[INIT] Probability to have a symptom (%)" var: paramProbaSymptom category: "Bacteria" init: 0.01 min: 0.0 max: 1.0;
-	parameter "Probability of duplication (%)" var: paramProbaDuplication category: "Bacteria" init: 0.05 min: 0.0 max: 1.0;
+	//parameter "Probability of duplication (%)" var: paramProbaDuplication category: "Bacteria" init: 0.05 min: 0.0 max: 1.0;
 	parameter "Probability to self mutate (%)" var: paramProbaMutation category: "Bacteria" init: 0.01 min: 0.0 max: 1.0;
 	
 	// Pills
@@ -119,7 +119,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	/*
 	 * Display
 	 */
-	layout #split;
+	//layout #split;
 	 
 	output {
 /*		display map {
@@ -131,7 +131,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 		display bacteria refresh:every(10#cycle) {
 			chart "Bacterias evolution" type: series {
 				data "Total Bacteria" value: nbrBact color: #blue;
-				if flip(paramAntibio) {
+				if paramAntibio = 0 {
 					data "Total Non-Resistant Bacteria" value: nbrBact - nbrBactRes color: #green;	
 					data "Total Resistant Bacteria" value: nbrBactRes color: #red;
 				}

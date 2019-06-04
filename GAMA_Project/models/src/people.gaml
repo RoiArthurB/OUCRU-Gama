@@ -210,11 +210,13 @@ species People skills:[moving] {
 	}
 	
 	 /*	TRANSMISSION */
-	reflex sneeze when: (self.isSick and flip(paramProbabilitySneezing)) {
+	reflex sneeze when: self.isSick and flip(paramProbabilitySneezing) {
 		
-		loop ppl over: agents_at_distance( paramSickAreaInfection ) {
-			ask ppl.setBacteria( self.getRandomBacteria() ) target: People;
-		}
+		//if(self.symptoms contains Symptom(0) or self.symptoms contains Symptom(1)){
+			loop ppl over: agents_at_distance( paramSickAreaInfection ) {
+				ask ppl.setBacteria( self.getRandomBacteria() ) target: People;
+			}
+		//}
 		
 	}
 	

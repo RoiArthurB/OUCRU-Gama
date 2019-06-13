@@ -104,7 +104,7 @@ species People skills:[moving] {
 	/*
 	 * Variables
 	 */
-	rgb color update: isSick ? #red : #yellow ;
+	rgb color update: isVaccinate ? #purple : (isSick ? #red : #yellow) ;
 	
 	// Movement
 	Building living_place <- nil ;
@@ -116,6 +116,7 @@ species People skills:[moving] {
 	int age;
 	bool sex;
 	bool isSick <- false update: length(self.symptoms) != 0; // Sick if have symptoms
+	bool isVaccinate <- false;
 	list<Symptom> symptoms;
 	
 	// Bacterias
@@ -330,7 +331,7 @@ species People skills:[moving] {
 	}
 	
 	// Naturally turn sick
-	reflex getNaturalSymptom when: flip(0.00001) and current_hour mod 1 = 0 {
+	reflex getNaturalSymptom when: flip(0.0001) /*flip(0.00001) and current_hour mod 1 = 0*/ and !isVaccinate  {
 		
 		Symptom s <- one_of(Symptom);
 		// If don't have enought antibodies -> Turn sick again
@@ -351,6 +352,7 @@ species People skills:[moving] {
 				if (
 					flip( paramProbabilitySickTransmission )
 					and !flip( p.antibodies[int(s)] ) and !(p.symptoms contains s)
+					and !p.isVaccinate
 				){
 					add s to: p.symptoms;
 				}

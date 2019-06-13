@@ -229,6 +229,11 @@ species People skills:[moving] {
 			match 0 { //"Hospital" {
 				objective <- "healthCare" ;
 				the_target <- any_location_in ( one_of(Building where (each.type="Hospital")) ); 
+				
+				// If more than 1 symptom
+				if( length(self.symptoms) > 1 ){
+					self.isVaccinate <- true;
+				}
 			}
 			match 1 { //"Doctor" {
 				objective <- "healthCare" ;

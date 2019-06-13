@@ -75,12 +75,27 @@ global {
 			objective <- "resting";
 			location <- any_location_in ( living_place );
 			
-			// Daily Routine
-			start_work <- work_start ;
-			end_work <- work_end ;
+			// Set Bacteria population
+			do setBacteria( 0, nbrBacteriaPerPerson );
+		}
+		
+		// Sick
+		create People number: 1 {
+			/*
+			 * Init Agent
+			 */
+			// Static
+			living_place <- one_of (residential_buildings);
+			school <- one_of(listSchools) ;
+			
+			// Moving skill
+			speed <- min_speed  + rnd (max_speed - min_speed) ;
+			objective <- "resting";
+			location <- any_location_in ( living_place );
 			
 			// Set Bacteria population
 			do setBacteria( 0, nbrBacteriaPerPerson );
+			add one_of(Symptom) to: symptoms;
 		}
 	}
 }
@@ -94,8 +109,6 @@ species People skills:[moving] {
 	// Movement
 	Building living_place <- nil ;
 	Building school <- nil ;
-	int start_work ;
-	int end_work  ;
 	string objective ; 
 	point the_target <- nil ;
 	
@@ -190,9 +203,15 @@ species People skills:[moving] {
 		}
 	}
 	
-	 /*	DAILY ROUTINE */
+	 /*	DAILY ROUTINE */	
 	// current_hour's define in main.gaml
-	reflex time_to_work when: (current_hour = start_work and objective = "resting") {
+	reflex time_to_go_home when: (current_hour = work_end and (objective = "working" or objective = "healthCare")) {
+		objective <- "resting" ;
+		the_target <- any_location_in (living_place); 
+	}
+	
+	// current_hour's define in main.gaml
+	reflex time_to_work when: (current_hour = work_start and objective = "resting") {
 		
 		// If self.isSick
 		// -> Proba to not go to school
@@ -202,11 +221,24 @@ species People skills:[moving] {
 		}
 		
 	}
-		
-	// current_hour's define in main.gaml
-	reflex time_to_go_home when: (current_hour = end_work and objective = "working") {
-		objective <- "resting" ;
-		the_target <- any_location_in (living_place); 
+	
+	// HealthCare
+	reflex goToHealthCare when: (current_hour = work_start and objective = "resting") {
+		switch rnd(3) {
+			match 0 { //"Hospital" {
+				objective <- "healthCare" ;
+				the_target <- any_location_in ( one_of(Building where (each.type="Hospital")) ); 
+			}
+			match 1 { //"Doctor" {
+				objective <- "healthCare" ;
+				the_target <- any_location_in ( one_of(Building where (each.type="Doctor")) );
+			}
+			match 2 { //"Pharmacy" {
+				objective <- "healthCare" ;
+				the_target <- any_location_in ( one_of(Building where (each.type="Pharmacy")) );
+			}
+			match 3 {} //"AutoMedication" {}
+		}
 	}
 	
 	 /*	TRANSMISSION */

@@ -117,7 +117,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 
 	// Command
 	user_command "New school vaccination" category: "Pill"{
-		ask one_of(Building where (each.type="School")).vaccination();
+		ask one_of(Building where (each.type="School" and !each.vaccinate)).vaccination();
     }
 
 	/*

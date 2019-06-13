@@ -207,8 +207,14 @@ species People skills:[moving] {
 	 /*	DAILY ROUTINE */	
 	// current_hour's define in main.gaml
 	reflex time_to_go_home when: (current_hour = work_end and (objective = "working" or objective = "healthCare")) {
+		
+		// Vaccination before leaving
+		if ( objective = "working" and school.vaccinate ){
+			self.isVaccinate <- true;
+		}
+		
 		objective <- "resting" ;
-		the_target <- any_location_in (living_place); 
+		the_target <- any_location_in (living_place);
 	}
 	
 	// current_hour's define in main.gaml

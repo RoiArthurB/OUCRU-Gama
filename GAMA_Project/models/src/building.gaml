@@ -35,15 +35,22 @@ species Building {
 	string type;
 	rgb color <- #gray  ;
 	
+	string iconPath <- "";
+	
+	bool vaccinate <- false;
+	
 	/*
 	 * Display
 	 */
 	aspect geom {
 		draw shape color: color;
+		draw image_file(iconPath) at: self.location size: 50;
 	}
 	
-	action vaccination{
-		write("cot");
+	action vaccination {
 		write(self);
+		
+		vaccinate <- true;
+		iconPath <- "../../includes/syringe.png";
 	}
 }

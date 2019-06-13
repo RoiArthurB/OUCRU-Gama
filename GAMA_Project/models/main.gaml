@@ -115,6 +115,11 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	parameter "Pourcent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" init: 0.01 min: 0.0 max: 1.0;
 	parameter "Solo pick is antibio" var: paramAntibio category: "Pill" init: 1.0 min: 0.0 max: 1.0;
 
+	// Command
+	user_command "New school vaccination" category: "Pill"{
+		ask one_of(Building where (each.type="School")).vaccination();
+    }
+
 	/*
 	 * Display
 	 */

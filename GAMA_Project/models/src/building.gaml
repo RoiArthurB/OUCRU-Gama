@@ -41,4 +41,9 @@ species Building {
 	aspect geom {
 		draw shape color: color;
 	}
+	
+	action vaccination{
+		write("cot");
+		write(self);
+	}
 }

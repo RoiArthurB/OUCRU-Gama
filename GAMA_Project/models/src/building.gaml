@@ -18,9 +18,12 @@ global {
 	 */
 	action initBuilding {
 		create Building from: shape_file_buildings with: [type::string(read ("NATURE"))] {
-			if type="School" {
-				color <- #blue ;
-			}	
+			switch type{
+				match "School" { color <- #blue ; }
+				match "Hospital" { color <- #orange; }
+				match "Doctor" { color <- #green; }
+				match "Pharmacy" { color <- #lightgreen; }
+			}
 		}
 	}
 }

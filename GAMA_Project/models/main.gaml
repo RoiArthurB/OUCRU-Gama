@@ -25,13 +25,11 @@ global {
 	/*
 	 * GRAPH
 	 */	
-	int nbrBact <- nbrBacteriaPerPerson * nb_people update: People sum_of each.getTotalBacteria();
-	int nbrBactRes update: People sum_of each.bacteriaPopulation[1];
+	int nbrBact; int nbrBactRes;
 	
-	float avgBactPop <- float(nbrBacteriaPerPerson) update: nbrBact / nb_people;
-	float avgResBactPop update: nbrBactRes / nb_people; 
+	float avgBactPop; float avgResBactPop; 
 	
-	int sickPop update: People count each.isSick;
+	int sickPop; int vaccinatePop;
 	
 	bool pauseSimulation <- true;
 	

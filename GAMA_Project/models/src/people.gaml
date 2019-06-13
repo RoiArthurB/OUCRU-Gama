@@ -173,14 +173,14 @@ species People skills:[moving] {
 		list<People> peopleInZone <- People at_distance distance;
 		
 		// Remove people if not in the same building
-		if self.the_target = nil { // check if is moving or not
+		if self.the_target = nil and length(peopleInZone) > 0 { // check if is moving or not
 			loop p over: peopleInZone{
 				
 				if self.objective = "resting" { // If at home
 					if p.living_place != self.living_place{
 						remove p from: peopleInZone;
 					}
-				}else{ // If at school
+				} else if self.objective = "working" { // If at school
 					if p.school != self.school{
 						remove p from: peopleInZone;
 					}

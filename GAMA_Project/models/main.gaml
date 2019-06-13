@@ -58,6 +58,7 @@ global {
 		avgResBactPop <- nbrBactRes / nb_people;
 		
 		sickPop <- People count each.isSick;
+		vaccinatePop <- People count each.isVaccinate;
 	}
 	
 	// Stop simulation when nbr Resistant Bacteria >= XX %
@@ -138,7 +139,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 		display population refresh:every(10#cycle) {
 			chart "Dynamic population" type: series {
 				data "Number of Person sick" value: sickPop color: #red;
-				//data "Number of Person non-sick" value: nb_people - sickPop color: #green;
+				data "Number of Person vaccinated" value: vaccinatePop color: #purple;
 			}
 		}
 		display antibio refresh:every(30#cycle) {

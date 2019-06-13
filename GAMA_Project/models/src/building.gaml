@@ -7,6 +7,8 @@
 
 model building
 
+import "../main.gaml"
+
 global {
 	/*
 	 * PARAMETERS
@@ -35,9 +37,9 @@ species Building {
 	string type;
 	rgb color <- #gray  ;
 	
-	string iconPath <- "";
+	string iconPath update: vaccinate ? "../../includes/syringe.png" : "";
 	
-	bool vaccinate <- false;
+	bool vaccinate <- false update: (current_hour = 0) ? false : vaccinate;
 	
 	/*
 	 * Display
@@ -51,6 +53,5 @@ species Building {
 		write(self);
 		
 		vaccinate <- true;
-		iconPath <- "../../includes/syringe.png";
 	}
 }

@@ -31,7 +31,9 @@ global {
 	
 	int sickPop; int vaccinatePop;
 	
+	/* Commands */
 	bool pauseSimulation <- true;
+    int paramChildrenVaccination <- 10;
 	
 	/**
 	 * Constant
@@ -116,9 +118,24 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	parameter "Solo pick is antibio" var: paramAntibio category: "Pill" init: 1.0 min: 0.0 max: 1.0;
 
 	// Command
-	user_command "New school vaccination" category: "Pill"{
+	user_command "New school vaccination" category: "Command" {
 		ask one_of(Building where (each.type="School" and !each.vaccinate)).vaccination();
     }
+	user_command "New child vaccination" category: "Command" {
+		int nbrVaccinated <- 0;
+		loop p over: People{
+			if( !p.isVaccinate ){
+				p.isVaccinate <- true;
+				nbrVaccinated <- nbrVaccinated + 1;
+				
+				if(nbrVaccinated = paramChildrenVaccination){
+					break;
+				}
+			}
+		}
+    }
+    parameter "Number of children vaccinated" var: paramChildrenVaccination category: "Command" max: 300;
+    
 
 	/*
 	 * Display

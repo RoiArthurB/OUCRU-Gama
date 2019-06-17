@@ -209,7 +209,7 @@ species People skills:[moving] {
 	reflex time_to_go_home when: (current_hour = work_end and (objective = "working" or objective = "healthCare")) {
 		
 		// Vaccination before leaving
-		if ( objective = "working" and school.vaccinate ){
+		if ( objective = "working" and self.school.vaccinate ){
 			self.isVaccinate <- true;
 		}
 		
@@ -225,32 +225,30 @@ species People skills:[moving] {
 		if !( isSick and flip( paramStayHome ) ){
 			objective <- "working" ;
 			the_target <- any_location_in (school);
+		}else{
+			// HealthCare
+			switch rnd(3) {
+				match 0 { //"Hospital" {
+					objective <- "healthCare" ;
+					the_target <- any_location_in ( one_of(Building where (each.type="Hospital")) ); 
+					
+					// If more than 1 symptom
+					if( length(self.symptoms) > 1 ){
+						self.isVaccinate <- true;
+					}
+				}
+				match 1 { //"Doctor" {
+					objective <- "healthCare" ;
+					the_target <- any_location_in ( one_of(Building where (each.type="Doctor")) );
+				}
+				match 2 { //"Pharmacy" {
+					objective <- "healthCare" ;
+					the_target <- any_location_in ( one_of(Building where (each.type="Pharmacy")) );
+				}
+				match 3 {} //"AutoMedication" {}
+			}
 		}
 		
-	}
-	
-	// HealthCare
-	reflex goToHealthCare when: (current_hour = work_start and objective = "resting") {
-		switch rnd(3) {
-			match 0 { //"Hospital" {
-				objective <- "healthCare" ;
-				the_target <- any_location_in ( one_of(Building where (each.type="Hospital")) ); 
-				
-				// If more than 1 symptom
-				if( length(self.symptoms) > 1 ){
-					self.isVaccinate <- true;
-				}
-			}
-			match 1 { //"Doctor" {
-				objective <- "healthCare" ;
-				the_target <- any_location_in ( one_of(Building where (each.type="Doctor")) );
-			}
-			match 2 { //"Pharmacy" {
-				objective <- "healthCare" ;
-				the_target <- any_location_in ( one_of(Building where (each.type="Pharmacy")) );
-			}
-			match 3 {} //"AutoMedication" {}
-		}
 	}
 	
 	 /*	TRANSMISSION */

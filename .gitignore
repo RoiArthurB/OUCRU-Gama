@@ -1,5 +1,7 @@
 # GAMA
-GAMA_Project/models/snapshots/
+GAMA_Project/models/snapshots/*
+GAMA_Project/models/src/snapshots/*
+*.png
 .built_in_models*
 .cache
 .gama.epf

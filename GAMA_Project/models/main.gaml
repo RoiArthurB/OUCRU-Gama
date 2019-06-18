@@ -79,10 +79,29 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	/*
 	 * PARAMETERS
 	 */
+	// Command
+	parameter "Should pause the simulation " var: pauseSimulation category: "Command" ;
+	user_command "New school vaccination" category: "Command" {
+		one_of(Building where (each.type="School" and !each.vaccinate)).vaccinate <- true;
+    }
+	user_command "New child vaccination" category: "Command" {
+		int nbrVaccinated <- 0;
+		loop p over: People{
+			if( !p.isVaccinate ){
+				p.isVaccinate <- true;
+				nbrVaccinated <- nbrVaccinated + 1;
+				
+				if(nbrVaccinated = paramChildrenVaccination){
+					break;
+				}
+			}
+		}
+    }
+    parameter "Number of children vaccinated" var: paramChildrenVaccination category: "Command" max: 300;
+    
+    // MAP
 	parameter "Shapefile for the buildings:" var: shape_file_buildings category: "GIS" ;
 	parameter "Shapefile for the roads:" var: shape_file_roads category: "GIS" ;
-	
-	parameter "Should pause the simulation " var: pauseSimulation category: "GIS" ;
 
 	// People
 	parameter "Number of people agents" var: nb_people category: "People" ;
@@ -116,25 +135,6 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	// Pills
 	parameter "Pourcent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" init: 0.01 min: 0.0 max: 1.0;
 	parameter "Solo pick is antibio" var: paramAntibio category: "Pill" init: 1.0 min: 0.0 max: 1.0;
-
-	// Command
-	user_command "New school vaccination" category: "Command" {
-		ask one_of(Building where (each.type="School" and !each.vaccinate)).vaccination();
-    }
-	user_command "New child vaccination" category: "Command" {
-		int nbrVaccinated <- 0;
-		loop p over: People{
-			if( !p.isVaccinate ){
-				p.isVaccinate <- true;
-				nbrVaccinated <- nbrVaccinated + 1;
-				
-				if(nbrVaccinated = paramChildrenVaccination){
-					break;
-				}
-			}
-		}
-    }
-    parameter "Number of children vaccinated" var: paramChildrenVaccination category: "Command" max: 300;
     
 
 	/*

@@ -7,7 +7,7 @@
 
 model pharmacy
 
-import "building.gaml"
+import "healthCare.gaml"
 
 global {
 	/*
@@ -22,7 +22,7 @@ global {
 	}
 }
 
-species Pharmacy parent: Building {
+species Pharmacy parent: HealthCare {
 	rgb color <- #lightgreen;
 }
 

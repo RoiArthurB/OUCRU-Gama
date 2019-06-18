@@ -7,7 +7,7 @@
 
 model hospital
 
-import "building.gaml"
+import "healthCare.gaml"
 
 global {
 	/*
@@ -22,7 +22,7 @@ global {
 	}
 }
 
-species Hospital parent: Building {
+species Hospital parent: HealthCare {
 	
 	rgb color <- #orange;
 }

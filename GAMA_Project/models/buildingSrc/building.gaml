@@ -29,9 +29,7 @@ global {
 		do initResidential();		
 		do initSchool();
 		
-		do initHospital();
-		do initDoctor();
-		do initPharmacy();
+		do initHealthCare();
 	}
 }
 

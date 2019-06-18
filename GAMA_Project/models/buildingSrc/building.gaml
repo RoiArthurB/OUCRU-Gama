@@ -26,9 +26,9 @@ global {
 	 */
 	action initBuilding {
 		
-		do initResidential();
-		
+		do initResidential();		
 		do initSchool();
+		
 		do initHospital();
 		do initDoctor();
 		do initPharmacy();
@@ -39,6 +39,7 @@ species Building {
 	/*
 	 * Variables
 	 */
+	string type;
 	rgb color <- #gray;
 	
 	/*

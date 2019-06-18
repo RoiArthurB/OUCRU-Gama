@@ -83,8 +83,8 @@ species People skills:[moving] {
 	rgb color update: isVaccinate ? #purple : (isSick ? #red : #yellow) ;
 	
 	// Movement
-	Building living_place <- nil ;
-	Building school <- nil ;
+	Residential living_place <- nil ;
+	School school <- nil ;
 	string objective ; 
 	point the_target <- nil ;
 	

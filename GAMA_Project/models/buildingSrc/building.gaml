@@ -7,6 +7,12 @@
 
 model building
 
+import "residential.gaml"
+import "doctor.gaml"
+import "hospital.gaml"
+import "pharmacy.gaml"
+import "school.gaml"
+
 import "../main.gaml"
 
 global {
@@ -19,14 +25,13 @@ global {
 	 * INIT
 	 */
 	action initBuilding {
-		create Building from: shape_file_buildings with: [type::string(read ("NATURE"))] {
-			switch type{
-				match "School" { color <- #blue ; }
-				match "Hospital" { color <- #orange; }
-				match "Doctor" { color <- #green; }
-				match "Pharmacy" { color <- #lightgreen; }
-			}
-		}
+		
+		do initResidential();
+		
+		do initSchool();
+		do initHospital();
+		do initDoctor();
+		do initPharmacy();
 	}
 }
 
@@ -35,7 +40,7 @@ species Building {
 	 * Variables
 	 */
 	string type;
-	rgb color <- #gray  ;
+	rgb color <- #gray;
 	
 	string iconPath update: vaccinate ? "../../includes/syringe.png" : "";
 	
@@ -46,7 +51,6 @@ species Building {
 	 */
 	aspect geom {
 		draw shape color: color;
-		draw image_file(iconPath) at: self.location size: 50;
 	}
 	
 	action vaccination {

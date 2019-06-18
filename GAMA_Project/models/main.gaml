@@ -9,7 +9,8 @@ model main
 
 import "src/pill.gaml"
 
-import "src/building.gaml"
+import "buildingSrc/building.gaml"
+
 import "src/road.gaml"
 import "src/people.gaml"
 import "src/pill.gaml"
@@ -82,7 +83,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	// Command
 	parameter "Should pause the simulation " var: pauseSimulation category: "Command" ;
 	user_command "New school vaccination" category: "Command" {
-		ask one_of(Building where (each.type="School" and !each.vaccinate)){
+		ask one_of(School where !each.vaccinate){
 			do vaccination();
 		}
     }
@@ -146,7 +147,13 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	 
 	output {
 		display map {
-			species Building aspect:geom;
+			// Buildings
+			species Residential aspect:geom;
+			species School aspect:geom;
+			species Hospital aspect:geom;
+			species Doctor aspect:geom;
+			species Pharmacy aspect:geom;
+			
 			species Road aspect:geom;
 			
 			species People aspect:geom;

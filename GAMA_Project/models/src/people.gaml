@@ -12,10 +12,8 @@ import "../main.gaml"
 import "symptom.gaml"
 import "pill.gaml"
 
-import "building.gaml"
+import "../buildingSrc/building.gaml"
 import "road.gaml"
-
-//import "../main.gaml"
 
 global {
 	/*
@@ -58,17 +56,14 @@ global {
 	 * INIT
 	 */
 	action initPeople {
-		// Spawn People in a house 
-		list<Building> residential_buildings <- Building where (each.type="Residential");
-		list<Building> listSchools <- Building where (each.type="School");
-		
+		// Spawn People in a house 		
 		create People number: nb_people {
 			/*
 			 * Init Agent
 			 */
 			// Static
-			living_place <- one_of (residential_buildings);
-			school <- one_of(listSchools) ;
+			living_place <- one_of (Residential);
+			school <- one_of(School) ;
 			
 			// Moving skill
 			speed <- min_speed  + rnd (max_speed - min_speed) ;
@@ -211,7 +206,7 @@ species People skills:[moving] {
 			switch rnd(3) {
 				match 0 { //"Hospital" {
 					objective <- "healthCare" ;
-					the_target <- any_location_in ( one_of(Building where (each.type="Hospital")) ); 
+					the_target <- any_location_in ( one_of(Hospital) ); 
 					
 					// If more than 1 symptom
 					if( length(self.symptoms) > 1 ){
@@ -220,11 +215,11 @@ species People skills:[moving] {
 				}
 				match 1 { //"Doctor" {
 					objective <- "healthCare" ;
-					the_target <- any_location_in ( one_of(Building where (each.type="Doctor")) );
+					the_target <- any_location_in ( one_of(Doctor) );
 				}
 				match 2 { //"Pharmacy" {
 					objective <- "healthCare" ;
-					the_target <- any_location_in ( one_of(Building where (each.type="Pharmacy")) );
+					the_target <- any_location_in ( one_of(Pharmacy) );
 				}
 				match 3 {} //"AutoMedication" {}
 			}

@@ -78,25 +78,6 @@ global {
 			// Set Bacteria population
 			do setBacteria( 0, nbrBacteriaPerPerson );
 		}
-		
-		// Sick
-		create People number: 1 {
-			/*
-			 * Init Agent
-			 */
-			// Static
-			living_place <- one_of (residential_buildings);
-			school <- one_of(listSchools) ;
-			
-			// Moving skill
-			speed <- min_speed  + rnd (max_speed - min_speed) ;
-			objective <- "resting";
-			location <- any_location_in ( living_place );
-			
-			// Set Bacteria population
-			do setBacteria( 0, nbrBacteriaPerPerson );
-			add one_of(Symptom) to: symptoms;
-		}
 	}
 }
 

@@ -84,7 +84,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	user_command "New school vaccination" category: "Command" {
 		one_of(Building where (each.type="School" and !each.vaccinate)).vaccinate <- true;
     }
-	user_command "New child vaccination" category: "Command" {
+	user_command "Vaccinate new children" category: "Command" {
 		int nbrVaccinated <- 0;
 		loop p over: People{
 			if( !p.isVaccinate ){
@@ -143,12 +143,12 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	//layout #split;
 	 
 	output {
-/*		display map {
+		display map {
 			species Building aspect:geom;
 			species Road aspect:geom;
 			
 			species People aspect:geom;
-		} */
+		} 
 		display bacteria refresh:every(10#cycle) {
 			chart "Bacterias evolution" type: series {
 				data "Total Bacteria" value: nbrBact color: #blue;

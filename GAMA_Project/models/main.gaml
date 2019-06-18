@@ -82,7 +82,9 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	// Command
 	parameter "Should pause the simulation " var: pauseSimulation category: "Command" ;
 	user_command "New school vaccination" category: "Command" {
-		one_of(Building where (each.type="School" and !each.vaccinate)).vaccinate <- true;
+		ask one_of(Building where (each.type="School" and !each.vaccinate)){
+			do vaccination();
+		}
     }
 	user_command "Vaccinate new children" category: "Command" {
 		int nbrVaccinated <- 0;

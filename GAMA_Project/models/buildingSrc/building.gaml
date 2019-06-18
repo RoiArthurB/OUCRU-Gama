@@ -39,22 +39,12 @@ species Building {
 	/*
 	 * Variables
 	 */
-	string type;
 	rgb color <- #gray;
-	
-	string iconPath update: vaccinate ? "../../includes/syringe.png" : "";
-	
-	bool vaccinate <- false update: (current_hour = 0) ? false : vaccinate;
 	
 	/*
 	 * Display
 	 */
 	aspect geom {
 		draw shape color: color;
-	}
-	
-	action vaccination {
-		write(self);
-		self.vaccinate <- true;
 	}
 }

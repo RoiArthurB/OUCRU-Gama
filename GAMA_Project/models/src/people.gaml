@@ -182,7 +182,9 @@ species People skills:[moving] {
 	
 	 /*	DAILY ROUTINE */	
 	// current_hour's define in main.gaml
-	reflex time_to_go_home when: (current_hour = work_end and (objective = "working" or objective = "healthCare")) {
+	reflex time_to_go_home when: (current_hour = work_end and 
+		(objective = "working" or objective = "healthCare" or objective = "healthCareP")
+	) {
 		
 		// Vaccination before leaving
 		if ( objective = "working" and self.school.vaccinate ){
@@ -218,12 +220,20 @@ species People skills:[moving] {
 					the_target <- any_location_in ( one_of(Doctor) );
 				}
 				match 2 { //"Pharmacy" {
-					objective <- "healthCare" ;
+					objective <- "healthCareP" ;
 					the_target <- any_location_in ( one_of(Pharmacy) );
 				}
 				match 3 {} //"AutoMedication" {}
 			}
 		}
+		
+	}
+	
+	// current_hour's define in main.gaml
+	reflex midtime_to_pharmacy when: (current_hour = 12 and objective = "healthCare") {
+		// Got to Pharmacy
+		objective <- "healthCareP" ;
+		the_target <- any_location_in ( one_of(Pharmacy) );
 		
 	}
 	

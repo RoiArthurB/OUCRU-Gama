@@ -42,13 +42,13 @@ global {
 	date initDate <- current_date;
 	
 	init{
-		/* Map */
-		do initBuilding();
-		do initRoad();
-		
 		/* Secondary Agents */
 		do initSymptoms();
 		do initPills();
+		
+		/* Map */
+		do initBuilding(); // Need Pill
+		do initRoad();
 		
 		/* Primary Agents */
 		do initPeople();

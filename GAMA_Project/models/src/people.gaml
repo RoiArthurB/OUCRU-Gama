@@ -112,6 +112,7 @@ species People skills:[moving] {
 	// Pill related
 	list<int> bacteriaToKill <- [0, 0];	// [non-resitant, resistant]
 	list<int> usagePill <- list_with(length(Symptom),0);
+	Pill currentCure <- nil;
 	
 	// Pourcentage
 	// Reach 0 in 2 days -> Jonathan source
@@ -243,7 +244,7 @@ species People skills:[moving] {
 	
 	// Breath transmission
 	reflex breathBacteriaTransmission
-	when: current_hour mod (5 #mn) = 0  { // Every 5 minutes
+	when: time mod (5 #mn) = 0  { // Every 5 minutes
 		
 		list<People> peopleInZone <- getPeopleAround(paramBreathAreaInfection);
 		
@@ -262,9 +263,17 @@ species People skills:[moving] {
 	}
 	
 	/* HEAL */
-	reflex takePill when: isSick and current_hour = 12 /*and flip(0.5)*/ {
-		Pill p <- one_of(Pill where (paramAntibio ? true : !each.isAntibio));
-		ask p.use( self );
+	reflex takePill when: isSick and (time mod 24 #hour) = 12 #hour /*and flip(0.5)*/ {
+		// Set Pill cure
+		if self.currentCure = nil {
+			self.currentCure <- paramAntibio ? one_of(Pill) : one_of(Pill where !each.isAntibio);
+		}
+		// use Pill
+		if self.currentCure.use( self ) {
+			// If true -> healed -> No more cure
+			self.currentCure <- nil;
+		}
+		
 	}
 
 	reflex antiBodiesHealing when: isSick and current_hour = 20 {

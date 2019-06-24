@@ -47,7 +47,9 @@ species Pill{
 	/*
 	 * ACTION
 	 */
-	action use(People p){
+	bool use(People p){
+		
+		bool r <- false;
 		
 		int nbrDeleted <- int(p.bacteriaPopulation[0] * self.effectivenessNR);
 		p.bacteriaToKill[0] <- p.bacteriaToKill[0] + nbrDeleted;
@@ -61,17 +63,21 @@ species Pill{
 			// Depending on effectiveness of the pill usage
 			if flip( nbrDeleted/p.getTotalBacteria()){
 				p.symptoms <- cure(p);
+				r <- true;
 			}
 		}
 		else {
 			int nbrPillUsed <- p.usagePill[int(self)] + 1;
-			if flip(nbrPillUsed / 5){
+			if flip(nbrPillUsed / 10){
 				p.symptoms <- cure(p);
 				p.usagePill[int(self)] <- 0;
+				r <- true;
 			}else {
 				p.usagePill[int(self)] <- nbrPillUsed; 
 			}
 		}
+		
+		return r;
 	}
 	list<Symptom> cure(People p){
 		list<Symptom> symptoms <- p.symptoms;

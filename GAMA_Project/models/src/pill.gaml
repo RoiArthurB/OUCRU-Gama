@@ -64,7 +64,6 @@ species Pill{
 			}
 		}
 		else {
-			write( int(self) );
 			int nbrPillUsed <- p.usagePill[int(self)] + 1;
 			if flip(nbrPillUsed / 5){
 				p.symptoms <- cure(p);

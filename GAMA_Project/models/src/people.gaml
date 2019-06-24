@@ -111,6 +111,7 @@ species People skills:[moving] {
 	
 	// Pill related
 	list<int> bacteriaToKill <- [0, 0];	// [non-resitant, resistant]
+	list<int> usagePill <- list_with(length(Symptom),0);
 	
 	// Pourcentage
 	// Reach 0 in 2 days -> Jonathan source

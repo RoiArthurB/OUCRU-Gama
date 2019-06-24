@@ -263,7 +263,7 @@ species People skills:[moving] {
 	
 	/* HEAL */
 	reflex takePill when: isSick and current_hour = 12 /*and flip(0.5)*/ {
-		Pill p <- one_of(Pill);
+		Pill p <- one_of(Pill where (paramAntibio ? true : !each.isAntibio));
 		ask p.use( self );
 	}
 

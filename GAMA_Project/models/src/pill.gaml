@@ -13,8 +13,17 @@ global {
 
 	bool paramAntibio;
 
-	action initPills{
-		// Effective on all symptoms
+	action initPills{		
+		// Loop first nAntibio
+		// -> First indexes
+		loop s over: Symptom{
+			// One non-antibio Pill for every sickness
+			create Pill number: 1 {
+				effectivenessNR <- 0.0;
+				isAntibio <- false;
+				add s to:curedSymptoms;
+			}
+		}
 		loop s over: Symptom{
 			// No magick pill for general sickness
 			if s.name != "Sick" {
@@ -22,12 +31,7 @@ global {
 					effectivenessNR <- 0.01;
 					isAntibio <- true;
 					add s to:curedSymptoms;
-				}	
-				create Pill number: 1 {
-					effectivenessNR <- 0.0;
-					isAntibio <- false;
-					add s to:curedSymptoms;
-				}	
+				}
 			}
 		}
 	}
@@ -48,7 +52,7 @@ species Pill{
 		int nbrDeleted <- int(p.bacteriaPopulation[0] * self.effectivenessNR);
 		p.bacteriaToKill[0] <- p.bacteriaToKill[0] + nbrDeleted;
 		
-		if paramAntibio {
+		if self.isAntibio {
 			// Add overflow if too much antibiotics
 			// Don't let RBact decrease too quickly
 			p.antibioEffect <- 1.0 + p.antibioEffect;//min(1.5, 1.0 + p.antibioEffect);
@@ -60,12 +64,13 @@ species Pill{
 			}
 		}
 		else {
-			int nbrPillUsed <- p.usagePill[int(self) mod 2] + 1;
+			write( int(self) );
+			int nbrPillUsed <- p.usagePill[int(self)] + 1;
 			if flip(nbrPillUsed / 5){
 				p.symptoms <- cure(p);
-				p.usagePill[int(self) mod 2] <- 0;
+				p.usagePill[int(self)] <- 0;
 			}else {
-				p.usagePill[int(self) mod 2] <- nbrPillUsed; 
+				p.usagePill[int(self)] <- nbrPillUsed; 
 			}
 		}
 	}

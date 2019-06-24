@@ -89,14 +89,12 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
     }
 	user_command "Vaccinate new children" category: "Command" {
 		int nbrVaccinated <- 0;
-		loop p over: People{
-			if( !p.isVaccinate ){
-				p.isVaccinate <- true;
-				nbrVaccinated <- nbrVaccinated + 1;
-				
-				if(nbrVaccinated = paramChildrenVaccination){
-					break;
-				}
+		loop p over: People where !each.isVaccinate {
+			p.isVaccinate <- true;
+			nbrVaccinated <- nbrVaccinated + 1;
+			
+			if(nbrVaccinated = paramChildrenVaccination){
+				break;
 			}
 		}
     }

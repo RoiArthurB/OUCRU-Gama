@@ -13,6 +13,8 @@ global {
 	/*
 	 * INIT
 	 */
+	bool hospitalCPR;
+	 
 	action initHospital {
 		create Hospital from: shape_file_buildings with: [type::string(read ("NATURE"))] {
 			if type != "Hospital" {
@@ -23,7 +25,7 @@ global {
 }
 
 species Hospital parent: HealthCare {
-	
 	rgb color <- #orange;
+	bool doCPR update: hospitalCPR;
 }
 

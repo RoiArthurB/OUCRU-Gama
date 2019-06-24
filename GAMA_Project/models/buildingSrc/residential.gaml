@@ -23,5 +23,5 @@ global {
 }
 
 species Residential parent: Building {
-	list<int> stockPill <- list_with(length(Pill),0);
+//	list<int> stockPill <- list_with(length(Pill),0);
 }

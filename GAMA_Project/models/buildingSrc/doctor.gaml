@@ -13,6 +13,8 @@ global {
 	/*
 	 * INIT
 	 */
+	bool doctorCPR;
+	
 	action initDoctor {
 		create Doctor from: shape_file_buildings with: [type::string(read ("NATURE"))] {
 			if type != "Doctor" {
@@ -24,4 +26,5 @@ global {
 
 species Doctor parent: HealthCare {
 	rgb color <- #green;
+	bool doCPR update: doctorCPR;
 }

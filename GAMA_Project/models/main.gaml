@@ -99,6 +99,9 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 		}
     }
     parameter "Number of children vaccinated" var: paramChildrenVaccination category: "Command" max: 300;
+    parameter "Hospital do CPR" var: hospitalCPR category: "Command" init: false;
+    parameter "Doctor do CPR" var: doctorCPR category: "Command" init: false;
+    parameter "Pharmacy do CPR" var: pharmacyCPR category: "Command" init: false;
     
     // MAP
 	parameter "Shapefile for the buildings:" var: shape_file_buildings category: "GIS" ;

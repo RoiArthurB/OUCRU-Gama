@@ -137,8 +137,8 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	parameter "Probability to self mutate (%)" var: paramProbaMutation category: "Bacteria" init: 0.25 min: 0.0 max: 1.0;
 	
 	// Pills
-	parameter "Pourcent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" init: 0.01 min: 0.0 max: 1.0;
-	parameter "Pourcent antibio to use" var: paramAntibio category: "Pill" init: 1.0 max: 1.0 min: 0.0;
+	parameter "Percent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" init: 0.01 min: 0.0 max: 1.0;
+	parameter "Percent antibio to use" var: paramAntibio category: "Pill" init: 1.0 max: 1.0 min: 0.0;
     
 
 	/*

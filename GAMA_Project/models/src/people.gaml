@@ -97,7 +97,7 @@ species People skills:[moving] {
 	
 	// Bacterias
 	list<int> bacteriaPopulation <- [0, 0];	// [non-resitant, resistant]
-	list<float> antibodies <- [0.0, 0.0, 0.0, 0.0]; // Same index than symptoms
+	list<float> antibodies <- list_with(length(Symptom), 0.0); // Same index than symptoms
 	reflex antibodiesUpdate {
 		loop i from: 0 to: length(self.antibodies)-1 {
 			if self.symptoms contains Symptom[int(i)] {

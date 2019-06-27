@@ -13,18 +13,18 @@ global{
 		/*
 		 * https://doi.org/10.1038/s41579-018-0001-8
 		 */
-		 
-		// Transmission
-		create Symptom {
-			name <- "Sneezing";
-		}
+		bool bacterial <- false;
 		
-		// Pneumonia
-		create Symptom {
-			name <- "Cough";
-		}
-		create Symptom {
-			name <- "Difficulty breathing";
+		loop times: 2 {
+			bacterial <- !bacterial;
+			loop s over:["Sneezing", "Cough", "Difficulty breathing"] {
+				
+				// Transmission
+				create Symptom {
+					name <- s;
+					isBacterial <- bacterial;
+				}
+			}
 		}
 		
 		// Internal symptoms
@@ -53,5 +53,6 @@ global{
 
 species Symptom{
 	string name;
+	bool isBacterial <- true;
 }
 

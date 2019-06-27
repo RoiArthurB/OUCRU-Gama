@@ -16,7 +16,7 @@ global {
 	action initPills{		
 		// Loop first nAntibio
 		// -> First indexes
-		loop s over: Symptom{
+		loop s over: Symptom where !each.isBacterial {
 			// One non-antibio Pill for every sickness
 			create Pill number: 1 {
 				effectivenessNR <- 0.0;
@@ -24,7 +24,7 @@ global {
 				add s to:curedSymptoms;
 			}
 		}
-		loop s over: Symptom{
+		loop s over: Symptom where each.isBacterial {
 			// No magick pill for general sickness
 			if s.name != "Sick" {
 				create Pill number: 1 {

@@ -30,7 +30,7 @@ global {
 	
 	float avgBactPop; float avgResBactPop; 
 	
-	int sickPop; int vaccinatePop;
+	int sickPop; int vaccinatePop; int bacterialSickPerson;
 	
 	/* Commands */
 	bool pauseSimulation <- true;
@@ -62,6 +62,7 @@ global {
 		
 		sickPop <- People count each.isSick;
 		vaccinatePop <- People count each.isVaccinate;
+		bacterialSickPerson <- People sum_of (each.symptoms count each.isBacterial);
 	}
 	
 	// Stop simulation when nbr Resistant Bacteria >= XX %
@@ -138,7 +139,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	
 	// Pills
 	parameter "Percent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" init: 0.01 min: 0.0 max: 1.0;
-	parameter "Percent antibio to use" var: paramAntibio category: "Pill" init: 1.0 max: 1.0 min: 0.0;
+	parameter "Percent antibio to use" var: paramAntibio category: "Pill" init: 0.5 max: 1.0 min: 0.0;
     
 
 	/*
@@ -169,9 +170,12 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 			}
 		}
 		display population refresh:every(10#cycle) {
-			chart "Dynamic population" type: series x_range: 20000 {
-				data "Number of Person sick" value: sickPop color: #red;
-				data "Number of Person vaccinated" value: vaccinatePop color: #purple;
+			chart "Dynamic population" type: series x_range: 10000 {
+				data "Number of Person sick" value: sickPop color: #red marker: false thickness: 2;
+				data "Number of Person vaccinated" value: vaccinatePop color: #purple marker: false;
+				
+				data "Bacterial Sickness" value: bacterialSickPerson color: #green marker: false;
+				data "Viral Sickness" value: sickPop - bacterialSickPerson color: #blue marker: false;
 			}
 		}
 		display antibio refresh:every(30#cycle) {

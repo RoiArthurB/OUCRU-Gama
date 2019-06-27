@@ -26,12 +26,10 @@ global {
 		}
 		loop s over: Symptom where each.isBacterial {
 			// No magick pill for general sickness
-			if s.name != "Sick" {
-				create Pill number: 1 {
-					effectivenessNR <- 0.01;
-					isAntibio <- true;
-					add s to:curedSymptoms;
-				}
+			create Pill number: 1 {
+				effectivenessNR <- 0.01;
+				isAntibio <- true;
+				add s to:curedSymptoms;
 			}
 		}
 	}

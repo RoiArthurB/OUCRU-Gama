@@ -152,7 +152,7 @@ species People skills:[moving] {
 		
 		// Remove people if not in the same building
 		if self.the_target = nil and length(peopleInZone) > 0 { // check if is moving or not
-			loop p over: peopleInZone{
+			loop p over: peopleInZone {
 				
 				if self.objective = "resting" { // If at home
 					if p.living_place != self.living_place{
@@ -261,6 +261,7 @@ species People skills:[moving] {
 	reflex takePill when: isSick and (time mod 24 #hour) = 12 #hour /*and flip(0.5)*/ {
 		// Set Pill cure
 		if self.currentCure = nil {
+			self.usagePill <- list_with(length(Symptom), 0);
 			self.currentCure <- flip(paramAntibio) ? 
 				one_of(Pill where each.isAntibio) : one_of(Pill where !each.isAntibio);
 		}

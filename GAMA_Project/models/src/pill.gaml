@@ -70,7 +70,6 @@ species Pill{
 			int nbrPillUsed <- p.usagePill[int(self)] + 1;
 			if flip(nbrPillUsed / 10){
 				p.symptoms <- cure(p);
-				p.usagePill[int(self)] <- 0;
 				r <- true;
 			}else {
 				p.usagePill[int(self)] <- nbrPillUsed; 

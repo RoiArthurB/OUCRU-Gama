@@ -11,7 +11,7 @@ import "people.gaml"
 
 global {
 
-	bool paramAntibio;
+	float paramAntibio;
 
 	action initPills{		
 		// Loop first nAntibio

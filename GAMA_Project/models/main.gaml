@@ -134,11 +134,11 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	// Bacteria
 	parameter "[INIT] Probability to have a symptom (%)" var: paramProbaSymptom category: "Bacteria" init: 0.01 min: 0.0 max: 1.0;
 	//parameter "Probability of duplication (%)" var: paramProbaDuplication category: "Bacteria" init: 0.05 min: 0.0 max: 1.0;
-	parameter "Probability to self mutate (%)" var: paramProbaMutation category: "Bacteria" init: 0.01 min: 0.0 max: 1.0;
+	parameter "Probability to self mutate (%)" var: paramProbaMutation category: "Bacteria" init: 0.25 min: 0.0 max: 1.0;
 	
 	// Pills
 	parameter "Pourcent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" init: 0.01 min: 0.0 max: 1.0;
-	parameter "Antibiotics can be used" var: paramAntibio category: "Pill" init: true;
+	parameter "Pourcent antibio to use" var: paramAntibio category: "Pill" init: 1.0 max: 1.0 min: 0.0;
     
 
 	/*
@@ -160,23 +160,22 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 			species People aspect:geom;
 		} 
 		display bacteria refresh:every(10#cycle) {
-			chart "Bacterias evolution" type: series {
-				data "Total Bacteria" value: nbrBact color: #blue;
+			chart "Bacterias evolution" type: series x_range: 20000 {
+				data "Total Bacteria" value: nbrBact color: #blue marker: false;
 				if paramAntibio != 0 {
-					data "Total Non-Resistant Bacteria" value: nbrBact - nbrBactRes color: #green;	
-					data "Total Resistant Bacteria" value: nbrBactRes color: #red;
+					data "Total Non-Resistant Bacteria" value: nbrBact - nbrBactRes color: #green marker: false;	
+					data "Total Resistant Bacteria" value: nbrBactRes color: #red marker: false;
 				}
 			}
 		}
 		display population refresh:every(10#cycle) {
-			chart "Dynamic population" type: series {
+			chart "Dynamic population" type: series x_range: 20000 {
 				data "Number of Person sick" value: sickPop color: #red;
 				data "Number of Person vaccinated" value: vaccinatePop color: #purple;
 			}
 		}
 		display antibio refresh:every(30#cycle) {
 			chart "Dynamic anti-bacteria" type: series x_range: 5000 {
-				//data "Number of Person sick" value: sickPop color: #red;
 				data "Antibio Effect" value: People sum_of each.antibioEffect color: #red;// max: nb_people;
 			}
 		}

@@ -266,11 +266,15 @@ species People skills:[moving] {
 	reflex takePill when: isSick and (time mod 24 #hour) = 12 #hour /*and flip(0.5)*/ {
 		// Set Pill cure
 		if self.currentCure = nil {
-			self.currentCure <- paramAntibio ? one_of(Pill) : one_of(Pill where !each.isAntibio);
+			self.currentCure <- flip(paramAntibio) ? 
+				one_of(Pill where each.isAntibio) : one_of(Pill where !each.isAntibio);
 		}
 		// use Pill
 		if self.currentCure.use( self ) {
 			// If true -> healed -> No more cure
+			self.currentCure <- nil;
+		}
+		if flip(0.5){
 			self.currentCure <- nil;
 		}
 		

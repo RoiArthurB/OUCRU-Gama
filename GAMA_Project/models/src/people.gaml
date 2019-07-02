@@ -206,21 +206,25 @@ species People skills:[moving] {
 			objective <- "working" ;
 			the_target <- any_location_in (school);
 		}else{
+			HealthCare hc <- nil;
 			// HealthCare
 			switch rnd(3) {
 				match 0 { //"Hospital" {
-					objective <- "healthCare" ;
-					the_target <- any_location_in ( one_of(Hospital) );
+					hc <- one_of(Hospital);
 				}
 				match 1 { //"Doctor" {
-					objective <- "healthCare" ;
-					the_target <- any_location_in ( one_of(Doctor) );
+					hc <- one_of(Doctor);
 				}
 				match 2 { //"Pharmacy" {
-					objective <- "healthCare" ;
-					the_target <- any_location_in ( one_of(Pharmacy) );
+					hc <- one_of(Pharmacy);
 				}
 				match 3 {} //"AutoMedication" {}
+			}
+			
+			if(hc != nil){ // Debug for AutoMedication case
+				objective <- "healthCare" ;
+				the_target <- any_location_in ( hc );
+				ask hc { do prescription( myself ); }	
 			}
 		}
 		

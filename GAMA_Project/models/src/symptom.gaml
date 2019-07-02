@@ -13,7 +13,7 @@ global{
 		/*
 		 * https://doi.org/10.1038/s41579-018-0001-8
 		 */
-		bool bacterial <- false;
+		bool bacterial <- true;
 		
 		loop times: 2 {
 			bacterial <- !bacterial;

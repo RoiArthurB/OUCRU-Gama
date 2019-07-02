@@ -30,7 +30,7 @@ global {
 	
 	float avgBactPop; float avgResBactPop; 
 	
-	int sickPop; int vaccinatePop; int bacterialSickPerson;
+	int sickPop; int vaccinatePop; int bacterialSickPerson; int viralSickPerson;
 	
 	/* Commands */
 	bool pauseSimulation <- true;
@@ -63,6 +63,7 @@ global {
 		sickPop <- People count each.isSick;
 		vaccinatePop <- People count each.isVaccinate;
 		bacterialSickPerson <- People sum_of (each.symptoms count each.isBacterial);
+		viralSickPerson <- People sum_of (each.symptoms count !each.isBacterial);
 	}
 	
 	// Stop simulation when nbr Resistant Bacteria >= XX %
@@ -175,7 +176,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 				data "Number of Person vaccinated" value: vaccinatePop color: #purple marker: false;
 				
 				data "Bacterial Sickness" value: bacterialSickPerson color: #green marker: false;
-				data "Viral Sickness" value: sickPop - bacterialSickPerson color: #blue marker: false;
+				data "Viral Sickness" value: viralSickPerson color: #blue marker: false;
 			}
 		}
 		display antibio refresh:every(30#cycle) {

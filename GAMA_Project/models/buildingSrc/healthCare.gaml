@@ -31,4 +31,15 @@ species HealthCare parent: Building {
 		}
 		return result;
 	}
+	
+	action prescription(People p){
+		bool antibio <- flip(paramAntibio);
+		
+		if doCPR {
+			antibio <- self.cprTest(p);
+		}
+		
+		p.usagePill <- list_with(length(Symptom), 0);
+		p.currentCure <- Pill[int(int(one_of(p.symptoms))/2) + int(antibio) * int(length(Pill)/2)];
+	}
 }

@@ -53,6 +53,6 @@ global{
 
 species Symptom{
 	string name;
-	bool isBacterial <- true;
+	bool isBacterial;
 }
 

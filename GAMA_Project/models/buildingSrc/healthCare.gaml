@@ -24,7 +24,7 @@ species HealthCare parent: Building {
 	
 	bool doCPR;
 	
-	bool crpTest(People p){
+	bool cprTest(People p){
 		bool result <- false;
 		if flip(0.5){
 			result <- true;

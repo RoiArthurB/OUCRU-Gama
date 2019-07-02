@@ -17,7 +17,7 @@ global{
 		
 		loop times: 2 {
 			bacterial <- !bacterial;
-			loop s over:["Sneezing", "Cough", "Difficulty breathing"] {
+			loop s over:["Sneezing", "Cough", "Difficulty breathing", "Sick"] {
 				
 				// Transmission
 				create Symptom {
@@ -26,13 +26,7 @@ global{
 				}
 			}
 		}
-		
-		// Internal symptoms
-		//	-> No transmission (headache, fever, etc...)
-		create Symptom {
-			name <- "Sick";
-		}
-		
+
 		/*
 		create Symptom {
 			name <- "Fever";

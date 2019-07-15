@@ -32,7 +32,7 @@ You can follow the evolution of the project on the [Kanban here](https://github.
 
 ## Built With
 
-* [GAMA Platform _1.8 Release Candidate 2_](https://gama-platform.github.io/) - GAMA is a modeling and simulation development environment for building spatially explicit agent-based simulations.
+* [GAMA Platform _1.8_](https://gama-platform.github.io/) - GAMA is a modeling and simulation development environment for building spatially explicit agent-based simulations.
 * [_GAMA Language_ (_GAML_)](https://gama-platform.github.io/wiki/StartWithGAML)
 
 ## Support
@@ -55,7 +55,7 @@ See also the list of [contributors](https://github.com/RoiArthurB/OUCRU-Gama/con
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the GPL3 License - see the [LICENSE.md](LICENSE.md) file for details
 
 <!--- ## Acknowledgments
 

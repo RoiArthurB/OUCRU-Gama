@@ -165,7 +165,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 			chart "Bacterias evolution" type: series x_range: 20000 {
 				data "Total Bacteria" value: nbrBact color: #blue marker: false;
 				if paramAntibio != 0 {
-					data "Total Non-Resistant Bacteria" value: nbrBact - nbrBactRes color: #green marker: false;	
+					data "Total Non-Resistant Bacteria" value: nbrBact - nbrBactRes color: #green marker: false;
 					data "Total Resistant Bacteria" value: nbrBactRes color: #red marker: false;
 				}
 			}

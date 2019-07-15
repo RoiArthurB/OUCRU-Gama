@@ -49,18 +49,20 @@ species Pill{
 		
 		bool r <- false;
 		
-		int nbrDeleted <- int(p.bacteriaPopulation[0] * self.effectivenessNR);
-		p.bacteriaToKill[0] <- p.bacteriaToKill[0] + nbrDeleted;
-		
 		if self.isAntibio {
+		
+			// Set nbr to kill
+			int nbrDeleted <- int(p.bacteriaPopulation[0] * self.effectivenessNR);
+			p.bacteriaToKill[0] <- p.bacteriaToKill[0] + nbrDeleted;
+			
 			// Add overflow if too much antibiotics
 			// Don't let RBact decrease too quickly
 			p.antibioEffect <- 1.0 + p.antibioEffect;//min(1.5, 1.0 + p.antibioEffect);
 
 			// Not automatic cured
 			// Depending on effectiveness of the pill usage
-			if flip( nbrDeleted/p.getTotalBacteria()){
-				p.symptoms <- cure(p);
+			if flip( nbrDeleted/p.getTotalBacteria() ){
+				p.symptoms <- self.cure(p);
 				r <- true;
 			}
 		}

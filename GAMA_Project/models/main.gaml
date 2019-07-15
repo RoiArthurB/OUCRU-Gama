@@ -28,7 +28,7 @@ global {
 	 */	
 	int nbrBact; int nbrBactRes;
 	
-	float avgBactPop; float avgResBactPop; 
+	float avgResBactPop; 
 	
 	int sickPop; int vaccinatePop; int bacterialSickPerson; int viralSickPerson;
 	
@@ -56,8 +56,7 @@ global {
 	reflex graphUpdate {
 		nbrBact <- People sum_of each.getTotalBacteria();
 		nbrBactRes <- People sum_of each.bacteriaPopulation[1];
-		
-		avgBactPop <- nbrBact / nb_people;
+
 		avgResBactPop <- nbrBactRes / nb_people;
 		
 		sickPop <- People count each.isSick;
@@ -140,7 +139,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	
 	// Pills
 	parameter "Percent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" init: 0.01 min: 0.0 max: 1.0;
-	parameter "Percent antibio to use" var: paramAntibio category: "Pill" init: 0.5 max: 1.0 min: 0.0;
+	parameter "Percent antibio to use" var: paramAntibio category: "Pill" init: /*0.5*/1.0 max: 1.0 min: 0.0;
     
 
 	/*
@@ -188,7 +187,5 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 		monitor "Nbr Bacteria R" value: nbrBactRes;
 		monitor "% Bacteria NR / People" value: 100-(100*nbrBactRes)/nbrBact;
 		monitor "Nbr Bacteria NR" value: nbrBact-nbrBactRes;
-		
-		monitor "Average Proba Mutation" value: paramProbaMutation * ((avgBactPop-avgResBactPop)/avgBactPop);
 	}
 }

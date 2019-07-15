@@ -24,22 +24,22 @@ species HealthCare parent: Building {
 	
 	bool doCPR;
 	
-	bool cprTest(People p){
-		bool result <- false;
-		if flip(0.5){
-			result <- true;
-		}
-		return result;
+	action cprTest(People p){
+		// Exact needed pill
+		p.currentCure <- Pill[int(one_of(p.symptoms))];
 	}
 	
-	action prescription(People p){
-		bool antibio <- flip(paramAntibio);
+	action prescription(People p){		
+		// Reset traitement
+		p.usagePill <- list_with(length(Symptom), 0);
 		
 		if doCPR {
-			antibio <- self.cprTest(p);
+			ask self { do cprTest(p); }
+		} else {
+			// int(int(one_of(p.symptoms))/2)	Will cure the good symptom with the good drug
+			// int(flip(paramAntibio))			1 if true / 0 if false
+			// * int(length(Pill)/2) 			proba to use antibio
+			p.currentCure <- Pill[int(int(one_of(p.symptoms))/2) + int(flip(paramAntibio)) * int(length(Pill)/2)];
 		}
-		
-		p.usagePill <- list_with(length(Symptom), 0);
-		p.currentCure <- Pill[int(int(one_of(p.symptoms))/2) + int(antibio) * int(length(Pill)/2)];
 	}
 }

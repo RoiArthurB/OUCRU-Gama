@@ -86,7 +86,7 @@ species Pill{
 			// del match on p.symptoms
 			if (!empty(symptoms) and (symptoms contains symp)){
 				remove symp from: symptoms;	
-				p.antibodies[int(symp)] <- 1.0;
+				//p.antibodies[int(symp)] <- 1.0;
 			}
 		}
 		return symptoms;

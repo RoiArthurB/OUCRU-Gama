@@ -180,7 +180,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 			}
 		}
 		display antibio refresh:every(30#cycle) {
-			chart "Dynamic anti-bacteria" type: series x_range: 5000 {
+			chart "Dynamic anti-bacteria" type: series x_range: 10000 {
 				data "Antibio Effect" value: People sum_of each.antibioEffect color: #red;// max: nb_people;
 			}
 		}

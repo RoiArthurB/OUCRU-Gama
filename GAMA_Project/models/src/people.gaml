@@ -149,6 +149,7 @@ species People skills:[moving] {
 	
 	list<People> getPeopleAround(float distance){
 		list<People> peopleInZone <- People at_distance distance;
+		list<People> real_peopleInZone <- peopleInZone ;
 		
 		// Remove people if not in the same building
 		if self.the_target = nil and length(peopleInZone) > 0 { // check if is moving or not
@@ -156,18 +157,18 @@ species People skills:[moving] {
 				
 				if self.objective = "resting" { // If at home
 					if p.living_place != self.living_place{
-						remove p from: peopleInZone;
+						remove p from: real_peopleInZone;
 					}
 				} else if self.objective = "working" { // If at school
 					if p.school != self.school{
-						remove p from: peopleInZone;
+						remove p from: real_peopleInZone;
 					}
 				}
 				
 			}
 		}	// End list definition
 		
-		return peopleInZone;
+		return real_peopleInZone;
 	}
 	 
 	/*

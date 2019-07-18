@@ -30,7 +30,7 @@ global {
 	
 	float avgResBactPop; 
 	
-	int sickPop; int vaccinatePop; int bacterialSickPerson; int viralSickPerson; int totalSick <- 0; int avgSick;
+	int sickPop; int vaccinatePop; int bacterialSickPerson; int viralSickPerson; int totalSick <- 0; int avgSick; int timeToStop;
 	
 	/* Commands */
 	bool pauseSimulation <- true;
@@ -67,14 +67,9 @@ global {
 		totalSick <- totalSick + sickPop;
 		avgSick <- int(totalSick / (cycle+1));
 	}
-	
-	// Stop simulation when nbr Resistant Bacteria >= XX %
-	reflex stop_simulation when: ((100*nbrBactRes)/nbrBact >= 95) and pauseSimulation {
-		do pause ;
-	} 
 	 
-	// Stop simulation after 7 month
-	reflex stop_simulation when: current_date >= initDate + 1#year and pauseSimulation {
+	// Stop simulation after 12 month
+	reflex stop_simulation when: current_date >= initDate + timeToStop #month and pauseSimulation {
 		do pause ;
 	}
 }
@@ -86,6 +81,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	 */
 	// Command
 	parameter "Should pause the simulation " var: pauseSimulation category: "Command" ;
+	parameter "Number of month before stopping" var: timeToStop category: "Command" init: 12;
 	user_command "New school vaccination" category: "Command" {
 		ask one_of(School where !each.vaccinate){
 			do vaccination();

@@ -30,7 +30,7 @@ global {
 	
 	float avgResBactPop; 
 	
-	int sickPop; int vaccinatePop; int bacterialSickPerson; int viralSickPerson;
+	int sickPop; int vaccinatePop; int bacterialSickPerson; int viralSickPerson; int totalSick <- 0; int avgSick;
 	
 	/* Commands */
 	bool pauseSimulation <- true;
@@ -63,6 +63,9 @@ global {
 		vaccinatePop <- People count each.isVaccinate;
 		bacterialSickPerson <- People sum_of (each.symptoms count each.isBacterial);
 		viralSickPerson <- People sum_of (each.symptoms count !each.isBacterial);
+		
+		totalSick <- totalSick + sickPop;
+		avgSick <- int(totalSick / (cycle+1));
 	}
 	
 	// Stop simulation when nbr Resistant Bacteria >= XX %
@@ -127,6 +130,8 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	parameter "Probability to stay at home when sick (%)" var: paramStayHome category: "Transmission" init: 0.5 min: 0.0 max: 1.0;
 	
 	// Sick
+	parameter "Average People Sick (%)" var: paramAveragePeopleSick category: "Sick" init: 0.25 min: 0.0 max: 1.0;
+	
 	parameter "Probability Sick Transmission (%)" var: paramProbabilitySickTransmission category: "Sick" init: 0.25 min: 0.0 max: 1.0;
 	parameter "Time before Sick Transmission (mn)" var: paramTimeBeforeSickTransmission category: "Sick" init: 2#mn;
 	parameter "Probability to sneeze when sick (%)" var: paramProbabilitySneezing category: "Sick" init: 0.01 min: 0.0 max: 1.0;
@@ -171,6 +176,8 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 		}
 		display population refresh:every(10#cycle) {
 			chart "Dynamic population" type: series x_range: 10000 {
+				data "Average Sickness" value: avgSick color: #black marker: false thickness: 5;
+				
 				data "Number of Person sick" value: sickPop color: #red marker: false thickness: 2;
 				data "Number of Person vaccinated" value: vaccinatePop color: #purple marker: false;
 				

@@ -21,9 +21,9 @@ import matplotlib.pyplot as plt
 import pandas as pd 
 
 dataFolder = "../GAMA_Project/includes/DATA/"
-inputFile = dataFolder + "output.csv"
+inputFile = dataFolder + "21-5-2019-_23HN_V1_Data_preliminary.xls"
+output = dataFolder + "output.csv"
 
 if __name__ == '__main__':
-	file = dataFolder + "21-5-2019-_23HN_V1_Data_preliminary.xls"
-	df = pd.read_excel(file)
+	df = pd.read_excel(inputFile)
 	print(df)

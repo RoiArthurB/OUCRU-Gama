@@ -22,8 +22,17 @@ import pandas as pd
 
 dataFolder = "../GAMA_Project/includes/DATA/"
 inputFile = dataFolder + "21-5-2019-_23HN_V1_Data_preliminary.xls"
-output = dataFolder + "output.csv"
+dfResult = {}
+
+def saveToCSV() :
+	pd.DataFrame([dfResult]).to_csv( "./output.csv")
+
+def averagePersonPerResidence(df):
+	dfResult['avg_house'] = df['SUBJID'].value_counts().mean()
 
 if __name__ == '__main__':
-	df = pd.read_excel(inputFile)
-	print(df)
+	averagePersonPerResidence( pd.read_excel(inputFile, "MEMBER") )
+
+	saveToCSV()
+
+	print("XX END XX")

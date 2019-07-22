@@ -28,8 +28,10 @@ def saveToCSV() :
 	pd.DataFrame([dfResult]).to_csv( dataFolder + "output.csv" )
 
 def averagePersonPerResidence(df):
+	# Average person per house
 	dfResult['avg_house'] = df['SUBJID'].value_counts().mean()
 	
+	# Average person under 5yo per house
 	dfResult['avg_house_under5'] = df[df.BIRTHYR >= 2014]['SUBJID'].value_counts().mean()
 
 if __name__ == '__main__':

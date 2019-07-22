@@ -76,6 +76,19 @@ global {
 	}
 }
 
+experiment batch5_1Y type: batch repeat: 5 keep_seed: false until: time = 1#year {
+//   [parameter to explore]
+//   [exploration method]
+	// Save each result
+	int cpt <- 0;
+	reflex save {
+		save People type:"csv" to:"../results/people_shape" + cpt + ".csv";
+		cpt <- cpt + 1;
+	}
+
+	method hill_climbing iter_max: 50 minimize: sickPop;
+}
+
 
 experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui {
 	/*

@@ -36,6 +36,7 @@ global {
 	float paramProbabilityNaturalTransmission;
 	float paramTimeBeforeNaturalTransmission;
 	
+	float paramAveragePeopleSick;
 	float paramProbabilitySickTransmission;
 	float paramTimeBeforeSickTransmission;
 	float paramProbabilitySneezing;
@@ -334,7 +335,7 @@ species People skills:[moving] {
 	}
 	
 	// Naturally turn sick
-	reflex getNaturalSymptom when: flip(0.0001) /*flip(0.00001) and current_hour mod 1 = 0*/ and !isVaccinate  {
+	reflex getNaturalSymptom when: flip(paramAveragePeopleSick * 0.002) /*flip(0.00001) and current_hour mod 1 = 0*/ and !isVaccinate  {
 		
 		Symptom s <- one_of(Symptom);
 		// If don't have enought antibodies -> Turn sick again

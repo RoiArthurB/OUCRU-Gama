@@ -29,7 +29,8 @@ def saveToCSV() :
 
 def averagePersonPerResidence(df):
 	dfResult['avg_house'] = df['SUBJID'].value_counts().mean()
-	dfResult['avg_house_under5'] = df[df.SEX <= 5]['SUBJID'].value_counts().mean()
+	
+	dfResult['avg_house_under5'] = df[df.BIRTHYR >= 2014]['SUBJID'].value_counts().mean()
 
 if __name__ == '__main__':
 	averagePersonPerResidence( pd.read_excel(inputFile, "MEMBER") )

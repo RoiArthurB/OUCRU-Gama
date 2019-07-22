@@ -5,6 +5,8 @@ GAMA_Project/models/src/snapshots/*
 .built_in_models*
 .cache
 .gama.epf
+*.csv
+.~lock*
 
 ########
 ###	ECLIPSE TEMPLATE

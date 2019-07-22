@@ -25,7 +25,7 @@ inputFile = dataFolder + "21-5-2019-_23HN_V1_Data_preliminary.xls"
 dfResult = {}
 
 def saveToCSV() :
-	pd.DataFrame([dfResult]).to_csv( "./output.csv")
+	pd.DataFrame([dfResult]).to_csv( dataFolder + "output.csv" )
 
 def averagePersonPerResidence(df):
 	dfResult['avg_house'] = df['SUBJID'].value_counts().mean()

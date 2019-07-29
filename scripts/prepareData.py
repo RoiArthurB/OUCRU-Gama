@@ -46,9 +46,24 @@ def extractFrom_HHILLNESS_Page(df, irrevelant):
 	# Time before HC
 	#	=> non-revelant (10 results on 850 lines)
 	if (irrevelant) :
-		dfResult['avg_timeBeforeHC'] = df['FirstADVAfter'].value_counts().mean()
+		dfResult['HHIL_avg_dayBeforeHC'] = df['FirstADVAfter'].value_counts().mean()
 	
-	#  
+	# get seek advice/treatment 
+	# 	+> from any source?
+	dfTmp = df[df.COTREAT.notnull()] # Drop empty row
+
+	dfResult['HHIL_ADVICE_total'] = totalRow = len(dfTmp)
+	dfTmp = dfTmp[ dfTmp.COTREAT == 1.0 ]
+
+	dfResult['HHIL_ADVICE_noAdvice'] = totalRow - len(dfTmp)
+
+	count = 0
+	for i in ["COGOVHOSPITAL", "COPMC", "COCOMMHEALTH", "COPRIVATEHOSP", "COPHARMACY", "COSHOP", "COTRAPRACTITIONER", "COFRIEND"]:
+		dfResult['HHIL_ADVICE_false_hcChoice_'+str(count)] = dfTmp[i].value_counts()[0]
+		count = count+1
+	# ! for
+
+#["COGOVHOSPITAL", "COPMC", "COCOMMHEALTH", "COPRIVATEHOSP", "COPHARMACY", "COSHOP", "COTRAPRACTITIONER", "COFRIEND"]
 
 if __name__ == '__main__':
 

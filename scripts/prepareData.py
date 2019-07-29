@@ -44,9 +44,9 @@ def extractFrom_HHILLNESS_Page(df, irrevelant):
 	#	=> non-revelant (10 results on 850 lines)
 	
 	# Time before HC
-	#	=> non-revelant (10 results on 850 lines)
+	#	=> non-revelant (~34 results on 850 lines)
 	if (irrevelant) :
-		dfResult['HHIL_avg_dayBeforeHC'] = df['FirstADVAfter'].value_counts().mean()
+		dfResult['HHIL_avg_dayBeforeHC'] = df['COFIRSTADVAFTER'].value_counts().mean()
 	
 	# get seek advice/treatment 
 	# 	+> from any source?
@@ -62,7 +62,7 @@ def extractFrom_HHILLNESS_Page(df, irrevelant):
 
 		temp = dfTmp[i].value_counts()		
 		# Get total TRUE for each HC
-		dfResult['HHIL_ADVICE_trueNbr_hcChoice_'+str(count)] = (len(dfTmp) - temp[0])
+		dfResult['HHIL_ADVICE_trueNbr_hcAdvice_'+str(count)] = (len(dfTmp) - temp[0])
 
 		count = count+1
 

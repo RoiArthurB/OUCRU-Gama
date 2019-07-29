@@ -26,8 +26,11 @@ dataFolder = "../GAMA_Project/includes/DATA/"
 inputFile = dataFolder + "21-5-2019-_23HN_V1_Data_preliminary.xls"
 dfResult = {}
 
-def saveToCSV() :
-	pd.DataFrame([dfResult]).to_csv( dataFolder + "output.csv" )
+def saveToCSV(print) :
+	if print :
+		print(pd.DataFrame([dfResult]))
+	else :
+		pd.DataFrame([dfResult]).to_csv( "./output.csv")
 
 def averagePersonPerResidence(df, irrevelant):
 	# Average person per house
@@ -45,6 +48,7 @@ if __name__ == '__main__':
 |     (c) 2019                |
 +=============================+""")
 
-	saveToCSV()
+	# local var
+	saveToCSV(printDF)
 
 	print("XX END XX")

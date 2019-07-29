@@ -112,7 +112,7 @@ Here's a little help just for you ;)
 
 	## MEMBER
 	print("-- starting MEMBER sheet --")
-	averagePersonPerResidence( pd.read_excel(inputFile, "MEMBER"), False )
+	averagePersonPerResidence( pd.read_excel(inputFile, "MEMBER"), irrevelant )
 
 	## HHINFO
 	print("-- starting HHINFO sheet --")
@@ -144,7 +144,7 @@ Here's a little help just for you ;)
 	# What treatment ?	Antibio / Homemade / other
 	# Where get pills from 
 	# 
-	extractFrom_HHILLNESS_Page( pd.read_excel(inputFile, "HHILLNESS"), True )
+	extractFrom_HHILLNESS_Page( pd.read_excel(inputFile, "HHILLNESS"), irrevelant )
 
 	## ACCESSHC
 	print("-- starting ACCESSHC sheet --")

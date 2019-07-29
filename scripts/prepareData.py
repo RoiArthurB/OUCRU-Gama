@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding=utf-8
 
-# Copyright 2017 Arthur Brugiere <contact@arthurbrugiere.fr>
+# Copyright 2019 Arthur Brugiere <contact@arthurbrugiere.fr>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,6 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import sys
+
 from pandas import DataFrame, read_csv
 import matplotlib.pyplot as plt
 import pandas as pd 
@@ -27,7 +29,7 @@ dfResult = {}
 def saveToCSV() :
 	pd.DataFrame([dfResult]).to_csv( dataFolder + "output.csv" )
 
-def averagePersonPerResidence(df):
+def averagePersonPerResidence(df, irrevelant):
 	# Average person per house
 	dfResult['avg_house'] = df['SUBJID'].value_counts().mean()
 	
@@ -35,7 +37,13 @@ def averagePersonPerResidence(df):
 	dfResult['avg_house_under5'] = df[df.BIRTHYR >= 2014]['SUBJID'].value_counts().mean()
 
 if __name__ == '__main__':
-	averagePersonPerResidence( pd.read_excel(inputFile, "MEMBER") )
+
+	# HEADER SCRIPT :D
+	print("""+=============================+
+|   OUCRU-GAMA Data fetcher   |
+|     by RoiArthurB           |
+|     (c) 2019                |
++=============================+""")
 
 	saveToCSV()
 

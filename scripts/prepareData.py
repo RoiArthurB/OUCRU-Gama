@@ -26,9 +26,9 @@ dataFolder = "../GAMA_Project/includes/DATA/"
 inputFile = dataFolder + "21-5-2019-_23HN_V1_Data_preliminary.xls"
 dfResult = {}
 
-def saveToCSV(print) :
-	if print :
-		print(pd.DataFrame([dfResult]))
+def saveToCSV(printFlag) :
+	if printFlag :
+		print( dfResult )
 	else :
 		pd.DataFrame([dfResult]).to_csv( "./output.csv")
 

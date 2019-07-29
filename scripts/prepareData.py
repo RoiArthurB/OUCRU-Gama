@@ -59,8 +59,13 @@ def extractFrom_HHILLNESS_Page(df, irrevelant):
 
 	count = 0
 	for i in ["COGOVHOSPITAL", "COPMC", "COCOMMHEALTH", "COPRIVATEHOSP", "COPHARMACY", "COSHOP", "COTRAPRACTITIONER", "COFRIEND"]:
-		dfResult['HHIL_ADVICE_false_hcChoice_'+str(count)] = dfTmp[i].value_counts()[0]
+
+		temp = dfTmp[i].value_counts()		
+		# Get total TRUE for each HC
+		dfResult['HHIL_ADVICE_trueNbr_hcChoice_'+str(count)] = (len(dfTmp) - temp[0])
+
 		count = count+1
+
 	# ! for
 
 #["COGOVHOSPITAL", "COPMC", "COCOMMHEALTH", "COPRIVATEHOSP", "COPHARMACY", "COSHOP", "COTRAPRACTITIONER", "COFRIEND"]

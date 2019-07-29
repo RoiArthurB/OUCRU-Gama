@@ -89,6 +89,52 @@ Here's a little help just for you ;)
 	-p : will print DataFrame and not save it
 	""")
 		sys.exit()
+
+	print("== STARTING SCRIPT ==")
+
+
+	print("Loading script input file : " + inputFile)
+
+	## MEMBER
+	print("-- starting MEMBER sheet --")
+	averagePersonPerResidence( pd.read_excel(inputFile, "MEMBER"), False )
+
+	## HHINFO
+	print("-- starting HHINFO sheet --")
+	# Antibio + Animals
+	# Water 
+	# 	Soap
+	# 	Cleaning
+	# Toilets
+	# Cooking / Fuel
+	# Info / Social Network
+	# Antibio name knowledge
+	
+	## HIST
+	print("-- starting HIST sheet --")
+	#	Question about 5yo children in the house
+	# 
+	# Cesarienne
+	# Alaitement
+	# Health book
+	# 	Vaccine
+	
+	## HHILLNESS
+	print("-- starting HHILLNESS sheet --")
+	# 
+	# (from) Seek advice / treatment
+	# 	If > 1 => which first ?
+	# How many days before HC
+	# 
+	# What treatment ?	Antibio / Homemade / other
+	# Where get pills from 
+	# 
+	extractFrom_HHILLNESS_Page( pd.read_excel(inputFile, "HHILLNESS"), True )
+
+	## ACCESSHC
+	print("-- starting ACCESSHC sheet --")
+	# 
+
 	saveToCSV(printDF)
 
 	print("XX END XX")

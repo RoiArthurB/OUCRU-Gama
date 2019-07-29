@@ -49,6 +49,35 @@ if __name__ == '__main__':
 +=============================+""")
 
 	# local var
+	irrevelant = False
+	printDF = False
+
+	# set script arguments
+	try:
+		if len(sys.argv) > 1 :
+			for i in sys.argv:
+				if i == "-i" :
+					irrevelant = True
+					pass
+
+				if i == "-p" :
+					printDF = True
+					pass
+
+				if i == "-h" :
+					raise -1
+
+			#	pass
+			#sys.argv.index("-v")
+			#print(sys.argv.index("-b"))
+	except: 
+		print("""You want to use arguments on this script but you don't know how... 
+Here's a little help just for you ;)
+	-h : display this message and exit
+	-i : will process irrevelant values
+	-p : will print DataFrame and not save it
+	""")
+		sys.exit()
 	saveToCSV(printDF)
 
 	print("XX END XX")

@@ -39,6 +39,17 @@ def averagePersonPerResidence(df, irrevelant):
 	# Average person under 5yo per house
 	dfResult['avg_house_under5'] = df[df.BIRTHYR >= 2014]['SUBJID'].value_counts().mean()
 
+def extractFrom_HHILLNESS_Page(df, irrevelant):
+	# Pref HC
+	#	=> non-revelant (10 results on 850 lines)
+	
+	# Time before HC
+	#	=> non-revelant (10 results on 850 lines)
+	if (irrevelant) :
+		dfResult['avg_timeBeforeHC'] = df['FirstADVAfter'].value_counts().mean()
+	
+	#  
+
 if __name__ == '__main__':
 
 	# HEADER SCRIPT :D

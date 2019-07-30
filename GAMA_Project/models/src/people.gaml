@@ -44,6 +44,7 @@ global {
 	
 	float paramProbabilityMaskTravel;
 	float paramProbabilityMaskInside;
+	float paramProbabilityMaskSick;
 	
 	float paramStayHome;
 	float paramSpeedToKill; // %
@@ -100,7 +101,7 @@ species People skills:[moving] {
 	list<Symptom> symptoms;
 	
 	// Accessories
-	bool wearMask <- false;
+	bool mask <- false;
 	
 	// Bacterias
 	list<int> bacteriaPopulation <- [0, 0];	// [non-resitant, resistant]
@@ -189,15 +190,19 @@ species People skills:[moving] {
 		
 		// Probability to walk with a mask 
 		if flip(paramProbabilityMaskTravel){
-			self.wearMask <- true;
+			self.mask <- true;
 		}
 		
 		// When arrived
 		if the_target = location {
-			// Reset and try if mask inside
-			self.wearMask <- false;
-			if flip(paramProbabilityMaskInside){
-				self.wearMask <- true;
+			// If not sick, can wear a mask
+			// if sick => Mask already defined
+			if( !self.isSick ){
+				// Reset and try if mask inside
+				self.mask <- false;
+				if flip(paramProbabilityMaskInside){
+					self.mask <- true;
+				}	
 			}
 			
 			the_target <- nil ;
@@ -287,6 +292,9 @@ species People skills:[moving] {
 	reflex takePill when: isSick and (time mod 24 #hour) = 12 #hour /*and flip(0.5)*/ {
 		// Set Pill cure
 		if self.currentCure = nil {
+			if flip(paramProbabilityMaskSick){
+				self.mask <- true;
+			}
 			self.usagePill <- list_with(length(Symptom), 0);
 			self.currentCure <- flip(paramAntibio) ? 
 				one_of(Pill where each.isAntibio) : one_of(Pill where !each.isAntibio);
@@ -391,7 +399,7 @@ species People skills:[moving] {
 	 */
 	aspect geom {
 		draw circle(10) color: color;
-		if wearMask {
+		if mask {
 			draw image_file("../../includes/mask.png") at: self.location size: 30;	
 		}
 	}

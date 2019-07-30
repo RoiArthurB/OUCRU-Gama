@@ -42,6 +42,9 @@ global {
 	float paramProbabilitySneezing;
 	float paramSickAreaInfection;
 	
+	float paramProbabilityMaskTravel;
+	float paramProbabilityMaskInside;
+	
 	float paramStayHome;
 	float paramSpeedToKill; // %
 	
@@ -95,6 +98,9 @@ species People skills:[moving] {
 	bool isSick <- false update: length(self.symptoms) != 0; // Sick if have symptoms
 	bool isVaccinate <- false;
 	list<Symptom> symptoms;
+	
+	// Accessories
+	bool wearMask <- false;
 	
 	// Bacterias
 	list<int> bacteriaPopulation <- [0, 0];	// [non-resitant, resistant]
@@ -179,8 +185,21 @@ species People skills:[moving] {
 	
 	 /*	MOVEMENT */
 	reflex move when: the_target != nil {
-		do goto target: the_target on: the_graph ; 
+		do goto target: the_target on: the_graph ;
+		
+		// Probability to walk with a mask 
+		if flip(paramProbabilityMaskTravel){
+			self.wearMask <- true;
+		}
+		
+		// When arrived
 		if the_target = location {
+			// Reset and try if mask inside
+			self.wearMask <- false;
+			if flip(paramProbabilityMaskInside){
+				self.wearMask <- true;
+			}
+			
 			the_target <- nil ;
 		}
 	}
@@ -372,5 +391,8 @@ species People skills:[moving] {
 	 */
 	aspect geom {
 		draw circle(10) color: color;
+		if wearMask {
+			draw image_file("../../includes/mask.png") at: self.location size: 30;	
+		}
 	}
 }

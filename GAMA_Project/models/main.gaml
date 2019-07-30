@@ -28,7 +28,7 @@ global {
 	 */	
 	int nbrBact; int nbrBactRes;
 	
-	float avgResBactPop; 
+	float avgResBactPop;
 	
 	int sickPop; int vaccinatePop; int bacterialSickPerson; int viralSickPerson; int totalSick <- 0; int avgSick; int timeToStop;
 	
@@ -129,6 +129,9 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	parameter "Number of people agents" var: nb_people category: "People" ;
 	
 	parameter "Number of Bacteria / Person" var: nbrBacteriaPerPerson category: "People" init: 1000;
+	
+	parameter "Probability to wear a mask when travelling (%)" var: paramProbabilityMaskTravel category: "People" init: 0.25 min: 0.0 max: 1.0;
+	parameter "Probability to wear a mask when inside (%)" var: paramProbabilityMaskInside category: "People" init: 0.25 min: 0.0 max: 1.0;
 
 	// transmission
 	parameter "Breath Infection Area (m)" var: paramBreathAreaInfection category: "Transmission" init: 2#m;

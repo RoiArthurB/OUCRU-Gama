@@ -26,8 +26,6 @@ species School parent: Building {
 	
 	rgb color <- #blue;
 	
-	string iconPath update: vaccinate ? "../../includes/syringe.png" : "";
-	
 	bool vaccinate <- false update: (current_hour = 0) ? false : vaccinate;
 	
 	/*
@@ -35,7 +33,9 @@ species School parent: Building {
 	 */
 	aspect geom {
 		draw shape color: color;
-		draw image_file(iconPath) at: self.location size: 50;
+		if vaccinate {
+			draw image_file( "../../includes/syringe.png" ) at: self.location size: 50;
+		}
 	}
 	
 	action vaccination {

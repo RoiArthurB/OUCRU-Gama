@@ -65,10 +65,7 @@ def extractFrom_HHILLNESS_Page(df, irrevelant):
 		dfResult['HHIL_ADVICE_trueNbr_hcAdvice_'+str(count)] = (len(dfTmp) - temp[0])
 
 		count = count+1
-
-	# ! for
-
-#["COGOVHOSPITAL", "COPMC", "COCOMMHEALTH", "COPRIVATEHOSP", "COPHARMACY", "COSHOP", "COTRAPRACTITIONER", "COFRIEND"]
+	# !for
 
 if __name__ == '__main__':
 

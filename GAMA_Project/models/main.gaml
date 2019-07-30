@@ -130,7 +130,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	
 	parameter "Number of Bacteria / Person" var: nbrBacteriaPerPerson category: "People" init: 1000;
 	
-	parameter "Probability to wear a mask when travelling (%)" var: paramProbabilityMaskTravel category: "People" init: 0.25 min: 0.0 max: 1.0;
+	parameter "Probability to wear a mask when travelling (%)" var: paramProbabilityMaskTravel category: "People" init: 0.5 min: 0.0 max: 1.0;
 	parameter "Probability to wear a mask when inside (%)" var: paramProbabilityMaskInside category: "People" init: 0.25 min: 0.0 max: 1.0;
 
 	// transmission
@@ -148,6 +148,8 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	parameter "Time before Sick Transmission (mn)" var: paramTimeBeforeSickTransmission category: "Sick" init: 2#mn;
 	parameter "Probability to sneeze when sick (%)" var: paramProbabilitySneezing category: "Sick" init: 0.01 min: 0.0 max: 1.0;
 	parameter "Sick Infection Area (m)" var: paramSickAreaInfection category: "Sick" init: 2#m;
+	
+	parameter "Probability to wear a mask when sick (%)" var: paramProbabilityMaskSick category: "Sick" init: 0.75 min: 0.0 max: 1.0;
 	
 	// Bacteria
 	parameter "[INIT] Probability to have a symptom (%)" var: paramProbaSymptom category: "Bacteria" init: 0.01 min: 0.0 max: 1.0;

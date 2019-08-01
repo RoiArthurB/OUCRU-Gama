@@ -189,7 +189,8 @@ species People skills:[moving] {
 		do goto target: the_target on: the_graph ;
 		
 		// Probability to walk with a mask 
-		if flip(paramProbabilityMaskTravel) {
+		// if sick => Mask already defined
+		if (flip(paramProbabilityMaskTravel) and !self.isSick) {
 			self.mask <- true;
 		}
 		
@@ -198,7 +199,7 @@ species People skills:[moving] {
 			// If not sick, can wear a mask
 			// if sick => Mask already defined
 			if( !self.isSick ){
-				// Reset and try if mask inside
+				// Reset and try if wear mask inside
 				self.mask <- false;
 				if flip(paramProbabilityMaskInside){
 					self.mask <- true;

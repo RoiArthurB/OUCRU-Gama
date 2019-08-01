@@ -41,5 +41,9 @@ species HealthCare parent: Building {
 			// * int(length(Pill)/2) 			proba to use antibio
 			p.currentCure <- Pill[int(int(one_of(p.symptoms))/2) + int(flip(paramAntibio)) * int(length(Pill)/2)];
 		}
+		// Proba wear a mask
+		if flip(paramProbabilityMaskSick){
+			p.mask <- true;
+		}
 	}
 }

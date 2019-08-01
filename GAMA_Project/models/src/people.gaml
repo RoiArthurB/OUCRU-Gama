@@ -256,11 +256,13 @@ species People skills:[moving] {
 	}
 	
 	 /*	TRANSMISSION */
-	reflex sneeze when: self.isSick and flip(paramProbabilitySneezing) {
-		if !self.mask and !(self.symptoms contains Symptom(3)){ // Hard Breazing
-			loop ppl over: agents_at_distance( paramSickAreaInfection ) {
-				ask ppl.setBacteria( self.getRandomBacteria() ) target: People;
-			}
+	reflex sneeze when: self.isSick 
+		and flip(paramProbabilitySneezing) 
+		and !self.mask 
+		and !(self.symptoms contains Symptom(3)) // Hard Breazing
+	{
+		loop ppl over: agents_at_distance( paramSickAreaInfection ) {
+			ask ppl.setBacteria( self.getRandomBacteria() ) target: People;
 		}
 		
 	}
@@ -303,7 +305,7 @@ species People skills:[moving] {
 			// If true -> healed -> No more cure
 			self.currentCure <- nil;
 		}
-		if flip(0.5){
+		if flip(0.25){
 			self.currentCure <- nil;
 		}
 		
@@ -370,27 +372,24 @@ species People skills:[moving] {
 		}
 	}
 	// Turn someone else sick
-	reflex giveSymptom when: (isSick and current_hour mod 1 = 0) {
-		
-		// If have symptoms to give
-		// and if doesn't wear a mask
-		if ( length(self.symptoms) != 0 and !self.mask){
+	// If have symptoms to give
+	//    doesn't wear a mask
+	//    every hour
+	reflex giveSymptom when: self.isSick and current_hour mod 1 = 0 and !self.mask {
 
-			Symptom s <- one_of(self.symptoms);
-			
-			list<People> peopleInZone <- getPeopleAround(paramSickAreaInfection);
-			
-			loop p over: peopleInZone {
-				if ( flip( paramProbabilitySickTransmission )	// proba give symptom
-					and !flip( p.antibodies[int(s)] )			// if target doesn't have enough antibodies for spe symptom 
-					and !( p.symptoms contains s )				// target doesn't already have this symptom
-					and !p.isVaccinate							// target is not vaccinated
-					and !p.mask									// target doesn't wear a protective mask
-				){
-					add s to: p.symptoms;
-				}
+		Symptom s <- one_of(self.symptoms);
+		
+		list<People> peopleInZone <- getPeopleAround(paramSickAreaInfection);
+		
+		loop p over: peopleInZone {
+			if (flip( paramProbabilitySickTransmission )	// proba give symptom
+				and !flip( p.antibodies[int(s)] )			// if target doesn't have enough antibodies for spe symptom 
+				and !( p.symptoms contains s )				// target doesn't already have this symptom
+				and !p.isVaccinate							// target is not vaccinated
+				and !p.mask									// target doesn't wear a protective mask
+			){
+				add s to: p.symptoms;
 			}
-			
 		}
 
 	}

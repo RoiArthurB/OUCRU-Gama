@@ -189,7 +189,7 @@ species People skills:[moving] {
 		do goto target: the_target on: the_graph ;
 		
 		// Probability to walk with a mask 
-		if flip(paramProbabilityMaskTravel){
+		if flip(paramProbabilityMaskTravel) {
 			self.mask <- true;
 		}
 		
@@ -259,8 +259,7 @@ species People skills:[moving] {
 	
 	 /*	TRANSMISSION */
 	reflex sneeze when: self.isSick and flip(paramProbabilitySneezing) {
-		
-		if !(self.symptoms contains Symptom(3)){ // Hard Breazing
+		if !self.mask and !(self.symptoms contains Symptom(3)){ // Hard Breazing
 			loop ppl over: agents_at_distance( paramSickAreaInfection ) {
 				ask ppl.setBacteria( self.getRandomBacteria() ) target: People;
 			}
@@ -269,15 +268,17 @@ species People skills:[moving] {
 	}
 	
 	// Breath transmission
-	reflex breathBacteriaTransmission
-	when: time mod (5 #mn) = 0  { // Every 5 minutes
+	reflex breathBacteriaTransmission when: (time mod (5 #mn) = 0) and !self.mask  { // Every 5 minutes
 		
 		list<People> peopleInZone <- getPeopleAround(paramBreathAreaInfection);
 		
 		loop p over: peopleInZone {
 			// Get probability depending if sick
-			// Flip to see if resistant or not
-			if( flip( self.isSick ? paramProbabilitySickTransmission : paramProbabilityNaturalTransmission ) ){
+			// if target doesn't wear a mask
+			// and Flip to see if resistant or not 
+			if( !p.mask 
+				and flip( self.isSick ? paramProbabilitySickTransmission : paramProbabilityNaturalTransmission )
+			){
 				int index <- self.getRandomBacteria();
 				if p.setBacteria( index ){
 					if self.setBacteria(index, -1){}
@@ -371,19 +372,22 @@ species People skills:[moving] {
 		}
 	}
 	// Turn someone else sick
-	reflex giveSymptom when: isSick and current_hour mod 1 = 0 {
+	reflex giveSymptom when: (isSick and current_hour mod 1 = 0) {
 		
-		if ( length(self.symptoms) != 0 ){
+		// If have symptoms to give
+		// and if doesn't wear a mask
+		if ( length(self.symptoms) != 0 and !self.mask){
 
 			Symptom s <- one_of(self.symptoms);
 			
 			list<People> peopleInZone <- getPeopleAround(paramSickAreaInfection);
 			
 			loop p over: peopleInZone {
-				if (
-					flip( paramProbabilitySickTransmission )
-					and !flip( p.antibodies[int(s)] ) and !(p.symptoms contains s)
-					and !p.isVaccinate
+				if ( flip( paramProbabilitySickTransmission )	// proba give symptom
+					and !flip( p.antibodies[int(s)] )			// if target doesn't have enough antibodies for spe symptom 
+					and !( p.symptoms contains s )				// target doesn't already have this symptom
+					and !p.isVaccinate							// target is not vaccinated
+					and !p.mask									// target doesn't wear a protective mask
 				){
 					add s to: p.symptoms;
 				}

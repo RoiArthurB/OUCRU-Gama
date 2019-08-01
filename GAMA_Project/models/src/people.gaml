@@ -245,13 +245,11 @@ species People skills:[moving] {
 				match 2 { //"Pharmacy" {
 					hc <- one_of(Pharmacy);
 				}
-				match 3 {} //"AutoMedication" {}
-			}
-			
-			if(hc != nil){ // Debug for AutoMedication case
-				objective <- "healthCare" ;
-				the_target <- any_location_in ( hc );
-				ask hc { do prescription( myself ); }	
+				match 3 { //"AutoMedication"
+					objective <- "healthCare" ;
+					the_target <- any_location_in ( hc );
+					ask hc { do prescription( myself ); }
+				}
 			}
 		}
 		

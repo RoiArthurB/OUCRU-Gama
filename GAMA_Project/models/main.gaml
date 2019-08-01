@@ -69,6 +69,8 @@ global {
 		
 		totalSick <- totalSick + sickPop;
 		avgSick <- int(totalSick / (cycle+1));
+		
+		maskPop <- People count each.mask;
 	}
 	 
 	// Stop simulation after 12 month
@@ -118,7 +120,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
     parameter "Hospital do CPR" var: hospitalCPR category: "Command" init: false;
     parameter "Doctor do CPR" var: doctorCPR category: "Command" init: false;
     parameter "Pharmacy do CPR" var: pharmacyCPR category: "Command" init: false;
-	parameter "Proba mask inside = pourcent sick" var: maskInsidePopSick category: "Command" init: false;
+	parameter "% mask inside = % sick" var: maskInsidePopSick category: "Command" init: false;
     
     // MAP
 	parameter "Shapefile for the buildings:" var: shape_file_buildings category: "GIS" ;
@@ -194,7 +196,8 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 		}
 		display population refresh:every(10#cycle) {
 			chart "Dynamic population" type: series x_range: 10000 {
-				data "Average Sickness" value: avgSick color: #black marker: false thickness: 5;
+				//data "Average Sickness" value: avgSick color: #black marker: false thickness: 5;
+				data "Mask" value: maskPop color: #brown marker: false thickness: 2;
 				
 				data "Number of Person sick" value: sickPop color: #red marker: false thickness: 2;
 				data "Number of Person vaccinated" value: vaccinatePop color: #purple marker: false;

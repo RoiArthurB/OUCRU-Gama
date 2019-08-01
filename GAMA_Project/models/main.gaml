@@ -30,7 +30,10 @@ global {
 	
 	float avgResBactPop;
 	
-	int sickPop; int vaccinatePop; int bacterialSickPerson; int viralSickPerson; int totalSick <- 0; int avgSick; int timeToStop;
+	int sickPop; int vaccinatePop; int maskPop;
+	int bacterialSickPerson; int viralSickPerson; 
+	int totalSick <- 0; int avgSick; 
+	int timeToStop;
 	
 	/* Commands */
 	bool pauseSimulation <- true;
@@ -115,6 +118,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
     parameter "Hospital do CPR" var: hospitalCPR category: "Command" init: false;
     parameter "Doctor do CPR" var: doctorCPR category: "Command" init: false;
     parameter "Pharmacy do CPR" var: pharmacyCPR category: "Command" init: false;
+	parameter "Proba mask inside = pourcent sick" var: maskInsidePopSick category: "Command" init: false;
     
     // MAP
 	parameter "Shapefile for the buildings:" var: shape_file_buildings category: "GIS" ;

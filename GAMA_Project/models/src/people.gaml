@@ -42,6 +42,7 @@ global {
 	float paramProbabilitySneezing;
 	float paramSickAreaInfection;
 	
+	bool maskInsidePopSick;
 	float paramProbabilityMaskTravel;
 	float paramProbabilityMaskInside;
 	float paramProbabilityMaskSick;
@@ -201,7 +202,10 @@ species People skills:[moving] {
 			if( !self.isSick ){
 				// Reset and try if wear mask inside
 				self.mask <- false;
-				if flip(paramProbabilityMaskInside){
+				
+				// Proba fix 
+				// or same as % people sick
+				if flip(maskInsidePopSick ? totalSick/nb_people : paramProbabilityMaskInside){
 					self.mask <- true;
 				}	
 			}

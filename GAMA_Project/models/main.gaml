@@ -64,8 +64,8 @@ global {
 		
 		sickPop <- People count each.isSick;
 		vaccinatePop <- People count each.isVaccinate;
-		bacterialSickPerson <- People sum_of (each.symptoms count each.isBacterial);
-		viralSickPerson <- People sum_of (each.symptoms count !each.isBacterial);
+		//bacterialSickPerson <- People sum_of (each.symptoms count each.isBacterial);
+		//viralSickPerson <- People sum_of (each.symptoms count !each.isBacterial);
 		
 		totalSick <- totalSick + sickPop;
 		avgSick <- int(totalSick / (cycle+1));
@@ -165,7 +165,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	
 	// Pills
 	parameter "Percent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" init: 0.01 min: 0.0 max: 1.0;
-	parameter "Percent antibio to use" var: paramAntibio category: "Pill" init: /*0.5*/1.0 max: 1.0 min: 0.0;
+	parameter "Percent antibio to use" var: paramAntibio category: "Pill" init: 0.75 max: 1.0 min: 0.0;
     
 
 	/*

@@ -46,6 +46,7 @@ global {
 	float paramProbabilityMaskTravel;
 	float paramProbabilityMaskInside;
 	float paramProbabilityMaskSick;
+	float paramEffectivenessMask;
 	
 	float paramStayHome;
 	float paramSpeedToKill; // %
@@ -102,7 +103,7 @@ species People skills:[moving] {
 	list<Symptom> symptoms;
 	
 	// Accessories
-	bool mask <- false;
+	bool wearMask <- false;
 	
 	// Bacterias
 	list<int> bacteriaPopulation <- [0, 0];	// [non-resitant, resistant]
@@ -180,6 +181,11 @@ species People skills:[moving] {
 		remove peopleToRemove from: peopleInZone;
 		return peopleInZone;
 	}
+	
+	// Return if mask is effective or not
+	bool mask{
+		return wearMask ? flip(paramEffectivenessMask) : false;
+	}
 	 
 	/*
 	 * Reflexes
@@ -192,7 +198,7 @@ species People skills:[moving] {
 		// Probability to walk with a mask 
 		// if sick => Mask already defined
 		if (flip(paramProbabilityMaskTravel) and !self.isSick) {
-			self.mask <- true;
+			self.wearMask <- true;
 		}
 		
 		// When arrived
@@ -201,12 +207,12 @@ species People skills:[moving] {
 			// if sick => Mask already defined
 			if( !self.isSick ){
 				// Reset and try if wear mask inside
-				self.mask <- false;
+				self.wearMask <- false;
 				
 				// Proba fix 
 				// or same as % people sick
 				if flip(maskInsidePopSick ? sickPop/nb_people : paramProbabilityMaskInside){
-					self.mask <- true;
+					self.wearMask <- true;
 				}	
 			}
 			
@@ -265,7 +271,7 @@ species People skills:[moving] {
 	 /*	TRANSMISSION */
 	reflex sneeze when: self.isSick 
 		and flip(paramProbabilitySneezing) 
-		and !self.mask 
+		and !self.mask() 
 		and !(self.symptoms contains Symptom(3)) // Hard Breazing
 	{
 		loop ppl over: agents_at_distance( paramSickAreaInfection ) {
@@ -275,7 +281,7 @@ species People skills:[moving] {
 	}
 	
 	// Breath transmission
-	reflex breathBacteriaTransmission when: (time mod (5 #mn) = 0) and !self.mask  { // Every 5 minutes
+	reflex breathBacteriaTransmission when: (time mod (5 #mn) = 0) and !self.mask()  { // Every 5 minutes
 		
 		list<People> peopleInZone <- getPeopleAround(paramBreathAreaInfection);
 		
@@ -283,7 +289,7 @@ species People skills:[moving] {
 			// Get probability depending if sick
 			// if target doesn't wear a mask
 			// and Flip to see if resistant or not 
-			if( !p.mask 
+			if( !p.mask() 
 				and flip( self.isSick ? paramProbabilitySickTransmission : paramProbabilityNaturalTransmission )
 			){
 				int index <- self.getRandomBacteria();
@@ -301,7 +307,7 @@ species People skills:[moving] {
 		// Set Pill cure
 		if self.currentCure = nil {
 			if flip(paramProbabilityMaskSick){
-				self.mask <- true;
+				self.wearMask <- true;
 			}
 			self.usagePill <- list_with(length(Symptom), 0);
 			self.currentCure <- flip(paramAntibio) ? 
@@ -319,7 +325,7 @@ species People skills:[moving] {
 	}
 
 	reflex antiBodiesHealing when: isSick and current_hour = 20 {
-		float delta <- 0.25; // Difficulty to heal
+		float delta <- 0.5; // Difficulty to heal
 		
 		loop i from: 0 to: length(antibodies)-1 {
 			if flip( antibodies[i]-delta ){
@@ -382,7 +388,7 @@ species People skills:[moving] {
 	// If have symptoms to give
 	//    doesn't wear a mask
 	//    every hour
-	reflex giveSymptom when: self.isSick and current_hour mod 1 = 0 and !self.mask {
+	reflex giveSymptom when: self.isSick and current_hour mod 1 = 0 and !self.mask() {
 
 		Symptom s <- one_of(self.symptoms);
 		
@@ -393,7 +399,7 @@ species People skills:[moving] {
 				and !flip( p.antibodies[int(s)] )			// if target doesn't have enough antibodies for spe symptom 
 				and !( p.symptoms contains s )				// target doesn't already have this symptom
 				and !p.isVaccinate							// target is not vaccinated
-				and !p.mask									// target doesn't wear a protective mask
+				and !p.mask()								// target doesn't wear a protective mask
 			){
 				add s to: p.symptoms;
 			}
@@ -407,7 +413,7 @@ species People skills:[moving] {
 	 */
 	aspect geom {
 		draw circle(10) color: color;
-		if mask {
+		if wearMask {
 			draw image_file("../../includes/mask.png") at: self.location size: 30;	
 		}
 	}

@@ -70,7 +70,7 @@ global {
 		totalSick <- totalSick + sickPop;
 		avgSick <- int(totalSick / (cycle+1));
 		
-		maskPop <- People count each.mask;
+		maskPop <- People count each.wearMask;
 	}
 	 
 	// Stop simulation after 12 month
@@ -138,6 +138,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	
 	parameter "Probability to wear a mask when travelling (%)" var: paramProbabilityMaskTravel category: "People" init: 0.5 min: 0.0 max: 1.0;
 	parameter "Probability to wear a mask when inside (%)" var: paramProbabilityMaskInside category: "People" init: 0.25 min: 0.0 max: 1.0;
+	parameter "Mask effectivness (%)" var: paramEffectivenessMask category: "People" init: 0.9 min: 0.5 max: 1.0;
 
 	// transmission
 	parameter "Breath Infection Area (m)" var: paramBreathAreaInfection category: "Transmission" init: 2#m;

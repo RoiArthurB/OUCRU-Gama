@@ -43,7 +43,7 @@ species HealthCare parent: Building {
 		}
 		// Proba wear a mask
 		if flip(paramProbabilityMaskSick){
-			p.mask <- true;
+			p.wearMask <- true;
 		}
 	}
 }

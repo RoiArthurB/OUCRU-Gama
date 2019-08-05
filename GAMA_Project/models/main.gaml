@@ -98,7 +98,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	 * PARAMETERS
 	 */
 	// Command
-	parameter "Should pause the simulation " var: pauseSimulation category: "Command" ;
+	parameter "Should pause the simulation " var: pauseSimulation category: "Command" enables: [timeToStop];
 	parameter "Number of month before stopping" var: timeToStop category: "Command" init: 12;
 	user_command "New school vaccination" category: "Command" {
 		ask one_of(School where !each.vaccinate){
@@ -153,8 +153,8 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	
 	// Mask
 	parameter "Probability to wear a mask when travelling (%)" var: paramProbabilityMaskTravel category: "Mask" init: 0.5 min: 0.0 max: 1.0;
+	parameter "% mask inside = % sick" var: maskInsidePopSick category: "Mask" init: false disables: [paramProbabilityMaskInside];
 	parameter "Probability to wear a mask when inside (%)" var: paramProbabilityMaskInside category: "Mask" init: 0.25 min: 0.0 max: 1.0;
-	parameter "% mask inside = % sick" var: maskInsidePopSick category: "Mask" init: false;
 	parameter "Probability to wear a mask when sick (%)" var: paramProbabilityMaskSick category: "Mask" init: 0.75 min: 0.0 max: 1.0;
 	parameter "Mask effectivness (%)" var: paramEffectivenessMask category: "Mask" init: 0.9 min: 0.5 max: 1.0;
 	

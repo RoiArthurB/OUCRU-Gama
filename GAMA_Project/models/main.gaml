@@ -120,7 +120,6 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
     parameter "Hospital do CPR" var: hospitalCPR category: "Command" init: false;
     parameter "Doctor do CPR" var: doctorCPR category: "Command" init: false;
     parameter "Pharmacy do CPR" var: pharmacyCPR category: "Command" init: false;
-	parameter "% mask inside = % sick" var: maskInsidePopSick category: "Command" init: false;
     
     // MAP
 	parameter "Shapefile for the buildings:" var: shape_file_buildings category: "GIS" ;
@@ -135,10 +134,6 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	parameter "Number of people agents" var: nb_people category: "People" ;
 	
 	parameter "Number of Bacteria / Person" var: nbrBacteriaPerPerson category: "People" init: 1000;
-	
-	parameter "Probability to wear a mask when travelling (%)" var: paramProbabilityMaskTravel category: "People" init: 0.5 min: 0.0 max: 1.0;
-	parameter "Probability to wear a mask when inside (%)" var: paramProbabilityMaskInside category: "People" init: 0.25 min: 0.0 max: 1.0;
-	parameter "Mask effectivness (%)" var: paramEffectivenessMask category: "People" init: 0.9 min: 0.5 max: 1.0;
 
 	// transmission
 	parameter "Breath Infection Area (m)" var: paramBreathAreaInfection category: "Transmission" init: 2#m;
@@ -156,7 +151,13 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	parameter "Probability to sneeze when sick (%)" var: paramProbabilitySneezing category: "Sick" init: 0.01 min: 0.0 max: 1.0;
 	parameter "Sick Infection Area (m)" var: paramSickAreaInfection category: "Sick" init: 2#m;
 	
-	parameter "Probability to wear a mask when sick (%)" var: paramProbabilityMaskSick category: "Sick" init: 0.75 min: 0.0 max: 1.0;
+	// Mask
+	parameter "Probability to wear a mask when travelling (%)" var: paramProbabilityMaskTravel category: "Mask" init: 0.5 min: 0.0 max: 1.0;
+	parameter "Probability to wear a mask when inside (%)" var: paramProbabilityMaskInside category: "Mask" init: 0.25 min: 0.0 max: 1.0;
+	parameter "% mask inside = % sick" var: maskInsidePopSick category: "Mask" init: false;
+	parameter "Probability to wear a mask when sick (%)" var: paramProbabilityMaskSick category: "Mask" init: 0.75 min: 0.0 max: 1.0;
+	parameter "Mask effectivness (%)" var: paramEffectivenessMask category: "Mask" init: 0.9 min: 0.5 max: 1.0;
+	
 	
 	// Bacteria
 	parameter "[INIT] Probability to have a symptom (%)" var: paramProbaSymptom category: "Bacteria" init: 0.01 min: 0.0 max: 1.0;

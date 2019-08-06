@@ -211,7 +211,7 @@ species People skills:[moving] {
 				
 				// Proba fix 
 				// or same as % people sick
-				if flip(maskInsidePopSick ? sickPop/nb_people : paramProbabilityMaskInside){
+				if flip(maskInsidePopSick and simWithMask ? sickPop/nb_people : paramProbabilityMaskInside){
 					self.wearMask <- true;
 				}	
 			}

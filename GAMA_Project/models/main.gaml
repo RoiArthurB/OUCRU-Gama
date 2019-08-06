@@ -127,7 +127,7 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
     parameter "Doctor do CPR" var: doctorCPR category: "Command" init: false;
     parameter "Pharmacy do CPR" var: pharmacyCPR category: "Command" init: false;
     parameter "People wear masks" var: simWithMask category: "Command" init: true
-    	enables: [paramProbabilityMaskTravel, maskInsidePopSick, paramProbabilityMaskInside, paramProbabilityMaskSick, paramEffectivenessMask]
+    	enables: [paramSliderProbabilityMaskTravel, maskInsidePopSick, paramSliderProbabilityMaskInside, paramSliderProbabilityMaskSick, paramSliderEffectivenessMask]
     	on_change: {
     		if !pharmacyCPR {
 	    		loop p over: People {
@@ -143,7 +143,8 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	
 	// Mask
 	parameter "Probability to wear a mask when travelling (%)" var: paramSliderProbabilityMaskTravel category: "Mask" init: 0.5 min: 0.0 max: 1.0;
-	parameter "% mask inside = % sick" var: maskInsidePopSick category: "Mask" init: false disables: [paramProbabilityMaskInside];
+	parameter "% mask inside = % sick" var: maskInsidePopSick category: "Mask" init: false 
+		disables: [paramSliderProbabilityMaskInside];
 	parameter "Probability to wear a mask when inside (%)" var: paramSliderProbabilityMaskInside category: "Mask" init: 0.25 min: 0.0 max: 1.0;
 	parameter "Probability to wear a mask when sick (%)" var: paramSliderProbabilityMaskSick category: "Mask" init: 0.75 min: 0.0 max: 1.0;
 	parameter "Mask effectivness (%)" var: paramSliderEffectivenessMask category: "Mask" init: 0.9 min: 0.5 max: 1.0;

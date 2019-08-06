@@ -43,10 +43,10 @@ global {
 	float paramSickAreaInfection;
 	
 	bool maskInsidePopSick;
-	float paramProbabilityMaskTravel;
-	float paramProbabilityMaskInside;
-	float paramProbabilityMaskSick;
-	float paramEffectivenessMask;
+	float paramProbabilityMaskTravel update: simWithMask ? paramSliderProbabilityMaskTravel : 0.0;
+	float paramProbabilityMaskInside update: simWithMask ? paramSliderProbabilityMaskInside : 0.0;
+	float paramProbabilityMaskSick update: simWithMask ? paramSliderProbabilityMaskSick : 0.0;
+	float paramEffectivenessMask update: simWithMask ? paramSliderEffectivenessMask : 0.0;
 	
 	float paramStayHome;
 	float paramSpeedToKill; // %

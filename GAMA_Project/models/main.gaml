@@ -140,6 +140,17 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 			p.wearMask <- false;
 		}
     }
+	
+	// Mask
+	parameter "Probability to wear a mask when travelling (%)" var: paramSliderProbabilityMaskTravel category: "Mask" init: 0.5 min: 0.0 max: 1.0;
+	parameter "% mask inside = % sick" var: maskInsidePopSick category: "Mask" init: false disables: [paramProbabilityMaskInside];
+	parameter "Probability to wear a mask when inside (%)" var: paramSliderProbabilityMaskInside category: "Mask" init: 0.25 min: 0.0 max: 1.0;
+	parameter "Probability to wear a mask when sick (%)" var: paramSliderProbabilityMaskSick category: "Mask" init: 0.75 min: 0.0 max: 1.0;
+	parameter "Mask effectivness (%)" var: paramSliderEffectivenessMask category: "Mask" init: 0.9 min: 0.5 max: 1.0;
+	
+	// Pills
+	parameter "Percent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" init: 0.01 min: 0.0 max: 1.0;
+	parameter "Percent antibio to use" var: paramAntibio category: "Pill" init: 0.75 max: 1.0 min: 0.0;
     
     // MAP
 	parameter "Shapefile for the buildings:" var: shape_file_buildings category: "GIS" ;
@@ -169,24 +180,12 @@ experiment main type: /* batch until: current_date >= initDate + 7#month {*/ gui
 	parameter "Probability Sick Transmission (%)" var: paramProbabilitySickTransmission category: "Sick" init: 0.25 min: 0.0 max: 1.0;
 	parameter "Time before Sick Transmission (mn)" var: paramTimeBeforeSickTransmission category: "Sick" init: 2#mn;
 	parameter "Probability to sneeze when sick (%)" var: paramProbabilitySneezing category: "Sick" init: 0.01 min: 0.0 max: 1.0;
-	parameter "Sick Infection Area (m)" var: paramSickAreaInfection category: "Sick" init: 2#m;
-	
-	// Mask
-	parameter "Probability to wear a mask when travelling (%)" var: paramSliderProbabilityMaskTravel category: "Mask" init: 0.5 min: 0.0 max: 1.0;
-	parameter "% mask inside = % sick" var: maskInsidePopSick category: "Mask" init: false disables: [paramProbabilityMaskInside];
-	parameter "Probability to wear a mask when inside (%)" var: paramSliderProbabilityMaskInside category: "Mask" init: 0.25 min: 0.0 max: 1.0;
-	parameter "Probability to wear a mask when sick (%)" var: paramSliderProbabilityMaskSick category: "Mask" init: 0.75 min: 0.0 max: 1.0;
-	parameter "Mask effectivness (%)" var: paramSliderEffectivenessMask category: "Mask" init: 0.9 min: 0.5 max: 1.0;
-	
+	parameter "Sick Infection Area (m)" var: paramSickAreaInfection category: "Sick" init: 2#m;	
 	
 	// Bacteria
 	parameter "[INIT] Probability to have a symptom (%)" var: paramProbaSymptom category: "Bacteria" init: 0.01 min: 0.0 max: 1.0;
 	//parameter "Probability of duplication (%)" var: paramProbaDuplication category: "Bacteria" init: 0.05 min: 0.0 max: 1.0;
 	parameter "Probability to self mutate (%)" var: paramProbaMutation category: "Bacteria" init: 0.1 min: 0.0 max: 1.0;
-	
-	// Pills
-	parameter "Percent killed each simulation's tic (%)" var: paramSpeedToKill category: "Pill" init: 0.01 min: 0.0 max: 1.0;
-	parameter "Percent antibio to use" var: paramAntibio category: "Pill" init: 0.75 max: 1.0 min: 0.0;
     
 
 	/*

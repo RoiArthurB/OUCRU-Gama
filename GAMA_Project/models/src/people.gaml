@@ -96,8 +96,6 @@ species People skills:[moving] {
 	point the_target <- nil ;
 	
 	// Human
-	int age;
-	bool sex;
 	bool isSick <- false update: length(self.symptoms) != 0; // Sick if have symptoms
 	bool isVaccinate <- false;
 	list<Symptom> symptoms;

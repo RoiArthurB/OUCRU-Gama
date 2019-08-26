@@ -8,6 +8,8 @@ GAMA_Project/models/src/snapshots/*
 *.csv
 .~lock*
 
+GAMA_Project/includes/DATA/*
+
 ########
 ###	ECLIPSE TEMPLATE
 ################################

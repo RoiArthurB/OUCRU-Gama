@@ -1,6 +1,6 @@
 # OUCRU / GAMA Project
 
-[![Language](http://img.shields.io/badge/language-GAML-brightgreen.svg)](https://gama-platform.github.io/wiki/StartWithGAML)
+[![Language](http://img.shields.io/badge/language-GAML-FFC766.svg)](https://gama-platform.github.io/wiki/StartWithGAML)
 ![GitHub](https://img.shields.io/github/license/RoiArthurB/OUCRU-Gama.svg)
 
 [![GitHub issues](https://img.shields.io/github/issues/RoiArthurB/OUCRU-Gama.svg)](https://github.com/RoiArthurB/OUCRU-Gama/issues)

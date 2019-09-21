@@ -25,15 +25,38 @@ We would like to develop an agent-based model to explore the emergence and trans
 
 To do so, we will use the _[GAMA Platform](https://gama-platform.github.io/)_. _GAMA_ (_GIS Agent-based Modeling Architecture_) is an open-source software which has been developed with a very general approach, and can be used for many applications domains. _GAML_ is the language used in GAMA, coded in Java. It is an agent-based language, that provides you the possibility to build your model with several paradigms of modeling. It is developed by several teams under the umbrella of the IRD/UPMC international research unit [UMMISCO](http://www.ummisco.ird.fr/).
 
-## Roadmap
+## Usage
 
-You can follow the evolution of the project on the [Kanban here](https://github.com/RoiArthurB/OUCRU-Gama/projects/1?fullscreen=true).
+### Prerequisites
 
+* A working _GAMA Platform_ version above _GAMA 1.8 RC 2_ installed
+* A clone of this repository unziped on your computer
+
+### Launching the project in GAMA
+
+You should start GAMA and set the root of the project (`/path/to/OUCRU-Gama`) as the workspace :
+
+![Exemple workspace window](https://i.imgur.com/Dr5dacJ.png)
+
+And start GAMA normaly with this.
+
+### Starting the simulation
+
+In the main view, open the `main.gaml` file from the explorer on the left panel and press the green button `main` on top of the text editor
+
+![view of the main view of GAMA with main.gaml open](https://i.imgur.com/jQfNQy8.png)
+
+This will change the view from the _editor view_ to the _simulation view_ :
+
+![Simulation view](https://i.imgur.com/lDwNOoA.png)
+
+And from this view, you just have to press the green play button ( ▶️ ) to start the simulation and use the model
 
 ## Built With
 
-* [GAMA Platform _1.8_](https://gama-platform.github.io/) - GAMA is a modeling and simulation development environment for building spatially explicit agent-based simulations.
-* [_GAMA Language_ (_GAML_)](https://gama-platform.github.io/wiki/StartWithGAML)
+* [GAMA Platform _1.8.0_](https://gama-platform.github.io/) - GAMA is a modeling and simulation development environment for building spatially explicit agent-based simulations.
+* [_GAMA Language_ (_GAML_)](https://gama-platform.github.io/wiki/StartWithGAML) - Custom high level language to create models with _GAMA_.
+* [OpenJDK 8](https://openjdk.java.net/) _or_ [Oracle JDK 8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) - The Java Development Kit is an implementation of either one of the Java Platform released by Oracle Corporation in the form of a binary product.
 
 ## Support
 
